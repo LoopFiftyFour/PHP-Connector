@@ -5,17 +5,20 @@
 abstract class Loop54_RequestHandling
 {
 
-	public static function getResponse($engineUrl, Loop54_Request $request)
+	public static function getResponse($engineUrl, $request)
 	{
 		//type hinting
 		if (!is_string($engineUrl)) {
-			trigger_error("Argument engineUrl must be string.");
-			return;
+			throw new Exception("Argument engineUrl must be string.");
 		}
 	
 		$engineUrl = Loop54_Utils::fixEngineUrl($engineUrl);
 		
-		$data = "{" . $request->serialize() . "}";
+		//inf V2.6 (and above) the quest name is in the Url
+		if(!$request->options->v25Url)
+			$engineUrl .= "/" . $request->name;
+		
+		$data = $request->serialize();
 	
 		try {
 		
@@ -30,8 +33,7 @@ abstract class Loop54_RequestHandling
 			$response = curl_exec($s);
 			
 			if(curl_errno($s)){
-				trigger_error('Curl error: ' . curl_error($s));
-				return;
+				throw new Exception('Curl error: ' . curl_error($s));
 			}
 			
 			curl_close($s);
@@ -39,12 +41,11 @@ abstract class Loop54_RequestHandling
 		}
 		catch(Exception $ex)
 		{
-			trigger_error("Could not retrieve a response from " . $engineUrl);
-			return;
+			throw new Exception("Could not retrieve a response from " . $engineUrl);
 		}
 
 		
-		$ret = new Loop54_Response($response,$request->name);
+		$ret = new Loop54_Response($response,$request);
 		
 		return $ret;
 	}

@@ -11,22 +11,23 @@ class Loop54_EngineResponse
 	
 	public $_data;
 	
-	function __construct($stringData, $questName)
+	public $options=null;
+	
+	function __construct($stringData, $request)
 	{
-
+		$this->options = $request->options;
+		
 		try {
 			$json = json_decode($stringData);
 		}
 		catch(Exception $ex)
 		{
-			trigger_error("Engine returned incorrectly formed JSON " . $ex . ": " . $stringData);
-			return;
+			throw new Exception("Engine returned incorrectly formed JSON " . $ex . ": " . $stringData);
 		}
 
-		if($json==null)
+		if($json===null)
 		{
-			trigger_error("Engine returned incorrectly formed JSON: " . $stringData);
-			return;
+			throw new Exception("Engine returned incorrectly formed JSON: " . $stringData);
 		}
 
 		$responseObj = $json;
@@ -44,7 +45,11 @@ class Loop54_EngineResponse
 		
 		$data = $responseObj->{"Data"};
 		
-		$this->_data = $data->{$questName};
+		//in V2.5, all data is wrapped in an object stored in a parameter named as the quest
+		if($this->options->v25Url)
+			$this->_data = $data->{$request->name};
+		else
+			$this->_data = $data;
 
 		//success
 		$this->success = true;
@@ -61,7 +66,7 @@ class Loop54_Response extends Loop54_EngineResponse
 	public function getValue($key)
 	{
 		if(is_array($key))
-			trigger_error($key . " is a collection.");
+			throw new Exception($key . " is a collection.");
 	
 		return $this->_data->{$key};
 	}
@@ -71,7 +76,7 @@ class Loop54_Response extends Loop54_EngineResponse
 		$origVal = $this->_data->{$key};
 		
 		if(!is_array($origVal))
-			trigger_error($key . " is not a collection.");
+			throw new Exception($key . " is not a collection.");
 			
 		$ret = array();
 		
@@ -81,44 +86,35 @@ class Loop54_Response extends Loop54_EngineResponse
 			{
 				$i = new Loop54_Item();
 				
-			
-				if(isset($item->{"Entity"}))
+				//in V2.2 (and below), collections have "Entity" and/or "String" and "Value"
+				//while in 2.3 (and above) collections have "Key" and "Value"
+				if($this->options->v22Collections)
 				{
-					$value = $item->{"Entity"};
-					
-					$entity = new Loop54_Entity($value->{"EntityType"},$value->{"ExternalId"});
-					
-					if(isset($value->{"Attributes"}))
+					if(isset($item->{"Entity"}))
 					{
-					
-						if(is_object($value->{"Attributes"}))
-						{
-					
-							foreach($value->{"Attributes"} as $attrName => $attrValue)
-							{
-								$entity->setAttribute($attrName,$attrValue);
-							}
-						}
-						else if(is_array($value->{"Attributes"}))
-						{
-							foreach($value->{"Attributes"} as $obj)
-							{
-	
-								$attrName = $obj->{"Key"};
-								$attrValue = $obj->{"Value"};
-								$entity->setAttribute($attrName,$attrValue);
-							}
-						}
+						$i->entity = $this->ParseEntity($item->{"Entity"});
+						$i->key = $i->entity;
 					}
 					
-					$i->entity = $entity;
+					if(isset($item->{"String"}))
+					{
+						$i->string = $item->{"String"};
+						$i->key = $i->string;
+					}
+				}
+				else
+				{
+					if(isset($item->{"Key"}))
+					{
+						$val = $item->{"Key"};
+						
+						if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))
+							$i->key = $this->ParseEntity($val);
+						else
+							$i->key = $val;
+					}
 				}
 				
-				if(isset($item->{"String"}))
-				{
-					$i->string = $item->{"String"};
-					
-				}
 				
 				$i->value = $item->{"Value"};
 				$ret[]=$i;
@@ -133,6 +129,36 @@ class Loop54_Response extends Loop54_EngineResponse
 		return $ret;
 		
 	}
+	
+	private function ParseEntity($value)
+	{
+		$entity = new Loop54_Entity($value->{"EntityType"},$value->{"ExternalId"});
+					
+		if(isset($value->{"Attributes"}))
+		{
+		
+			if(is_object($value->{"Attributes"}))
+			{
+		
+				foreach($value->{"Attributes"} as $attrName => $attrValue)
+				{
+					$entity->setAttribute($attrName,$attrValue);
+				}
+			}
+			else if(is_array($value->{"Attributes"}))
+			{
+				foreach($value->{"Attributes"} as $obj)
+				{
+
+					$attrName = $obj->{"Key"};
+					$attrValue = $obj->{"Value"};
+					$entity->setAttribute($attrName,$attrValue);
+				}
+			}
+		}
+		
+		return $entity;
+	}
 }
 
 class Loop54_Item 
@@ -140,7 +166,7 @@ class Loop54_Item
 	public $entity;
 	public $string;
 	public $value;
-
+	public $key;
 }
 
 ?>
