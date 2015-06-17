@@ -21,7 +21,7 @@ unset($_attributes[$key]);}
 public function serialize(){
 $ret = "{";$ret .= "\"EntityType\":\"" . $this->entityType . "\",";$ret .= "\"ExternalId\":\"" . $this->externalId . "\",";$ret .= "\"Attributes\":{";foreach ($this->_attributes as $key=>$values){
 $ret .= "\"" . $key . "\":[";foreach ($values as $value){
-if($value==null) continue;if (is_string($value))$ret .= "\"" . Loop54_Utils::escape($value) . "\",";else if ($value instanceof DateTime)$ret .= "\"" . $value . "\",";else$ret .= $value . ",";}
+if($value===null)continue;if (is_string($value))$ret .= "\"" . Loop54_Utils::escape($value) . "\",";else if ($value instanceof DateTime)$ret .= "\"" . $value . "\",";else$ret .= $value . ",";}
 $ret = rtrim($ret,',');$ret .= "],";}
 $ret = rtrim($ret,',');$ret .= "}}";return $ret;}
 }
@@ -33,50 +33,67 @@ if ($this->entity != null){
 $str .= ",\"Entity\":" . $this->entity->serialize();}
 $str .= "}";return $str;}
 }
+class Loop54_Options{
+public $v22Collections = false;public $v25Url = false;}
 class Loop54_Request{
-public $IP=null;public $userId=null;private $_data=array();public $name=null;function __construct($requestName){
-$this->name = $requestName;}
+public $IP=null;public $userId=null;public $name=null;public $options=null;private $_data=array();function __construct($requestName,$options=null){
+$this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
 public function serialize(){
-if ($this->userId === null)$this->userId = Loop54_Utils::getUser();if ($this->IP === null)$this->IP = Loop54_Utils::getIP();$ret = "\"" . $this->name . "\":{";if ($this->IP !== null)$ret .= "\"IP\":\"" . Loop54_Utils::escape($this->IP) . "\",";if ($this->userId !== null)$ret .= "\"UserId\":\"" . Loop54_Utils::escape($this->userId) . "\",";foreach ($this->_data as $key=>$value){
+if ($this->userId === null)$this->userId = Loop54_Utils::getUser();if ($this->IP === null)$this->IP = Loop54_Utils::getIP();$ret = "{";if($this->options->v25Url)$ret .= "\"" . $this->name . "\":{";if ($this->IP !== null)$ret .= "\"IP\":\"" . Loop54_Utils::escape($this->IP) . "\",";if ($this->userId !== null)$ret .= "\"UserId\":\"" . Loop54_Utils::escape($this->userId) . "\",";foreach ($this->_data as $key=>$value){
 if($value===null)continue;$ret .= "\"" . $key . "\":" . Loop54_Utils::serializeObject($value) . ",";}
-$ret = rtrim($ret,',');$ret .= "}";return $ret;}
+$ret = rtrim($ret,',');if($this->options->v25Url)$ret .= "}";$ret .= "}";return $ret;}
 }
 abstract class Loop54_RequestHandling{
-public static function getResponse($engineUrl, Loop54_Request $request){
+public static function getResponse($engineUrl, $request){
 if (!is_string($engineUrl)) {
-trigger_error("Argument engineUrl must be string.");return;}
-$engineUrl = Loop54_Utils::fixEngineUrl($engineUrl);$data = "{" . $request->serialize() . "}";try {
+throw new Exception("Argument engineUrl must be string.");}
+$engineUrl = Loop54_Utils::fixEngineUrl($engineUrl);if(!$request->options->v25Url)$engineUrl .= "/" . $request->name;$data = $request->serialize();try {
 $s = curl_init($engineUrl);curl_setopt($s,CURLOPT_POST,1); curl_setopt($s,CURLOPT_RETURNTRANSFER, 1 );curl_setopt($s,CURLOPT_POSTFIELDS,$data);curl_setopt($s,CURLOPT_TIMEOUT, 10);curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8'));$response = curl_exec($s);if(curl_errno($s)){
-trigger_error('Curl error: ' . curl_error($s));return;}
+throw new Exception('Curl error: ' . curl_error($s));}
 curl_close($s);}
 catch(Exception $ex){
-trigger_error("Could not retrieve a response from " . $engineUrl);return;}
-$ret = new Loop54_Response($response,$request->name);return $ret;}
+throw new Exception("Could not retrieve a response from " . $engineUrl);}
+$ret = new Loop54_Response($response,$request);return $ret;}
 }
 class Loop54_EngineResponse{
-public $success;public $errorCode;public $errorMessage;public $requestId;public $_data;function __construct($stringData, $questName){
-try {
+public $success;public $errorCode;public $errorMessage;public $requestId;public $_data;public $options=null;function __construct($stringData, $request){
+$this->options = $request->options;try {
 $json = json_decode($stringData);}
 catch(Exception $ex){
-trigger_error("Engine returned incorrectly formed JSON " . $ex . ": " . $stringData);return;}
-if($json==null){
-trigger_error("Engine returned incorrectly formed JSON: " . $stringData);return;}
+throw new Exception("Engine returned incorrectly formed JSON " . $ex . ": " . $stringData);}
+if($json===null){
+throw new Exception("Engine returned incorrectly formed JSON: " . $stringData);}
 $responseObj = $json;if ((bool)$responseObj->{"Success"} != true){
 $this->success = false;$this->errorCode = (int)$responseObj->{"Error_Code"};$this->errorMessage = (string)$responseObj->{"Error_Message"};$this->requestId = (string)$responseObj->{"RequestId"};return;}
-$data = $responseObj->{"Data"};$this->_data = $data->{$questName};$this->success = true;}
+$data = $responseObj->{"Data"};if($this->options->v25Url)$this->_data = $data->{$request->name};else$this->_data = $data;$this->success = true;}
 }
 class Loop54_Response extends Loop54_EngineResponse{
 public function hasData($key){
 return isset($this->_data->{$key});}
 public function getValue($key){
-if(is_array($key))trigger_error($key . " is a collection.");return $this->_data->{$key};}
+if(is_array($key))throw new Exception($key . " is a collection.");return $this->_data->{$key};}
 public function getCollection($key){
-$origVal = $this->_data->{$key};if(!is_array($origVal))trigger_error($key . " is not a collection.");$ret = array();foreach($origVal as $item){
+$origVal = $this->_data->{$key};if(!is_array($origVal))throw new Exception($key . " is not a collection.");$ret = array();foreach($origVal as $item){
 if(is_object($item)){
-$i = new Loop54_Item();if(isset($item->{"Entity"})){
-$value = $item->{"Entity"};$entity = new Loop54_Entity($value->{"EntityType"},$value->{"ExternalId"});if(isset($value->{"Attributes"})){
+$i = new Loop54_Item();if($this->options->v22Collections){
+if(isset($item->{"Entity"})){
+$i->entity = $this->ParseEntity($item->{"Entity"});$i->key = $i->entity;}
+if(isset($item->{"String"})){
+$i->string = $item->{"String"};$i->key = $i->string;}
+}
+else{
+if(isset($item->{"Key"})){
+$val = $item->{"Key"};if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))$i->key = $this->ParseEntity($val);else$i->key = $val;}
+}
+$i->value = $item->{"Value"};$ret[]=$i;}
+else{
+$ret[] = $item;}
+}
+return $ret;}
+private function ParseEntity($value){
+$entity = new Loop54_Entity($value->{"EntityType"},$value->{"ExternalId"});if(isset($value->{"Attributes"})){
 if(is_object($value->{"Attributes"})){
 foreach($value->{"Attributes"} as $attrName => $attrValue){
 $entity->setAttribute($attrName,$attrValue);}
@@ -86,17 +103,10 @@ foreach($value->{"Attributes"} as $obj){
 $attrName = $obj->{"Key"};$attrValue = $obj->{"Value"};$entity->setAttribute($attrName,$attrValue);}
 }
 }
-$i->entity = $entity;}
-if(isset($item->{"String"})){
-$i->string = $item->{"String"};}
-$i->value = $item->{"Value"};$ret[]=$i;}
-else{
-$ret[] = $item;}
-}
-return $ret;}
+return $entity;}
 }
 class Loop54_Item {
-public $entity;public $string;public $value;}
+public $entity;public $string;public $value;public $key;}
 abstract class Loop54_Utils{
 static function escape($val){
 if (!is_string($val)) {
