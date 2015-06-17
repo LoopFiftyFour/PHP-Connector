@@ -1,7 +1,5 @@
 ﻿<?php
 
-
-
 class Loop54_Entity
 {
 	public $externalId;
@@ -23,12 +21,10 @@ class Loop54_Entity
 	
 	public function getAttribute($key)
 	{
-
 		if(!array_key_exists($key,$this->_attributes))
 			return null;
 		
 		return $this->_attributes[$key];
-		
 	}
 	
 	public function getStringAttribute($key)
@@ -73,17 +69,13 @@ class Loop54_Entity
 
 	public function serialize()
 	{
-		
 		$ret = "{";
-		
 		$ret .= "\"EntityType\":\"" . $this->entityType . "\",";
 		$ret .= "\"ExternalId\":\"" . $this->externalId . "\",";
 		$ret .= "\"Attributes\":{";
 
 		foreach ($this->_attributes as $key=>$values)
 		{
-			
-		
 			$ret .= "\"" . $key . "\":[";
 			
 			foreach ($values as $value)
@@ -101,16 +93,13 @@ class Loop54_Entity
 
 			$ret = rtrim($ret,',');
 			$ret .= "],";
-
 		}
 
 		$ret = rtrim($ret,',');
-		
-
 		$ret .= "}}";
 
 		return $ret;
-		
 	}
 }
+
 ?>

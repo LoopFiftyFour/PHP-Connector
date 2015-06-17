@@ -1,6 +1,5 @@
 ﻿<?php 
 
-
 abstract class Loop54_Utils
 {
 	static function escape($val)
@@ -14,7 +13,6 @@ abstract class Loop54_Utils
 		$val = str_replace("\"","\\\"",$val);
 	
 		return $val;
-
 	}
 
 	static function randomString($length)
@@ -30,6 +28,7 @@ abstract class Loop54_Utils
 		for ($i = 0; $i < $length; $i++) {
 			$randomString .= $characters[rand(0, strlen($characters) - 1)];
 		}
+		
 		return $randomString;
 	}
 
@@ -40,17 +39,15 @@ abstract class Loop54_Utils
 		if(isset($_COOKIE{'Loop54User'}))
 			$existingCookie = $_COOKIE{'Loop54User'};
 		
-		if($existingCookie!==null)
+		if($existingCookie !== null)
 			return $existingCookie;
 			
 		$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);
-		
 		
 		setcookie('Loop54User',$userId,time() + (86400 * 365),"/"); // 1 year cookie
 		$_COOKIE{'Loop54User'} = $userId; //set this so that subsequent calls on same pageview get the value
 		
 		return $userId;
-		
 	}
 
 	static function getIP()
@@ -69,7 +66,7 @@ abstract class Loop54_Utils
 		}
 		
 		$url = trim($url);
-		if($url==="")
+		if($url === "")
 		{
 			trigger_error("Argument url cannot be empty.");
 			return;
@@ -84,7 +81,6 @@ abstract class Loop54_Utils
 			$url = $url . "/";
 			
 		return $url;
-	
 	}
 	
 	static function stringBeginsWith( $str, $sub ) {
@@ -155,8 +151,5 @@ abstract class Loop54_Utils
 		return array_keys($arr) !== range(0, count($arr) - 1);
 	}
 }
-
-
-
 
 ?>

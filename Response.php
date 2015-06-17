@@ -1,17 +1,13 @@
 ﻿<?php
 
-
-
 class Loop54_EngineResponse
 {
 	public $success;
 	public $errorCode;
 	public $errorMessage;
 	public $requestId;
-	
 	public $_data;
-	
-	public $options=null;
+	public $options = null;
 	
 	function __construct($stringData, $request)
 	{
@@ -25,7 +21,7 @@ class Loop54_EngineResponse
 			throw new Exception("Engine returned incorrectly formed JSON " . $ex . ": " . $stringData);
 		}
 
-		if($json===null)
+		if($json === null)
 		{
 			throw new Exception("Engine returned incorrectly formed JSON: " . $stringData);
 		}
@@ -115,10 +111,8 @@ class Loop54_Response extends Loop54_EngineResponse
 					}
 				}
 				
-				
 				$i->value = $item->{"Value"};
-				$ret[]=$i;
-				
+				$ret[] = $i;
 			}
 			else
 			{
@@ -127,7 +121,6 @@ class Loop54_Response extends Loop54_EngineResponse
 		}
 		
 		return $ret;
-		
 	}
 	
 	private function ParseEntity($value)
@@ -136,10 +129,8 @@ class Loop54_Response extends Loop54_EngineResponse
 					
 		if(isset($value->{"Attributes"}))
 		{
-		
 			if(is_object($value->{"Attributes"}))
 			{
-		
 				foreach($value->{"Attributes"} as $attrName => $attrValue)
 				{
 					$entity->setAttribute($attrName,$attrValue);
