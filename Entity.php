@@ -88,7 +88,7 @@ class Loop54_Entity
 			
 			foreach ($values as $value)
 			{
-				if($value==null) //TODO: should be === to avoid interpreting 0 or false as null.
+				if($value===null)
 					continue;
 
 				if (is_string($value))
