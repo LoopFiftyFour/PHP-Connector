@@ -23,3 +23,4 @@ Just include Loop54-Minified.php in your app. See http://docs.loop54.com for usa
   - Request timeout
 - GZIP support
 - Engine errors should throw Exceptions instead of returning successfully with success:false
+- Support for PHP Composer with composer.json
