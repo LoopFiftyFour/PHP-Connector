@@ -8,18 +8,14 @@ class Loop54_Options
 
 class Loop54_Request
 {
-	public $IP=null;
-	public $userId=null;
+	public $IP = null;
+	public $userId = null;
+	public $name = null;
+	public $options = null;
 	
+	private $_data = array();
 	
-	public $name=null;
-	public $options=null;
-	
-	private $_data=array();
-	
-
-
-	function __construct($requestName,$options=null)
+	function __construct($requestName,$options = null)
 	{
 		$this->name = $requestName;
 		
@@ -70,11 +66,8 @@ class Loop54_Request
 			
 		$ret .= "}";
 		
-		//echo $ret;
-		
 		return $ret;
 	}
-
 }
 
 ?>

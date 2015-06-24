@@ -8,7 +8,7 @@ Just include Loop54-Minified.php in your app. See http://docs.loop54.com for usa
 
 - Wraps Loop54 JSON API with native PHP functions.
 - Handles user identification using random-generated cookies. Note: Loop54_RequestHandling::getResponse() must be called before headers are sent to client for this to work.
-
+- Has options to handle different engine versions, from 2.2 (and below) to 2.6 (and above)
 
 ## TODO:
 
@@ -19,7 +19,8 @@ Just include Loop54-Minified.php in your app. See http://docs.loop54.com for usa
   - Url
   - Referer
   - X-Forwarded-For header (if behind proxy)
-- Handle (and use by default) V2.6-style API calls (with quest name in URL)
 - Support for more config:
   - Request timeout
 - GZIP support
+- Engine errors should throw Exceptions instead of returning successfully with success:false
+- Support for PHP Composer with composer.json

@@ -1,10 +1,7 @@
 <?php
 
-
-
 abstract class Loop54_RequestHandling
 {
-
 	public static function getResponse($engineUrl, $request)
 	{
 		//type hinting
@@ -21,7 +18,6 @@ abstract class Loop54_RequestHandling
 		$data = $request->serialize();
 	
 		try {
-		
 			$s = curl_init($engineUrl);
 			
 			curl_setopt($s,CURLOPT_POST,1); 
@@ -37,17 +33,16 @@ abstract class Loop54_RequestHandling
 			}
 			
 			curl_close($s);
-			
 		}
 		catch(Exception $ex)
 		{
 			throw new Exception("Could not retrieve a response from " . $engineUrl);
 		}
 
-		
 		$ret = new Loop54_Response($response,$request);
 		
 		return $ret;
 	}
 }
+
 ?>
