@@ -10,6 +10,8 @@ class Loop54_Options
 
 class Loop54_Request
 {
+	private $version = "[VersionNumber]";
+
 	public $IP = null;
 	public $userId = null;
 	public $name = null;
@@ -51,6 +53,8 @@ class Loop54_Request
 
 		if ($this->userId !== null)
 			$ret .= "\"UserId\":\"" . Loop54_Utils::escape($this->userId) . "\",";
+			
+		$ret .= "\"LibraryVersion\":" . Loop54_Utils::serializeObject($this->version) . ",";
 
 		foreach ($this->_data as $key=>$value)
 		{
