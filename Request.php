@@ -5,6 +5,7 @@ class Loop54_Options
 	public $v22Collections = false;
 	public $v25Url = false;
 	public $timeout = 10;
+	public $gzip = true;
 }
 
 class Loop54_Request

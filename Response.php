@@ -8,6 +8,7 @@ class Loop54_EngineResponse
 	public $requestId;
 	public $_data;
 	public $options = null;
+	public $contentLength = null;
 	
 	function __construct($stringData, $request)
 	{
