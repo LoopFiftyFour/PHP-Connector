@@ -26,6 +26,8 @@ abstract class Loop54_RequestHandling
 			curl_setopt($s,CURLOPT_TIMEOUT, $request->options->timeout);
 			curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8'));
 			
+			//cURL uses Keep-Alive by default, although unclear if connections are reused across multiple PHP requests
+			
 			$response = curl_exec($s);
 			
 			if(curl_errno($s)){
