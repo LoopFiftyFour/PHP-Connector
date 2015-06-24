@@ -38,7 +38,7 @@ $str .= "}";return $str;}
 class Loop54_Options{
 public $v22Collections = false;public $v25Url = false;public $timeout = 10;public $gzip = true;}
 class Loop54_Request{
-private $version = "2015-06-24 14:19:08";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
+private $version = "2015-06-24 14:21:03";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
 $this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
