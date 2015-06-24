@@ -77,37 +77,39 @@ class Loop54_Entity
 		$ret = "{";
 		
 		$ret .= "\"EntityType\":\"" . $this->entityType . "\",";
-		$ret .= "\"ExternalId\":\"" . $this->externalId . "\",";
-		$ret .= "\"Attributes\":{";
-
-		foreach ($this->_attributes as $key=>$values)
-		{
-			
+		$ret .= "\"ExternalId\":\"" . $this->externalId . "\"";
 		
-			$ret .= "\"" . $key . "\":[";
-			
-			foreach ($values as $value)
+		if(count($this->_attributes)>0)
+		{
+			$ret .= ",\"Attributes\":{";
+
+			foreach ($this->_attributes as $key=>$values)
 			{
-				if($value===null)
-					continue;
+				
+			
+				$ret .= "\"" . $key . "\":[";
+				
+				foreach ($values as $value)
+				{
+					if($value===null)
+						continue;
 
-				if (is_string($value))
-					$ret .= "\"" . Loop54_Utils::escape($value) . "\",";
-				else if ($value instanceof DateTime)
-					$ret .= "\"" . $value . "\",";
-				else
-					$ret .= $value . ",";
+					if (is_string($value))
+						$ret .= "\"" . Loop54_Utils::escape($value) . "\",";
+					else if ($value instanceof DateTime)
+						$ret .= "\"" . $value . "\",";
+					else
+						$ret .= $value . ",";
+				}
+
+				$ret = rtrim($ret,',');
+				$ret .= "],";
+
 			}
-
-			$ret = rtrim($ret,',');
-			$ret .= "],";
-
+			$ret = rtrim($ret,',') . "}";
 		}
 
-		$ret = rtrim($ret,',');
-		
-
-		$ret .= "}}";
+		$ret .= "}";
 
 		return $ret;
 		
