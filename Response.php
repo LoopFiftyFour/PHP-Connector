@@ -90,6 +90,7 @@ class Loop54_Response extends Loop54_EngineResponse
 				//while in 2.3 (and above) collections have "Key" and "Value"
 				if($this->options->v22Collections)
 				{
+				
 					if(isset($item->{"Entity"}))
 					{
 						$i->entity = $this->ParseEntity($item->{"Entity"});
@@ -104,12 +105,15 @@ class Loop54_Response extends Loop54_EngineResponse
 				}
 				else
 				{
+				
 					if(isset($item->{"Key"}))
 					{
 						$val = $item->{"Key"};
 						
 						if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))
-							$i->key = $this->ParseEntity($val);
+							$i->key = $i->entity = $this->ParseEntity($val);
+						else if(is_string($val))
+							$i->key = $i->string = $val;
 						else
 							$i->key = $val;
 					}
