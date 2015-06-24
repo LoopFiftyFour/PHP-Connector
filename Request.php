@@ -15,6 +15,10 @@ class Loop54_Request
 	public $IP = null;
 	public $userId = null;
 	public $name = null;
+	public $userAgent=null;
+	public $url=null;
+	public $referer=null;
+	
 	public $options = null;
 	
 	private $_data = array();
@@ -41,7 +45,16 @@ class Loop54_Request
 
 		if ($this->IP === null)
 			$this->IP = Loop54_Utils::getIP();
+			
+		if ($this->userAgent === null)
+			$this->userAgent = Loop54_Utils::getUserAgent();
 
+		if ($this->url === null)
+			$this->url = Loop54_Utils::getUrl();
+			
+		if ($this->referer === null)
+			$this->referer = Loop54_Utils::getReferer();
+			
 		$ret = "{";
 			
 		//in V2.5 (and below), all request data is wrapped in the quest name
@@ -53,6 +66,15 @@ class Loop54_Request
 
 		if ($this->userId !== null)
 			$ret .= "\"UserId\":\"" . Loop54_Utils::escape($this->userId) . "\",";
+			
+		if ($this->userAgent !== null)
+			$ret .= "\"UserAgent\":\"" . Loop54_Utils::escape($this->userAgent) . "\",";
+			
+		if ($this->url !== null)
+			$ret .= "\"Url\":\"" . Loop54_Utils::escape($this->url) . "\",";
+			
+		if ($this->referer !== null)
+			$ret .= "\"Referer\":\"" . Loop54_Utils::escape($this->referer) . "\",";
 			
 		$ret .= "\"LibraryVersion\":" . Loop54_Utils::serializeObject($this->version) . ",";
 

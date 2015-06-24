@@ -57,6 +57,30 @@ abstract class Loop54_Utils
 		
 		return "";
 	}
+	
+	static function getUserAgent()
+	{
+		if(isset($_SERVER{'HTTP_USER_AGENT'}))
+			return $_SERVER{'HTTP_USER_AGENT'};
+		
+		return null;
+	}
+	
+	static function getUrl()
+	{
+		if(isset($_SERVER{'REQUEST_URI'}))
+			return $_SERVER{'REQUEST_URI'};
+		
+		return null;
+	}
+	
+	static function getReferer()
+	{
+		if(isset($_SERVER{'HTTP_REFERER'}))
+			return $_SERVER{'HTTP_REFERER'};
+		
+		return null;
+	}
 
 	static function fixEngineUrl($url)
 	{

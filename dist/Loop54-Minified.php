@@ -38,12 +38,12 @@ $str .= "}";return $str;}
 class Loop54_Options{
 public $v22Collections = false;public $v25Url = false;public $timeout = 10;public $gzip = true;}
 class Loop54_Request{
-private $version = "2015-06-24 14:04:21";public $IP = null;public $userId = null;public $name = null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
+private $version = "2015-06-24 14:13:25";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
 $this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
 public function serialize(){
-if ($this->userId === null)$this->userId = Loop54_Utils::getUser();if ($this->IP === null)$this->IP = Loop54_Utils::getIP();$ret = "{";if($this->options->v25Url)$ret .= "\"" . $this->name . "\":{";if ($this->IP !== null)$ret .= "\"IP\":\"" . Loop54_Utils::escape($this->IP) . "\",";if ($this->userId !== null)$ret .= "\"UserId\":\"" . Loop54_Utils::escape($this->userId) . "\",";$ret .= "\"LibraryVersion\":" . Loop54_Utils::serializeObject($this->version) . ",";foreach ($this->_data as $key=>$value){
+if ($this->userId === null)$this->userId = Loop54_Utils::getUser();if ($this->IP === null)$this->IP = Loop54_Utils::getIP();if ($this->userAgent === null)$this->userAgent = Loop54_Utils::getUserAgent();if ($this->url === null)$this->url = Loop54_Utils::getUrl();if ($this->referer === null)$this->referer = Loop54_Utils::getReferer();$ret = "{";if($this->options->v25Url)$ret .= "\"" . $this->name . "\":{";if ($this->IP !== null)$ret .= "\"IP\":\"" . Loop54_Utils::escape($this->IP) . "\",";if ($this->userId !== null)$ret .= "\"UserId\":\"" . Loop54_Utils::escape($this->userId) . "\",";if ($this->userAgent !== null)$ret .= "\"UserAgent\":\"" . Loop54_Utils::escape($this->userAgent) . "\",";if ($this->url !== null)$ret .= "\"Url\":\"" . Loop54_Utils::escape($this->url) . "\",";if ($this->referer !== null)$ret .= "\"Referer\":\"" . Loop54_Utils::escape($this->referer) . "\",";$ret .= "\"LibraryVersion\":" . Loop54_Utils::serializeObject($this->version) . ",";foreach ($this->_data as $key=>$value){
 if($value===null)continue;$ret .= "\"" . $key . "\":" . Loop54_Utils::serializeObject($value) . ",";}
 $ret = rtrim($ret,',');if($this->options->v25Url)$ret .= "}";$ret .= "}";return $ret;}
 }
@@ -124,6 +124,12 @@ static function getUser(){
 $existingCookie = null;if(isset($_COOKIE{'Loop54User'}))$existingCookie = $_COOKIE{'Loop54User'};if($existingCookie !== null)return $existingCookie;$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);setcookie('Loop54User',$userId,time() + (86400 * 365),"/"); $_COOKIE{'Loop54User'} = $userId; return $userId;}
 static function getIP(){
 if(isset($_SERVER{'REMOTE_ADDR'}))return $_SERVER{'REMOTE_ADDR'};return "";}
+static function getUserAgent(){
+if(isset($_SERVER{'HTTP_USER_AGENT'}))return $_SERVER{'HTTP_USER_AGENT'};return null;}
+static function getUrl(){
+if(isset($_SERVER{'REQUEST_URI'}))return $_SERVER{'REQUEST_URI'};return null;}
+static function getReferer(){
+if(isset($_SERVER{'HTTP_REFERER'}))return $_SERVER{'HTTP_REFERER'};return null;}
 static function fixEngineUrl($url){
 if (!is_string($url)) {
 trigger_error("Argument url must be string.");return;}
