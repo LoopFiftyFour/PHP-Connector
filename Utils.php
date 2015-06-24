@@ -98,22 +98,7 @@ abstract class Loop54_Utils
 	
 	static function serializeObject($data)
 	{
-		if (is_string($data))
-			return "\"" . Loop54_Utils::escape($data) . "\"";
-		else if (is_bool($data))
-		{
-			if($data)
-			{
-				return "true";
-			}
-			else
-			{
-				return "false";
-			}
-		}
-		else if ($data instanceof DateTime)
-			return "\"" . $data . "\"";
-		else if ($data instanceof Loop54_Entity)
+		if ($data instanceof Loop54_Entity)
 			return $data->serialize();
 		else if ($data instanceof Loop54_Event)
 			return $data->serialize();
@@ -124,7 +109,7 @@ abstract class Loop54_Utils
 				$ret = "{";
 				foreach ($data as $key => $value)
 				{
-					$ret .= "\"" . $key . "\":" . Loop54_Utils::serializeObject($value) . ",";
+					$ret .= Loop54_Utils::serializeObject($key) . ":" . Loop54_Utils::serializeObject($value) . ",";
 				}
 				
 				$ret = rtrim($ret,',') . "}";
@@ -146,7 +131,7 @@ abstract class Loop54_Utils
 		}
 		else
 		{
-			return $data;
+			return json_encode($data);
 		}
 	}
 	
