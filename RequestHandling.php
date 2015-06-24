@@ -23,7 +23,7 @@ abstract class Loop54_RequestHandling
 			curl_setopt($s,CURLOPT_POST,1); 
 			curl_setopt($s,CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt($s,CURLOPT_POSTFIELDS,$data);
-			curl_setopt($s,CURLOPT_TIMEOUT, 10);
+			curl_setopt($s,CURLOPT_TIMEOUT, $request->options->timeout);
 			curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8'));
 			
 			$response = curl_exec($s);
