@@ -28,7 +28,7 @@ $ret = rtrim($ret,',') . "}";}
 $ret .= "}";return $ret;}
 }
 class Loop54_Event{
-public $entity=null;public $string=null;public $revenue=0;public $orderId;public $type;public $quantity=1;public function serialize(){
+public $entity = null;public $string = null;public $revenue = 0;public $orderId;public $type;public $quantity = 1;public function serialize(){
 $str = "{"."\"OrderId\":\"" . $this->orderId . "\"".",\"Type\":\"" . $this->type . "\"".",\"Revenue\":" . $this->revenue;",\"Quantity\":" . $this->quantity;if ($this->string != null){
 $str .= ",\"String\":" . $this->string . "\"";}
 if ($this->entity != null){
@@ -38,7 +38,7 @@ $str .= "}";return $str;}
 class Loop54_Options{
 public $v22Collections = false;public $v25Url = false;}
 class Loop54_Request{
-public $IP=null;public $userId=null;public $name=null;public $options=null;private $_data=array();function __construct($requestName,$options=null){
+public $IP = null;public $userId = null;public $name = null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
 $this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
@@ -60,12 +60,12 @@ throw new Exception("Could not retrieve a response from " . $engineUrl);}
 $ret = new Loop54_Response($response,$request);return $ret;}
 }
 class Loop54_EngineResponse{
-public $success;public $errorCode;public $errorMessage;public $requestId;public $_data;public $options=null;function __construct($stringData, $request){
+public $success;public $errorCode;public $errorMessage;public $requestId;public $_data;public $options = null;function __construct($stringData, $request){
 $this->options = $request->options;try {
 $json = json_decode($stringData);}
 catch(Exception $ex){
 throw new Exception("Engine returned incorrectly formed JSON " . $ex . ": " . $stringData);}
-if($json===null){
+if($json === null){
 throw new Exception("Engine returned incorrectly formed JSON: " . $stringData);}
 $responseObj = $json;if ((bool)$responseObj->{"Success"} != true){
 $this->success = false;$this->errorCode = (int)$responseObj->{"Error_Code"};$this->errorMessage = (string)$responseObj->{"Error_Message"};$this->requestId = (string)$responseObj->{"RequestId"};return;}
@@ -89,7 +89,7 @@ else{
 if(isset($item->{"Key"})){
 $val = $item->{"Key"};if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))$i->key = $i->entity = $this->ParseEntity($val);else if(is_string($val))$i->key = $i->string = $val;else$i->key = $val;}
 }
-$i->value = $item->{"Value"};$ret[]=$i;}
+$i->value = $item->{"Value"};$ret[] = $i;}
 else{
 $ret[] = $item;}
 }
@@ -121,13 +121,13 @@ $characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';$randomStri
 $randomString .= $characters[rand(0, strlen($characters) - 1)];}
 return $randomString;}
 static function getUser(){
-$existingCookie = null;if(isset($_COOKIE{'Loop54User'}))$existingCookie = $_COOKIE{'Loop54User'};if($existingCookie!==null)return $existingCookie;$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);setcookie('Loop54User',$userId,time() + (86400 * 365),"/"); $_COOKIE{'Loop54User'} = $userId; return $userId;}
+$existingCookie = null;if(isset($_COOKIE{'Loop54User'}))$existingCookie = $_COOKIE{'Loop54User'};if($existingCookie !== null)return $existingCookie;$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);setcookie('Loop54User',$userId,time() + (86400 * 365),"/"); $_COOKIE{'Loop54User'} = $userId; return $userId;}
 static function getIP(){
 if(isset($_SERVER{'REMOTE_ADDR'}))return $_SERVER{'REMOTE_ADDR'};return "";}
 static function fixEngineUrl($url){
 if (!is_string($url)) {
 trigger_error("Argument url must be string.");return;}
-$url = trim($url);if($url===""){
+$url = trim($url);if($url === ""){
 trigger_error("Argument url cannot be empty.");return;}
 $url = strtolower($url);if(!Loop54_Utils::stringBeginsWith($url,"http"))$url = "http://" . $url;if(!Loop54_Utils::stringEndsWith($url,"/"))$url = $url . "/";return $url;}
 static function stringBeginsWith( $str, $sub ) {
