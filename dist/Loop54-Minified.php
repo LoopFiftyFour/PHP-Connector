@@ -38,7 +38,7 @@ $str .= "}";return $str;}
 class Loop54_Options{
 public $v22Collections = false;public $v25Url = false;public $timeout = 10;public $gzip = true;}
 class Loop54_Request{
-private $version = "2015-06-24 14:13:25";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
+private $version = "2015-06-24 14:19:08";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
 $this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
@@ -123,7 +123,14 @@ return $randomString;}
 static function getUser(){
 $existingCookie = null;if(isset($_COOKIE{'Loop54User'}))$existingCookie = $_COOKIE{'Loop54User'};if($existingCookie !== null)return $existingCookie;$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);setcookie('Loop54User',$userId,time() + (86400 * 365),"/"); $_COOKIE{'Loop54User'} = $userId; return $userId;}
 static function getIP(){
-if(isset($_SERVER{'REMOTE_ADDR'}))return $_SERVER{'REMOTE_ADDR'};return "";}
+if ( function_exists( 'apache_request_headers' ) ) {
+$headers = apache_request_headers();} else {
+$headers = $_SERVER;}
+if ( array_key_exists( 'X-Forwarded-For', $headers ) && filter_var( $headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
+$the_ip = $headers['X-Forwarded-For'];} elseif ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $headers ) && filter_var( $headers['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 )) {
+$the_ip = $headers['HTTP_X_FORWARDED_FOR'];} else {
+$the_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 );}
+return $the_ip;}
 static function getUserAgent(){
 if(isset($_SERVER{'HTTP_USER_AGENT'}))return $_SERVER{'HTTP_USER_AGENT'};return null;}
 static function getUrl(){
