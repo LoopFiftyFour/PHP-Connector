@@ -19,11 +19,13 @@ $list = array();$list[] = $values;$this->_attributes[$key] = $list;}
 public function removeAttribute($key){
 unset($_attributes[$key]);}
 public function serialize(){
-$ret = "{";$ret .= "\"EntityType\":\"" . $this->entityType . "\",";$ret .= "\"ExternalId\":\"" . $this->externalId . "\",";$ret .= "\"Attributes\":{";foreach ($this->_attributes as $key=>$values){
+$ret = "{";$ret .= "\"EntityType\":\"" . $this->entityType . "\",";$ret .= "\"ExternalId\":\"" . $this->externalId . "\"";if(count($this->_attributes)>0){
+$ret .= ",\"Attributes\":{";foreach ($this->_attributes as $key=>$values){
 $ret .= "\"" . $key . "\":[";foreach ($values as $value){
 if($value===null)continue;if (is_string($value))$ret .= "\"" . Loop54_Utils::escape($value) . "\",";else if ($value instanceof DateTime)$ret .= "\"" . $value . "\",";else$ret .= $value . ",";}
 $ret = rtrim($ret,',');$ret .= "],";}
-$ret = rtrim($ret,',');$ret .= "}}";return $ret;}
+$ret = rtrim($ret,',') . "}";}
+$ret .= "}";return $ret;}
 }
 class Loop54_Event{
 public $entity=null;public $string=null;public $revenue=0;public $orderId;public $type;public $quantity=1;public function serialize(){
@@ -85,7 +87,7 @@ $i->string = $item->{"String"};$i->key = $i->string;}
 }
 else{
 if(isset($item->{"Key"})){
-$val = $item->{"Key"};if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))$i->key = $this->ParseEntity($val);else$i->key = $val;}
+$val = $item->{"Key"};if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))$i->key = $i->entity = $this->ParseEntity($val);else if(is_string($val))$i->key = $i->string = $val;else$i->key = $val;}
 }
 $i->value = $item->{"Value"};$ret[]=$i;}
 else{
@@ -133,16 +135,10 @@ return ( substr( $str, 0, strlen( $sub ) ) === $sub );}
 static function stringEndsWith( $str, $sub ) {
 return ( substr( $str, strlen( $str ) - strlen( $sub ) ) === $sub );}
 static function serializeObject($data){
-if (is_string($data))return "\"" . Loop54_Utils::escape($data) . "\"";else if (is_bool($data)){
-if($data){
-return "true";}
-else{
-return "false";}
-}
-else if ($data instanceof DateTime)return "\"" . $data . "\"";else if ($data instanceof Loop54_Entity)return $data->serialize();else if ($data instanceof Loop54_Event)return $data->serialize();else if (is_array($data)){
+if ($data instanceof Loop54_Entity)return $data->serialize();else if ($data instanceof Loop54_Event)return $data->serialize();else if (is_array($data)){
 if(Loop54_Utils::isAssoc($data)){
 $ret = "{";foreach ($data as $key => $value){
-$ret .= "\"" . $key . "\":" . Loop54_Utils::serializeObject($value) . ",";}
+$ret .= Loop54_Utils::serializeObject($key) . ":" . Loop54_Utils::serializeObject($value) . ",";}
 $ret = rtrim($ret,',') . "}";return $ret;}
 else{
 $ret = "[";foreach($data as $dataVal){
@@ -150,7 +146,7 @@ $ret .= Loop54_Utils::serializeObject($dataVal) . ",";}
 $ret = rtrim($ret,',') . "]";return $ret;}
 }
 else{
-return $data;}
+return json_encode($data);}
 }
 static function isAssoc($arr){
 return array_keys($arr) !== range(0, count($arr) - 1);}
