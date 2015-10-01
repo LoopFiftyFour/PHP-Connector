@@ -38,7 +38,7 @@ $str .= "}";return $str;}
 class Loop54_Options{
 public $v22Collections = false;public $v25Url = false;public $timeout = 10;public $gzip = true;}
 class Loop54_Request{
-private $version = "2015-06-24 14:21:03";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
+private $version = "2015-10-01 16:26:46";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
 $this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
@@ -60,7 +60,7 @@ throw new Exception("Could not retrieve a response from " . $engineUrl);}
 $ret = new Loop54_Response($response,$request);$ret->contentLength = $length;return $ret;}
 }
 class Loop54_EngineResponse{
-public $success;public $errorCode;public $errorMessage;public $requestId;public $_data;public $options = null;public $contentLength = null;function __construct($stringData, $request){
+public $success;public $requestId;public $_data;public $options = null;public $contentLength = null;function __construct($stringData, $request){
 $this->options = $request->options;try {
 $json = json_decode($stringData);}
 catch(Exception $ex){
@@ -68,7 +68,7 @@ throw new Exception("Engine returned incorrectly formed JSON " . $ex . ": " . $s
 if($json === null){
 throw new Exception("Engine returned incorrectly formed JSON: " . $stringData);}
 $responseObj = $json;if ((bool)$responseObj->{"Success"} != true){
-$this->success = false;$this->errorCode = (int)$responseObj->{"Error_Code"};$this->errorMessage = (string)$responseObj->{"Error_Message"};$this->requestId = (string)$responseObj->{"RequestId"};return;}
+$this->success = false;$this->requestId = (string)$responseObj->{"RequestId"};return;}
 $data = $responseObj->{"Data"};if($this->options->v25Url)$this->_data = $data->{$request->name};else$this->_data = $data;$this->success = true;}
 }
 class Loop54_Response extends Loop54_EngineResponse{

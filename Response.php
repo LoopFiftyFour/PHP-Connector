@@ -3,8 +3,6 @@
 class Loop54_EngineResponse
 {
 	public $success;
-	public $errorCode;
-	public $errorMessage;
 	public $requestId;
 	public $_data;
 	public $options = null;
@@ -33,8 +31,6 @@ class Loop54_EngineResponse
 		if ((bool)$responseObj->{"Success"} != true)
 		{
 			$this->success = false;
-			$this->errorCode = (int)$responseObj->{"Error_Code"};
-			$this->errorMessage = (string)$responseObj->{"Error_Message"};
 			$this->requestId = (string)$responseObj->{"RequestId"};
 
 			return;
