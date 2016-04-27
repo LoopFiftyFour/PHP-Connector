@@ -38,7 +38,7 @@ $str .= "}";return $str;}
 class Loop54_Options{
 public $v22Collections = false;public $v25Url = false;public $timeout = 10;public $gzip = true;}
 class Loop54_Request{
-private $version = "2015-10-01 16:26:46";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
+private $version = "2016-04-27 14:48:21";public $IP = null;public $userId = null;public $name = null;public $userAgent=null;public $url=null;public $referer=null;public $options = null;private $_data = array();function __construct($requestName,$options = null){
 $this->name = $requestName;if($options)$this->options = $options;else$this->options = new Loop54_Options();}
 public function setValue($key,$value){
 $this->_data[$key] = $value;}
@@ -158,8 +158,20 @@ $ret = "[";foreach($data as $dataVal){
 $ret .= Loop54_Utils::serializeObject($dataVal) . ",";}
 $ret = rtrim($ret,',') . "]";return $ret;}
 }
-else{
-return json_encode($data);}
+else
+{
+	if (is_string($data)){
+		if(function_exists('mb_check_encoding')){
+			if(!mb_check_encoding($data, 'UTF-8')){
+				$data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
+			}
+		} else {
+			if(!preg_match('//u', $data)){
+				$data = utf8_encode($data);
+			}
+		}
+	}
+	return json_encode($data);
 }
 static function isAssoc($arr){
 return array_keys($arr) !== range(0, count($arr) - 1);}
