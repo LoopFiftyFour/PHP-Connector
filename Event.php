@@ -14,7 +14,7 @@ class Loop54_Event
 		$str = "{".
 			"\"OrderId\":\"" . $this->orderId . "\"".
 			",\"Type\":\"" . $this->type . "\"".
-			",\"Revenue\":" . $this->revenue;
+			",\"Revenue\":" . $this->revenue . 
 			",\"Quantity\":" . $this->quantity;
 			
 		if ($this->string != null)
