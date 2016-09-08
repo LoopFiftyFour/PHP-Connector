@@ -1,0 +1,12 @@
+{
+    "name": "loop54/php-connector",
+    "type": "library",
+    "description": "PHP Wrapper for Loop54 JSON API",
+    "homepage": "http://docs.loop54.com",
+    "autoload": {
+        "files": ["dist/Loop54-Minified.php"]
+    },
+    "require": {
+        "php": ">=5.5"
+    }
+}
