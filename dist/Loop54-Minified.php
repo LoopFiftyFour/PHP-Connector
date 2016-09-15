@@ -160,18 +160,7 @@ $ret = rtrim($ret,',') . "]";return $ret;}
 }
 else
 {
-	if (is_string($data)){
-		if(function_exists('mb_check_encoding')){
-			if(!mb_check_encoding($data, 'UTF-8')){
-				$data = mb_convert_encoding($data, 'UTF-8', 'UTF-8');
-			}
-		} else {
-			if(!preg_match('//u', $data)){
-				$data = utf8_encode($data);
-			}
-		}
-	}
-	return json_encode($data);
+return json_encode($data);
 }}
 static function isAssoc($arr){
 return array_keys($arr) !== range(0, count($arr) - 1);}

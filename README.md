@@ -16,6 +16,7 @@ Just include Loop54-Minified.php in your app. See http://docs.loop54.com for usa
   - Url
   - Referer
   - User IP (uses X-Forwarded-For header if behind proxy)
+- Expects valid UTF-8
   
 ## Backward compatibility
 
