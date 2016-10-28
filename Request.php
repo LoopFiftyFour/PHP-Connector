@@ -2,15 +2,13 @@
 
 class Loop54_Options
 {
-	public $v22Collections = false;
-	public $v25Url = false;
 	public $timeout = 10;
 	public $gzip = true;
 }
 
 class Loop54_Request
 {
-	private $version = "[VersionNumber]";
+	
 
 	public $IP = null;
 	public $userId = null;
@@ -56,11 +54,7 @@ class Loop54_Request
 			$this->referer = Loop54_Utils::getReferer();
 			
 		$ret = "{";
-			
-		//in V2.5 (and below), all request data is wrapped in the quest name
-		if($this->options->v25Url)
-			$ret .= "\"" . $this->name . "\":{";
-
+		
 		if ($this->IP !== null)
 			$ret .= "\"IP\":\"" . Loop54_Utils::escape($this->IP) . "\",";
 
@@ -75,8 +69,6 @@ class Loop54_Request
 			
 		if ($this->referer !== null)
 			$ret .= "\"Referer\":\"" . Loop54_Utils::escape($this->referer) . "\",";
-			
-		$ret .= "\"LibraryVersion\":" . Loop54_Utils::serializeObject($this->version) . ",";
 
 		foreach ($this->_data as $key=>$value)
 		{
@@ -88,10 +80,6 @@ class Loop54_Request
 
 		$ret = rtrim($ret,',');
 		
-		//in V2.5 (and below), all request data is wrapped in the quest name
-		if($this->options->v25Url)
-			$ret .= "}";
-			
 		$ret .= "}";
 		
 		return $ret;

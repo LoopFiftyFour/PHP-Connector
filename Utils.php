@@ -1,4 +1,4 @@
-﻿<?php 
+<?php 
 
 abstract class Loop54_Utils
 {
@@ -44,11 +44,23 @@ abstract class Loop54_Utils
 			
 		$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);
 		
-		setcookie('Loop54User',$userId,time() + (86400 * 365),"/"); // 1 year cookie
-		$_COOKIE{'Loop54User'} = $userId; //set this so that subsequent calls on same pageview get the value
+		setCookie('Loop54User',$userId,time() + (86400 * 365),"/"); // 1 year cookie
 		
 		return $userId;
 	}
+
+	static function setCookie($key,$value,$time)
+	{
+		try {
+
+			setcookie($key,$value,$time); //set the cookie
+			$_COOKIE{$key} = $value; //set this so that subsequent calls on same pageview get the value
+		}
+		catch(Exception $exception){
+			//TODO: log this
+		}
+	}
+
 
 	static function getIP()
 	{

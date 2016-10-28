@@ -38,11 +38,7 @@ class Loop54_EngineResponse
 		
 		$data = $responseObj->{"Data"};
 		
-		//in V2.5, all data is wrapped in an object stored in a parameter named as the quest
-		if($this->options->v25Url)
-			$this->_data = $data->{$request->name};
-		else
-			$this->_data = $data;
+		$this->_data = $data;
 
 		//success
 		$this->success = true;
@@ -79,39 +75,18 @@ class Loop54_Response extends Loop54_EngineResponse
 			{
 				$i = new Loop54_Item();
 				
-				//in V2.2 (and below), collections have "Entity" and/or "String" and "Value"
-				//while in 2.3 (and above) collections have "Key" and "Value"
-				if($this->options->v22Collections)
+				if(isset($item->{"Key"}))
 				{
-				
-					if(isset($item->{"Entity"}))
-					{
-						$i->entity = $this->ParseEntity($item->{"Entity"});
-						$i->key = $i->entity;
-					}
+					$val = $item->{"Key"};
 					
-					if(isset($item->{"String"}))
-					{
-						$i->string = $item->{"String"};
-						$i->key = $i->string;
-					}
+					if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))
+						$i->key = $i->entity = $this->ParseEntity($val);
+					else if(is_string($val))
+						$i->key = $i->string = $val;
+					else
+						$i->key = $val;
 				}
-				else
-				{
-				
-					if(isset($item->{"Key"}))
-					{
-						$val = $item->{"Key"};
-						
-						if(is_object($val) && property_exists($val,"ExternalId") && property_exists($val,"EntityType"))
-							$i->key = $i->entity = $this->ParseEntity($val);
-						else if(is_string($val))
-							$i->key = $i->string = $val;
-						else
-							$i->key = $val;
-					}
-				}
-				
+			
 				$i->value = $item->{"Value"};
 				$ret[] = $i;
 			}
