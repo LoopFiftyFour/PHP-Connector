@@ -1,9 +1,7 @@
 <?php
 
 abstract class Loop54_RequestHandling
-{
-	private static $version = "PHP:[VersionNumber]";
-	
+{	
 	public static function getResponse($engineUrl, $request)
 	{
 		//type hinting
@@ -22,7 +20,7 @@ abstract class Loop54_RequestHandling
 			curl_setopt($s,CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt($s,CURLOPT_POSTFIELDS,$data);
 			curl_setopt($s,CURLOPT_TIMEOUT, $request->options->timeout);
-			curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8','Lib-Version: '.$version,'Api-Version: V26'));
+			curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8','Lib-Version: PHP:[VersionNumber]','Api-Version: V26'));
 			
 			if($request->options->gzip)
 				curl_setopt($s,CURLOPT_ENCODING , "gzip");

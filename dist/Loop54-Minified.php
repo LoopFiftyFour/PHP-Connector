@@ -48,11 +48,11 @@ if($value===null)continue;$ret .= "\"" . $key . "\":" . Loop54_Utils::serializeO
 $ret = rtrim($ret,',');$ret .= "}";return $ret;}
 }
 abstract class Loop54_RequestHandling{
-private static $version = "PHP:2016-10-28T142402";public static function getResponse($engineUrl, $request){
+public static function getResponse($engineUrl, $request){
 if (!is_string($engineUrl)) {
 throw new Exception("Argument engineUrl must be string.");}
 $engineUrl = Loop54_Utils::fixEngineUrl($engineUrl). "/" . $request->name;$data = $request->serialize();try {
-$s = curl_init($engineUrl);curl_setopt($s,CURLOPT_POST,1); curl_setopt($s,CURLOPT_RETURNTRANSFER, 1 );curl_setopt($s,CURLOPT_POSTFIELDS,$data);curl_setopt($s,CURLOPT_TIMEOUT, $request->options->timeout);curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8','Lib-Version: '.$version,'Api-Version: V26'));if($request->options->gzip)curl_setopt($s,CURLOPT_ENCODING , "gzip");$response = curl_exec($s);$length = curl_getinfo ($s,CURLINFO_CONTENT_LENGTH_DOWNLOAD );if(curl_errno($s)){
+$s = curl_init($engineUrl);curl_setopt($s,CURLOPT_POST,1); curl_setopt($s,CURLOPT_RETURNTRANSFER, 1 );curl_setopt($s,CURLOPT_POSTFIELDS,$data);curl_setopt($s,CURLOPT_TIMEOUT, $request->options->timeout);curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8','Lib-Version: PHP:2016-10-28T145434','Api-Version: V26'));if($request->options->gzip)curl_setopt($s,CURLOPT_ENCODING , "gzip");$response = curl_exec($s);$length = curl_getinfo ($s,CURLINFO_CONTENT_LENGTH_DOWNLOAD );if(curl_errno($s)){
 throw new Exception('Curl error: ' . curl_error($s));}
 curl_close($s);}
 catch(Exception $ex){
