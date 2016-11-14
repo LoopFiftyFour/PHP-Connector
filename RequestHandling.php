@@ -9,7 +9,7 @@ abstract class Loop54_RequestHandling
 			throw new Exception("Argument engineUrl must be string.");
 		}
 	
-		$engineUrl = Loop54_Utils::fixEngineUrl($engineUrl). "/" . $request->name;
+		$engineUrl = Loop54_Utils::fixEngineUrl($engineUrl) . $request->name;
 		
 		$data = $request->serialize();
 	
@@ -20,7 +20,7 @@ abstract class Loop54_RequestHandling
 			curl_setopt($s,CURLOPT_RETURNTRANSFER, 1 );
 			curl_setopt($s,CURLOPT_POSTFIELDS,$data);
 			curl_setopt($s,CURLOPT_TIMEOUT, $request->options->timeout);
-			curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: text/plain; charset=UTF-8','Lib-Version: PHP:[VersionNumber]','Api-Version: V26'));
+			curl_setopt($s,CURLOPT_HTTPHEADER,array('Content-Type: application/json; charset=UTF-8','Lib-Version: PHP:[VersionNumber]','Api-Version: V26'));
 			
 			if($request->options->gzip)
 				curl_setopt($s,CURLOPT_ENCODING , "gzip");
