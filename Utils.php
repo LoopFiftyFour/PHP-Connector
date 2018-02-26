@@ -42,7 +42,7 @@ abstract class Loop54_Utils
 		if($existingCookie !== null)
 			return $existingCookie;
 			
-		$userId = str_replace(":","",Loop54_Utils::getIP()) . "_" . Loop54_Utils::randomString(10);
+		$userId = Loop54_Utils::randomString(10);
 		
 		setCookie('Loop54User',$userId,time() + (86400 * 365),"/"); // 1 year cookie
 		
