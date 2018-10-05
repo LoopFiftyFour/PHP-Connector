@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block results %}
+<p>Makes sense? {% if response.makesSense %}YES!{% else %}NO. Did you mean:
+
+    {% for search in response.spellingSuggestions %}
+    <a href="?query={{ search.query }}">{{ search.query }}</a>
+    {% endfor %}
+    {% endif %}
+</p>
+
+<p>Related queries:
+
+    {% for search in response.relatedQueries %}
+    <a href="?query={{ search.query }}">{{ search.query }}</a>
+    {% endfor %}
+</p>
+
+<ol>
+    {% for result in response.results %}
+    <li>
+        <strong>
+            <a target="_blank" href="{{ result.getAttribute('ImageUrl') }}">
+                {{ result.getAttribute('Title')}}
+            </a>
+        </strong>
+        ({{ result.getAttribute('Manufacturer') }})
+        <p>{{ result.getAttribute('Description') }}</p>
+        <strong>Price: {{ result.getAttribute('Price') }}</strong>
+        <p><a href="{{ url(
+                           'CreateEvents',
+                           {
+                               entity_id: result.id,
+                               entity_type: result.type,
+                               return: 'Search'
+                           } | merge(app.request.query.all)
+                       ) }}">Create click event</a></p>
+    </li>
+    {% endfor %}
+</ol>
+{% endblock %}

@@ -1,0 +1,48 @@
+<form id="parameters" method="get">
+    {% for group, inputs in parameters %}
+    <fieldset>
+        <legend>Options</legend>
+        {% for name, meta in inputs %}
+        <label for="{{ name }}">{{ meta.label }}</label>
+        <input type="{{ meta.formtype }}"
+               id="{{ name }}"
+               name="{{ name }}"
+               value="{{ meta.value|default('') }}"
+               placeholder="{{ meta.placeholder }}" />
+        {% endfor %}
+    </fieldset>
+    {% endfor %}
+
+    <input type="submit" name="doSubmit" value="Search!" />
+
+    {% if response.facets | default(false) %}
+    <p>Facets:
+        <dl>
+            {% for facet in response.facets %}
+            <dt>{{ facet.name }}</dt>
+            <dd>{% if facet.type == 'distinct' %}
+                <ol>
+                    {% for options in facet.items %}
+                    <li>
+                        <input type="checkbox"
+                               class="distinctfacet"
+                               name="distinct_{{ facet.name }}[]"
+                               value="{{ options.item }}"
+                               onchange="this.form.submit();"
+                               {% if options.selected %}
+                               checked="checked"
+                               {% endif %} />
+                        <label for="distinct_{{ facet.name }}">
+                            {{ options.item }} ({{ options.count }})
+                        </label>
+                    </li>
+                    {% endfor %}
+                </ol>
+                {% else %}
+                {{ facet.min }}–{{ facet.max }}
+                {% endif %}</dd>
+            {% endfor %}
+        </dl>
+    </p>
+    {% endif %}
+</form>

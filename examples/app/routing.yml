@@ -1,0 +1,15 @@
+Index:
+  path: /
+  controller: Loop54\API\Examples\App\AppController::index
+
+Search:
+  path: /search
+  controller: Loop54\API\Examples\App\AppController::search
+
+AutoComplete:
+  path: /autocomplete
+  controller: Loop54\API\Examples\App\AppController::autoComplete
+
+CreateEvents:
+  path: /createevents
+  controller: Loop54\API\Examples\App\AppController::createEvents

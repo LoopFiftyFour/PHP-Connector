@@ -1,0 +1,29 @@
+{
+  "scopedQuery": {
+    "query": "a",
+    "scopes": [
+      "Pantry",
+      "Bakery",
+      "Meat",
+      "Refreshments"
+    ],
+    "scopeAttributeName": "Category"
+  },
+  "queries": {
+    "count": 4,
+    "items": [
+      {
+        "query": "a"
+      },
+      {
+        "query": "apple"
+      },
+      {
+        "query": "apples"
+      },
+      {
+        "query": "as"
+      }
+    ]
+  }
+}

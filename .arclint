@@ -1,0 +1,19 @@
+{
+  "linters": {
+      "text": {
+          "type": "text",
+          "include": "(^.*$)",
+          "exclude": "/OpenAPI/",
+          "severity": {
+              "5": "disabled"
+          }
+      },
+      "php": {
+          "type": "phpcs",
+          "include": "(\\.php$)",
+          "exclude": "/OpenAPI/",
+          "flags": ["--standard=PSR12"],
+          "bin": ["vendor/bin/phpcs"]
+      }
+  }
+}

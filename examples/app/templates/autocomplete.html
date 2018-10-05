@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block results %}
+<p>Queries:
+    {% for search in response.resultsAsSearchRequests %}
+    <a href="search?query={{ search.query
+             }}{% if search.resultsOptions.facets
+             %}&distinct={{ search.resultsOptions.facets.0.attributeName
+             }}&distinct_{{ search.resultsOptions.facets.0.attributeName
+             }}[]={{ search.resultsOptions.facets.0.selected.0
+             }}{% endif %}">
+        {{ search.query
+        }}{% if search.resultsOptions.facets
+        %} ({{ search.resultsOptions.facets.0.attributeName
+        }}: {{ search.resultsOptions.facets.0.selected.0
+        }}){% endif %}</a>
+    &nbsp;
+    {% endfor %}
+</p>
+{% endblock %}

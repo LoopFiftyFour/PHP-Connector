@@ -1,0 +1,15 @@
+framework:
+  secret: very secret super secret
+
+  router:
+    resource: "%kernel.root_dir%/routing.yml"
+
+  templating:
+    engines:
+      - twig
+
+twig:
+  debug: true
+  strict_variables: true
+  paths:
+    - "%kernel.root_dir%/templates"

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Loop54 [PHP] {{ currentPage }}</title>
+    </head>
+    <body>
+        <header>
+            <h1>Loop54 PHP Connector</h1>
+            <h2>Test Environment</h2>
+        </header>
+        {{
+            include('nav.html', {
+                'active': currentPage,
+                'routes': routes
+            })
+        }}
+        <main>
+            <nav>
+                <h1>Parameters</h1>
+                {{
+                    include('controls.html', {
+                        'active': currentPage,
+                        'parameters': parameters
+                    })
+                }}
+            </nav>
+            {% if response %}
+            <h1>Results</h1>
+            {% block results %}{% endblock %}
+            <h1>Raw Request</h1>
+            <pre>{{raw_request}}</pre>
+            <h1>Raw Response</h1>
+            <pre>{{raw_response}}</pre>
+            {% endif %}
+        </main>
+    </body>
+</html>

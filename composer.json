@@ -1,0 +1,47 @@
+{
+    "name": "LoopFiftyFour/PHP-Connector",
+    "description": "Wrapper around the API for querying your Loop54 engine.",
+    "version": "1.0.0",
+    "type": "library",
+    "keywords": ["search", "service", "api", "ecommerce"],
+    "homepage": "https://github.com/LoopFiftyFour/PHP-Connector",
+    "license": "BSD-3-Clause",
+    "authors": [{
+        "name": "Loop54",
+        "homepage": "https://www.loop54.com"
+    }, {
+        "name": "OpenAPI-Generator contributors",
+        "homepage": "https://openapi-generator.tech"
+    }],
+    "require": {
+        "php": ">=5.6",
+        "ext-curl": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "guzzlehttp/guzzle": "^6.2",
+        "ramsey/uuid": "^3.8"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8",
+        "symfony/symfony": "^v3.4",
+        "squizlabs/php_codesniffer": "^3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Loop54\\API\\" : "lib/",
+            "Loop54\\API\\RemoteClientInfo\\" : "lib/RemoteClientInfo/",
+            "Loop54\\API\\OpenAPI\\": "lib/OpenAPI/",
+            "Loop54\\API\\OpenAPI\\Model\\": "lib/OpenAPI/Model/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Loop54\\API\\": "test/",
+            "Loop54\\API\\Examples\\": "examples/",
+            "Loop54\\API\\Examples\\App\\": "examples/app/"
+        },
+        "files": [
+            "examples/app/Utils.php"
+        ]
+    }
+}

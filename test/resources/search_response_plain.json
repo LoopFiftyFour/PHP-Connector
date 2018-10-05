@@ -1,0 +1,620 @@
+{
+  "makesSense": true,
+  "query": "meat",
+  "spellingSuggestions": {
+    "count": 0,
+    "items": []
+  },
+  "relatedQueries": {
+    "count": 2,
+    "items": [
+      {
+        "query": "fish"
+      },
+      {
+        "query": "steak"
+      }
+    ]
+  },
+  "results": {
+    "count": 7,
+    "facets": [],
+    "items": [
+      {
+        "type": "Product",
+        "id": "4",
+        "attributes": [
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              60
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "Ground beef, beef mince, minced meat, hamburger (in the United States) is a ground meat made of beef, finely chopped by a meat grinder. It is used in many recipes including hamburgers and cottage pie. In some parts of the world, a meat grinder is called a mincer."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "UltraBovine"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Ground beef"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              60
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/mincedmeat.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Minced meat"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Meat"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "4"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Beef"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Product",
+        "id": "10",
+        "attributes": [
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              55
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "Chicken is the most common type of poultry in the world. In developed countries, chickens are usually subject to intensive farming methods."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "MeatNStuff"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Meat from chicken"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              55
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/chickenbreast.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Chicken breast"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Meat"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "10"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Bird"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Product",
+        "id": "12",
+        "attributes": [
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              40
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "Chicken is the most common type of poultry in the world. In developed countries, chickens are usually subject to intensive farming methods."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "MeatNStuff"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Meat from chicken"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              40
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/wholechicken.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Whole chicken"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Meat"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "12"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Bird"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Product",
+        "id": "11",
+        "attributes": [
+          {
+            "name": "Campaigns",
+            "type": "string",
+            "values": [
+              "Sale",
+              "Organic sale"
+            ]
+          },
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              55
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "Chicken is the most common type of poultry in the world. In developed countries, chickens are usually subject to intensive farming methods."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "Happy birds"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Meat from chicken"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              65
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "True"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/organicchickenbreast.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Organic Chicken breast"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Meat"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "11"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Bird"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Product",
+        "id": "22",
+        "attributes": [
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              76
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "Lamb, hogget, and mutton (UK, India, South Africa, Canada, New Zealand and Australia) are terms for the meat of domestic sheep (species Ovis aries) at different ages."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "MeatNStuff"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Meat from lamb"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              76
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "True"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/mutton.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Mutton steak"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Meat"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "22"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Mutton"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "relatedResults": {
+    "count": 2,
+    "facets": [],
+    "items": [
+      {
+        "type": "Product",
+        "id": "17",
+        "attributes": [
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              5
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "The orange (specifically, the sweet orange) is the fruit of the citrus species Citrus x sinensis in the family Rutaceae."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "Fruits n Veggies"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Orange"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              5
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/orange.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Orange"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Fruit"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "17"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Citrus"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Product",
+        "id": "3",
+        "attributes": [
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              6
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "The apple tree (Malus domestica) is a deciduous tree in the rose family best known for its sweet, pomaceous fruit, the apple. It is cultivated worldwide as a fruit tree, and is the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today. Apples have been grown for thousands of years in Asia and Europe, and were brought to North America by European colonists. Apples have religious and mythological significance in many cultures, including Norse, Greek and European Christian traditions."
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "Fruits n Veggies"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Apple"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              6
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/apple.jpg"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Apple"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Fruit"
+            ]
+          },
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "3"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Rosaceae"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

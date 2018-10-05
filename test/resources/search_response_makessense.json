@@ -1,0 +1,25 @@
+{
+  "makesSense": false,
+  "query": "meet",
+  "spellingSuggestions": {
+    "count": 1,
+    "items": [
+      {
+        "query": "meat"
+      }
+    ]
+  },
+  "relatedQueries": {
+    "count": 0,
+    "items": []
+  },
+  "results": {
+    "count": 0,
+    "facets": [],
+    "items": []
+  },
+  "relatedResults": {
+    "count": 0,
+    "items": []
+  }
+}

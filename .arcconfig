@@ -1,0 +1,6 @@
+{
+  "phabricator.uri": "https://phabricator.loop54.com/",
+  "repository.callsign": "PHP",
+  "unit.engine": "PhpunitTestEngine",
+  "unit.phpunit.binary": "vendor/bin/phpunit"
+}
