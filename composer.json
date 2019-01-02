@@ -1,5 +1,5 @@
 {
-    "name": "LoopFiftyFour/PHP-Connector",
+    "name": "loop54/php-connector",
     "description": "Wrapper around the API for querying your Loop54 engine.",
     "version": "1.0.0",
     "type": "library",

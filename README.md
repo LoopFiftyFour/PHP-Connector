@@ -13,7 +13,7 @@ We recommend using [Composer](https://getcomposer.org/) to handle your
 dependencies; if you are, install the Loop54 PHP connector by running
 
 ```sh
-$ composer require LoopFiftyFour/PHP-Connector
+$ composer require loop54/php-connector
 ```
 
 This will install it to the `vendor` subdirectory used by composer for
