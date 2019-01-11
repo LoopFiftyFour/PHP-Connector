@@ -2,8 +2,7 @@ Loop54 API: PHP Connector
 =========================
 
 Loop54 is a learning search engine for e-commerce. This library aims to make it
-as easy as possible to integrate the service with your existing site, so long as
-it is written in PHP.
+as easy as possible to integrate the service with your PHP site.
 
 
 Installation
@@ -25,13 +24,14 @@ the following call somewhere early in your application.
 require_once(__DIR__ . '/vendor/autoload.php');
 ```
 
-### By phar Archive
+### Using PHAR Archive
 
-There are also standalone phar arcives of all releases available for download.
+There are also standalone phar archives of all releases available for download.
 
+- [Loop54PHPConnector-1.0.1.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.1.phar)
+  (82 MB)
 - [Loop54PHPConnector-1.0.0.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.0.phar)
   (84 MB)
-
 
 Usage
 -----
@@ -120,10 +120,12 @@ A full-blown Symfony web applications with some features implemented, in order
 to show what using the connector may look like in a more realistic scenario.
 
 
+
 ### High-level library
 
 The best available assistance for dealing with the high-level library is found
 under *Implementation Guidance* above.
+
 
 
 ### Low-level Bindings
@@ -137,6 +139,7 @@ generator](https://github.com/OpenAPITools/openapi-generator). The classes
 produced by the generator are extremely regular in their design, so once you
 have learned to translate the API schema to a generated PHP class, you will be
 able to work with them all fluently.
+
 
 
 Testing
@@ -159,15 +162,16 @@ Contributing
 ------------
 
 We welcome any and all contributions! None of us are PHP experts, so if you
-think you've find something that looks weird – you probably have. Feel free to
-file an issue or submit a pull request.
+think you've find something that looks wrong – it probably is. Feel free to
+​file an issue or submit a pull request.
 
 
 ### Generating Low-level Library
 
-Code under `lib/OpenAPI` is generated from the OpenAPI specification with a
-semi-manual process. First we generate the code from the specification and write
-it to a temporary location.
+Code under `lib/OpenAPI` is generated from [the OpenAPI
+specification](https://docs.loop54.com/latest/api/docs.html) with a semi-manual
+process. First we generate the code from the specification and write it to a
+temporary location.
 
     openapi-generator-cli generate \
         -g php -i schema.json -o ~/tmp/phpgen
@@ -182,9 +186,9 @@ periods are required here, in order for rsync to correctly guess our intent.)
         rsync -a ~/tmp/phpgen/$dir/. $dir/OpenAPI/.
     done
 
-However! At least as of `openapi-generator` 3.3.1, the generated code is broken
-in at least one fairly dumb way: the `ObjectSerializer` class is broken for
-model classes that are in a different namespace. Fortunately, the fix is simple:
+However! At least as of `openapi-generator` 3.3.1, the generated code does not
+run out of the box: the `ObjectSerializer` class is broken for model classes
+that are in a different namespace. Fortunately, the fix is simple:
 
     --- lib/OpenAPI/ObjectSerializer.php	2018-10-26 15:39:46.000000000 +0200
     +++ lib/OpenAPI/ObjectSerializer.php	2018-10-26 15:57:45.000000000 +0200
@@ -208,7 +212,6 @@ patch < serializerfix.diff
 
 There is probably a better way to do this, and if you figure one out, please
 submit a patch!
-
 
 ### Building phar Archive
 

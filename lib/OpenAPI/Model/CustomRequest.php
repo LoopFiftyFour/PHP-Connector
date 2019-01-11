@@ -1,6 +1,6 @@
 <?php
 /**
- * CreateEventsRequest
+ * CustomRequest
  *
  * PHP version 5
  *
@@ -33,15 +33,15 @@ use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * CreateEventsRequest Class Doc Comment
+ * CustomRequest Class Doc Comment
  *
  * @category Class
- * @description Used to signal the engine that the user has exhibited a behaviour.
+ * @description Used to trigger predefined client-specific actions.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class CreateEventsRequest implements ModelInterface, ArrayAccess
+class CustomRequest implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'createEventsRequest';
+    protected static $openAPIModelName = 'customRequest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,7 +58,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'events' => '\Loop54\API\OpenAPI\Model\Event[]',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -68,7 +67,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'events' => null,
         'custom_data' => null
     ];
 
@@ -99,7 +97,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'events' => 'events',
         'custom_data' => 'customData'
     ];
 
@@ -109,7 +106,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'events' => 'setEvents',
         'custom_data' => 'setCustomData'
     ];
 
@@ -119,7 +115,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'events' => 'getEvents',
         'custom_data' => 'getCustomData'
     ];
 
@@ -183,7 +178,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['events'] = isset($data['events']) ? $data['events'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -196,9 +190,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['events'] === null) {
-            $invalidProperties[] = "'events' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -213,30 +204,6 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
         return count($this->listInvalidProperties()) === 0;
     }
 
-
-    /**
-     * Gets events
-     *
-     * @return \Loop54\API\OpenAPI\Model\Event[]
-     */
-    public function getEvents()
-    {
-        return $this->container['events'];
-    }
-
-    /**
-     * Sets events
-     *
-     * @param \Loop54\API\OpenAPI\Model\Event[] $events Parameters for specifying which query suggestions to retrieve.
-     *
-     * @return $this
-     */
-    public function setEvents($events)
-    {
-        $this->container['events'] = $events;
-
-        return $this;
-    }
 
     /**
      * Gets custom_data

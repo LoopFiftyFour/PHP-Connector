@@ -8,7 +8,7 @@ class GetEntitiesByAttributeRequest implements Request
     public function __construct($name, $value)
     {
         $this->wraps(new OpenAPI\Model\GetEntitiesByAttributeRequest([
-            'attribute' => new OpenApi\Model\AttributeNameValuePair([
+            'attribute' => new OpenAPI\Model\AttributeNameValuePair([
                 'name' => $name,
                 'value' => $value
             ])

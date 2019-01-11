@@ -90,6 +90,8 @@ class UserInitiatedApi
     /**
      * Operation autoCompletePost
      *
+     * Find autocompletions for a query
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
      * @param  \Loop54\API\OpenAPI\Model\AutoCompleteRequest $auto_complete_request auto_complete_request (required)
@@ -111,6 +113,8 @@ class UserInitiatedApi
 
     /**
      * Operation autoCompletePostWithHttpInfo
+     *
+     * Find autocompletions for a query
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -285,7 +289,7 @@ class UserInitiatedApi
     /**
      * Operation autoCompletePostAsync
      *
-     * 
+     * Find autocompletions for a query
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -312,7 +316,7 @@ class UserInitiatedApi
     /**
      * Operation autoCompletePostAsyncWithHttpInfo
      *
-     * 
+     * Find autocompletions for a query
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -508,6 +512,8 @@ class UserInitiatedApi
     /**
      * Operation createEventsPost
      *
+     * Create behaviour events
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
      * @param  \Loop54\API\OpenAPI\Model\CreateEventsRequest $create_events_request create_events_request (required)
@@ -529,6 +535,8 @@ class UserInitiatedApi
 
     /**
      * Operation createEventsPostWithHttpInfo
+     *
+     * Create behaviour events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -703,7 +711,7 @@ class UserInitiatedApi
     /**
      * Operation createEventsPostAsync
      *
-     * 
+     * Create behaviour events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -730,7 +738,7 @@ class UserInitiatedApi
     /**
      * Operation createEventsPostAsyncWithHttpInfo
      *
-     * 
+     * Create behaviour events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -926,6 +934,8 @@ class UserInitiatedApi
     /**
      * Operation getEntitiesByAttributePost
      *
+     * Get entities by indexed attrbute
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
      * @param  \Loop54\API\OpenAPI\Model\GetEntitiesByAttributeRequest $get_entities_by_attribute_request get_entities_by_attribute_request (required)
@@ -947,6 +957,8 @@ class UserInitiatedApi
 
     /**
      * Operation getEntitiesByAttributePostWithHttpInfo
+     *
+     * Get entities by indexed attrbute
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1121,7 +1133,7 @@ class UserInitiatedApi
     /**
      * Operation getEntitiesByAttributePostAsync
      *
-     * 
+     * Get entities by indexed attrbute
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1148,7 +1160,7 @@ class UserInitiatedApi
     /**
      * Operation getEntitiesByAttributePostAsyncWithHttpInfo
      *
-     * 
+     * Get entities by indexed attrbute
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1344,6 +1356,8 @@ class UserInitiatedApi
     /**
      * Operation getEntitiesPost
      *
+     * Get entities
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
      * @param  \Loop54\API\OpenAPI\Model\GetEntitiesRequest $get_entities_request get_entities_request (required)
@@ -1365,6 +1379,8 @@ class UserInitiatedApi
 
     /**
      * Operation getEntitiesPostWithHttpInfo
+     *
+     * Get entities
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1539,7 +1555,7 @@ class UserInitiatedApi
     /**
      * Operation getEntitiesPostAsync
      *
-     * 
+     * Get entities
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1566,7 +1582,7 @@ class UserInitiatedApi
     /**
      * Operation getEntitiesPostAsyncWithHttpInfo
      *
-     * 
+     * Get entities
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1762,6 +1778,8 @@ class UserInitiatedApi
     /**
      * Operation getRelatedEntitiesPost
      *
+     * Get related entities
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
      * @param  \Loop54\API\OpenAPI\Model\GetRelatedEntitiesRequest $get_related_entities_request get_related_entities_request (required)
@@ -1783,6 +1801,8 @@ class UserInitiatedApi
 
     /**
      * Operation getRelatedEntitiesPostWithHttpInfo
+     *
+     * Get related entities
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1957,7 +1977,7 @@ class UserInitiatedApi
     /**
      * Operation getRelatedEntitiesPostAsync
      *
-     * 
+     * Get related entities
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -1984,7 +2004,7 @@ class UserInitiatedApi
     /**
      * Operation getRelatedEntitiesPostAsyncWithHttpInfo
      *
-     * 
+     * Get related entities
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -2180,6 +2200,8 @@ class UserInitiatedApi
     /**
      * Operation searchPost
      *
+     * Perform a search request
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
      * @param  \Loop54\API\OpenAPI\Model\SearchRequest $search_request search_request (required)
@@ -2201,6 +2223,8 @@ class UserInitiatedApi
 
     /**
      * Operation searchPostWithHttpInfo
+     *
+     * Perform a search request
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -2375,7 +2399,7 @@ class UserInitiatedApi
     /**
      * Operation searchPostAsync
      *
-     * 
+     * Perform a search request
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -2402,7 +2426,7 @@ class UserInitiatedApi
     /**
      * Operation searchPostAsyncWithHttpInfo
      *
-     * 
+     * Perform a search request
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)

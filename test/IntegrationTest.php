@@ -108,6 +108,11 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 if ($testName == 'multi') {
                     $this->assertBodyContains($request, '"quantity":5');
                     $this->assertBodyContains($request, '"revenue":249');
+                } elseif ($testName == 'userid') {
+                    $this->assertEquals(
+                        'custom-user-id',
+                        $request->getHeader('User-Id')[0]
+                    );
                 }
             }
             return true;
@@ -320,13 +325,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
         $purchase = $connector->concatEvents(
             $connector->createEvent('purchase')
-                ->entity($connector->entity('Product', 12))
-                ->quantity(5)
-                ->revenue(249),
+            ->entity($connector->entity('Product', 12))
+            ->quantity(5)
+            ->revenue(249),
             $connector->createEvent('purchase')
-                ->entity($connector->entity('Product', 12)),
+            ->entity($connector->entity('Product', 12)),
             $connector->createEvent('purchase')
-                ->entity($connector->entity('Product', 12))
+            ->entity($connector->entity('Product', 12))
         );
 
         $connector->query($purchase);
@@ -336,5 +341,22 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $connector = $this->mockClient('sync', 'plain');
         $connector->sync();
+    }
+
+    public function testCustomUserId()
+    {
+        $userInfo = $this->prophesize(RemoteClientInfo\Client::class);
+        $userInfo->userId()
+            ->willReturn('custom-user-id')
+            ->shouldBeCalled();
+        $customUserId = $userInfo->reveal();
+
+        $getUserId = function () use ($customUserId) {
+            return $customUserId->userId();
+        };
+
+        $connector = $this->mockClient('createEvents', 'userid')
+            ->withUserId($getUserId);
+        $connector->purchaseEvent($connector->entity('Product', 12));
     }
 }

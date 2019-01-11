@@ -9,10 +9,11 @@ class Client
 
     const APIVERSION = 'V3';
     const LIBVERSION = 'php:2018-10-02';
-    private $instance;
-    private $admin;
     private $apikey;
     private $remoteClientInfo;
+    private $httpClient;
+    private $admin;  // AdministrativeApi
+    private $other;  // OtherApi
 
     /**
      * Initialises a connector instance which targets a Loop54 engine.
@@ -44,11 +45,35 @@ class Client
         $config = new OpenAPI\Configuration();
         $config->setHost(rtrim($host, '/'));
 
+        $this->httpClient = $client;
         $this->wraps(new OpenAPI\Api\UserInitiatedApi($client, $config));
         $this->admin = new OpenAPI\Api\AdministrativeApi($client, $config);
+        $this->other = new OpenAPI\Api\OtherApi($client, $config);
 
         $this->apikey = $apikey;
         $this->remoteClientInfo = $remoteClientInfo;
+    }
+
+    /**
+     * Return a copy of this connector, but which uses a custom user ID.
+     *
+     * @param $getUserId callable
+     *    A function that, when called, will return the desired user id.
+     *
+     * @return Client
+     */
+    public function withUserId($getUserId)
+    {
+        $customClientInfo = new RemoteClientInfo\CustomClient(
+            $this->remoteClientInfo
+        );
+        $customClientInfo->customUserId($getUserId);
+        return new Client(
+            $this->getRaw()->getConfig()->getHost(),
+            $this->apikey,
+            $customClientInfo,
+            $this->httpClient
+        );
     }
 
     /**
@@ -197,6 +222,25 @@ class Client
         );
     }
 
+    public function doCustomRequest($requestName, $customData)
+    {
+        return $this->queryOther(
+            new CustomRequest($requestName, $customData)
+        );
+    }
+
+    /**
+     * Perform a request from the 'Other' API category.
+     *
+     * @param $request Request
+     *
+     * @return object
+     */
+    public function queryOther($request)
+    {
+        return $this->queryInstance($request, $this->other);
+    }
+
     /**
      * Actually perform a request once configured to your liking. The type of
      * response returned is determined by the request performed.
@@ -208,19 +252,7 @@ class Client
      */
     public function query($request)
     {
-        if ($request == null) {
-            throw new \InvalidArgumentException('Request cannot be null');
-        }
-        return $request->perform(
-            $this->getRaw(),
-            Client::APIVERSION,
-            Client::LIBVERSION,
-            $this->apikey,
-            $this->userId(),
-            $this->userIp(),
-            $this->userAgent(),
-            $this->referer()
-        );
+        return $this->queryInstance($request, $this->getRaw());
     }
 
     private function userId()
@@ -245,5 +277,25 @@ class Client
     private function referer()
     {
         return $this->remoteClientInfo->referer();
+    }
+
+    private function queryInstance($request, $instance)
+    {
+        if ($request == null) {
+            throw new \InvalidArgumentException('Request cannot be null');
+        }
+        if ($instance == null) {
+            throw new \InvalidArgumentException('Instance cannot be null');
+        }
+        return $request->perform(
+            $instance,
+            Client::APIVERSION,
+            Client::LIBVERSION,
+            $this->apikey,
+            $this->userId(),
+            $this->userIp(),
+            $this->userAgent(),
+            $this->referer()
+        );
     }
 }

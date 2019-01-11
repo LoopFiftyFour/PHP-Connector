@@ -90,6 +90,8 @@ class AdministrativeApi
     /**
      * Operation getIndexedAttributesPost
      *
+     * Get indexed attributes
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
      * @param  \Loop54\API\OpenAPI\Model\GetIndexedAttributesRequest $get_indexed_attributes_request get_indexed_attributes_request (required)
@@ -107,6 +109,8 @@ class AdministrativeApi
 
     /**
      * Operation getIndexedAttributesPostWithHttpInfo
+     *
+     * Get indexed attributes
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
@@ -277,7 +281,7 @@ class AdministrativeApi
     /**
      * Operation getIndexedAttributesPostAsync
      *
-     * 
+     * Get indexed attributes
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
@@ -300,7 +304,7 @@ class AdministrativeApi
     /**
      * Operation getIndexedAttributesPostAsyncWithHttpInfo
      *
-     * 
+     * Get indexed attributes
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
@@ -472,6 +476,8 @@ class AdministrativeApi
     /**
      * Operation syncPost
      *
+     * Perform full sync
+     *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
      * @param  \Loop54\API\OpenAPI\Model\SyncRequest $sync_request sync_request (required)
@@ -489,6 +495,8 @@ class AdministrativeApi
 
     /**
      * Operation syncPostWithHttpInfo
+     *
+     * Perform full sync
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
@@ -659,7 +667,7 @@ class AdministrativeApi
     /**
      * Operation syncPostAsync
      *
-     * 
+     * Perform full sync
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)
@@ -682,7 +690,7 @@ class AdministrativeApi
     /**
      * Operation syncPostAsyncWithHttpInfo
      *
-     * 
+     * Perform full sync
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $loop54_key Your API key. (required)

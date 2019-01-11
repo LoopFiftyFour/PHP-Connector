@@ -210,7 +210,25 @@ function eventCreation($connector)
     $connector->query($purchase);
     // CODE SAMPLE END
 
+    // CODE SAMPLE create-events-custom-user-id BEGIN
+    $getUserId = function () {
+        return 'custom-user-id';
+    };
+    $connector->withUserId($getUserId)
+        ->purchaseEvent($connector->entity('Product', $productId));
+    // CODE SAMPLE END
+
     echo 'All events created' . PHP_EOL;
+}
+
+function customUserId($connector)
+{
+    $getUserId = function () {
+        return 'custom-user-id';
+    };
+    // CODE SAMPLE custom-user-id BEGIN
+    $connector = $connector->withUserId($getUserId);
+    // CODE SAMPLE END
 }
 
 function faceting($connector)
@@ -258,6 +276,21 @@ function syncing($connector)
     $connector->sync();
     // CODE SAMPLE END
     echo 'Sync complete' . PHP_EOL;
+}
+
+function customRequest($connector)
+{
+    // CODE SAMPLE custom-request BEGIN
+    $connector->doCustomRequest('client.rebelalliance.deltapush', [
+        'Data' => [
+            'products' => [
+                [ 'id' => 22, 'name' => 'Citadel Security Car', 'price' => 39 ],
+                [ 'id' => 23, 'name' => 'X-34 Landspeeder', 'price' => 59 ],
+                [ 'id' => 24, 'name' => 'T-65B X-wing', 'price' => 40 ]
+            ]
+        ]
+    ]);
+    // CODE SAMPLE END
 }
 
 try {
