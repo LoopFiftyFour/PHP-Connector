@@ -10,9 +10,21 @@ class AutoCompleteResponse implements Response
         $this->wraps($response);
     }
 
-    public function getScopedResults()
+    public function getScopedResult()
     {
         return $this->getRaw()->getScopedQuery();
+    }
+
+    /**
+     * @deprecated
+     */
+    public function getScopedResults()
+    {
+        trigger_error(
+            'getScopedResults() has been renamed to getScopedResult()',
+            E_USER_DEPRECATED
+        );
+        return $this->getScopedResult();
     }
 
     public function getUnscopedResults()
@@ -32,7 +44,7 @@ class AutoCompleteResponse implements Response
     public function getResultsAsSearchRequests()
     {
         return array_merge(
-            SearchRequest::fromQueryResult($this->getScopedResults()),
+            SearchRequest::fromQueryResult($this->getScopedResult()),
             array_map(
                 '\Loop54\API\SearchRequest::fromQueryResult',
                 $this->getUnscopedResults()

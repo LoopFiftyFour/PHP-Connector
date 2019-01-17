@@ -1,0 +1,215 @@
+{
+  "makesSense": true,
+  "spellingSuggestions": {
+    "count": 0,
+    "items": []
+  },
+  "relatedQueries": {
+    "count": 2,
+    "items": [
+      {
+        "query": "apple"
+      },
+      {
+        "query": "apples"
+      }
+    ]
+  },
+  "results": {
+    "count": 1,
+    "facets": [
+      {
+        "name": "Category",
+        "type": "distinct",
+        "items": [
+          {
+            "item": "Fruit",
+            "count": 1,
+            "selected": true
+          }
+        ]
+      },
+      {
+        "name": "Price",
+        "type": "range",
+        "min": 5,
+        "max": 5,
+        "selectedMin": 1,
+        "selectedMax": 600
+      }
+    ],
+    "items": []
+  },
+  "relatedResults": {
+    "count": 2,
+    "facets": [],
+    "items": [
+      {
+        "type": "Product",
+        "id": "3",
+        "attributes": [
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "3"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Apple"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Fruit"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Rosaceae"
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "Fruits n Veggies"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Apple"
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "The apple tree (Malus domestica) is a deciduous tree in the rose family best known for its sweet, pomaceous fruit, the apple. It is cultivated worldwide as a fruit tree, and is the most widely grown species in the genus Malus. The tree originated in Central Asia, where its wild ancestor, Malus sieversii, is still found today. Apples have been grown for thousands of years in Asia and Europe, and were brought to North America by European colonists. Apples have religious and mythological significance in many cultures, including Norse, Greek and European Christian traditions."
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/apple.jpg"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              6
+            ]
+          },
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              6
+            ]
+          }
+        ]
+      },
+      {
+        "type": "Product",
+        "id": "4",
+        "attributes": [
+          {
+            "name": "Id",
+            "type": "string",
+            "values": [
+              "4"
+            ]
+          },
+          {
+            "name": "Title",
+            "type": "string",
+            "values": [
+              "Minced meat"
+            ]
+          },
+          {
+            "name": "Category",
+            "type": "string",
+            "values": [
+              "Meat"
+            ]
+          },
+          {
+            "name": "SubCategory",
+            "type": "string",
+            "values": [
+              "Beef"
+            ]
+          },
+          {
+            "name": "Manufacturer",
+            "type": "string",
+            "values": [
+              "UltraBovine"
+            ]
+          },
+          {
+            "name": "Contents",
+            "type": "string",
+            "values": [
+              "Ground beef"
+            ]
+          },
+          {
+            "name": "Description",
+            "type": "string",
+            "values": [
+              "Ground beef, beef mince, minced meat, hamburger (in the United States) is a ground meat made of beef, finely chopped by a meat grinder. It is used in many recipes including hamburgers and cottage pie. In some parts of the world, a meat grinder is called a mincer."
+            ]
+          },
+          {
+            "name": "Organic",
+            "type": "string",
+            "values": [
+              "False"
+            ]
+          },
+          {
+            "name": "ImageUrl",
+            "type": "string",
+            "values": [
+              "http://www.loop54.com/hubfs/demo_images/mincedmeat.jpg"
+            ]
+          },
+          {
+            "name": "OrgPrice",
+            "type": "number",
+            "values": [
+              60
+            ]
+          },
+          {
+            "name": "Price",
+            "type": "number",
+            "values": [
+              60
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

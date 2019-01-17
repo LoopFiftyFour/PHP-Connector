@@ -135,17 +135,28 @@ class ResultsOptions
         $selectedMin = null,
         $selectedMax = null
     ) {
-        $this->addFacet(
-            new OpenAPI\Model\RangeFacetParameter([
-                'name' => $name,
-                'attribute_name' => $attributeName,
-                'type' => self::TYPE_RANGE,
-                'selected' => new OpenAPI\Model\RangeFacetSelectedParameter([
+        $facet = new OpenAPI\Model\RangeFacetParameter([
+            'name' => $name,
+            'attribute_name' => $attributeName,
+            'type' => self::TYPE_RANGE,
+        ]);
+
+
+        if (isset($selectedMin) && isset($selectedMax)) {
+            $facet->setSelected(
+                new OpenAPI\Model\RangeFacetSelectedParameter([
                     'min' => $selectedMin,
                     'max' => $selectedMax
                 ])
-            ])
-        );
+            );
+        } elseif (isset($selectedMin) || isset($selectedMax)) {
+            throw new \InvalidArgumentException(
+                'When $selectedMin is specified, $selectedMax must also be, '
+                . 'and vice versa.'
+            );
+        }
+
+        $this->addFacet($facet);
         return $this;
     }
 

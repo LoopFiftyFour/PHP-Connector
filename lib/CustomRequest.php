@@ -28,13 +28,9 @@ class CustomRequest implements Request
         return $instance->requestNamePost(
             $this->requestName,
             $apiversion,
-            $userid,
+            $apikey,
             $this->getRaw(),
-            $userip,
-            $useragent,
-            $referer,
-            $libversion,
-            $apikey
+            $libversion
         );
     }
 }

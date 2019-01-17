@@ -8,7 +8,7 @@ class Client
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:2018-10-02';
+    const LIBVERSION = 'php:V3:1.0.2';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
@@ -287,15 +287,24 @@ class Client
         if ($instance == null) {
             throw new \InvalidArgumentException('Instance cannot be null');
         }
-        return $request->perform(
-            $instance,
-            Client::APIVERSION,
-            Client::LIBVERSION,
-            $this->apikey,
-            $this->userId(),
-            $this->userIp(),
-            $this->userAgent(),
-            $this->referer()
-        );
+        try {
+            return $request->perform(
+                $instance,
+                Client::APIVERSION,
+                Client::LIBVERSION,
+                $this->apikey,
+                $this->userId(),
+                $this->userIp(),
+                $this->userAgent(),
+                $this->referer()
+            );
+        } catch (OpenAPI\ApiException $e) {
+            $errorResponse = json_decode($e->getResponseBody())->error;
+            if ($errorResponse != null) {
+                throw ClientException::http($errorResponse);
+            } else {
+                throw ClientException::unknown($e->getResponseBody());
+            }
+        }
     }
 }

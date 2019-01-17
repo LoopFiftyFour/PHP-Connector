@@ -91,6 +91,15 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                     $this->assertBodyContains($request, '"and":[{');
                     $this->assertBodyContains($request, '"not":{');
                     $this->assertBodyContains($request, '"Food"');
+                } elseif ($testName == 'rangefacet-notselected') {
+                    $this->assertThat(
+                        $request->getBody()->__toString(),
+                        $this->logicalNot(
+                            $this->stringContains('"selected":{')
+                        ),
+                        'Request body with no range facet selected must not '
+                        . 'contain "selected" attribute!'
+                    );
                 }
             } elseif ($endpoint == 'autoComplete') {
                 $this->assertBodyContains($request, '"query"');
@@ -147,17 +156,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         return $response;
     }
 
-    private function mockClient($endpoint, $testName)
+    private function mockClient($httpClient)
     {
-        $isValidRequest = $this->isValidRequest($endpoint, $testName);
-        $response = $this->response($endpoint, $testName);
-
-        $httpClient = $this->prophesize(ClientInterface::class);
-        $httpClient
-            ->send(Argument::that($isValidRequest), Argument::any())
-            ->willReturn($response->reveal())
-            ->shouldBeCalled();
-
         $connector = new Client(
             'https://not-a-real-engine.54proxy.com/',
             'api-key',
@@ -172,9 +172,23 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         return $connector;
     }
 
+    private function clientFor($endpoint, $testName)
+    {
+        $isValidRequest = $this->isValidRequest($endpoint, $testName);
+        $response = $this->response($endpoint, $testName);
+
+        $httpClient = $this->prophesize(ClientInterface::class);
+        $httpClient
+            ->send(Argument::that($isValidRequest), Argument::any())
+            ->willReturn($response->reveal())
+            ->shouldBeCalled();
+
+        return $this->mockClient($httpClient);
+    }
+
     public function testSearchMakesSense()
     {
-        $connector = $this->mockClient('search', 'makessense');
+        $connector = $this->clientFor('search', 'makessense');
         $request = $connector->search('oyuwantvievkpyuywvu');
         $response = $connector->query($request);
         $this->assertFalse(
@@ -190,7 +204,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchMeat()
     {
-        $connector = $this->mockClient('search', 'plain');
+        $connector = $this->clientFor('search', 'plain');
         $request = $connector->search('search phrase');
         $response = $connector->query($request);
         $this->assertTrue(
@@ -222,7 +236,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testSearchAdvanced()
     {
-        $connector = $this->mockClient('search', 'advanced');
+        $connector = $this->clientFor('search', 'advanced');
         $request = $connector->search('orange');
         $request->resultsOptions()
             ->skip(1)
@@ -251,14 +265,34 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testSearchRangeFacetNotSelected()
+    {
+        $connector = $this->clientFor('search', 'rangefacet-notselected');
+        $request = $connector->search('apple');
+        $request->resultsOptions()->addRangeFacet('Quality', 'Quality');
+        $response = $connector->query($request);
+    }
+
+    public function testSearchRangeFacetHalfSelected()
+    {
+        // Not specifying the full range should throw
+        $this->expectException(\InvalidArgumentException::class);
+
+        $httpDummy = $this->prophesize(ClientInterface::class);
+        $connector = $this->mockClient($httpDummy);
+        $request = $connector->search('apple');
+        $request->resultsOptions()->addRangeFacet('Quality', 'Quality', 3);
+        $response = $connector->query($request);
+    }
+
     public function testAutoComplete()
     {
-        $connector = $this->mockClient('autoComplete', 'plain');
+        $connector = $this->clientFor('autoComplete', 'plain');
         $request = $connector->autocomplete('a')->take(5);
         $response = $connector->query($request);
         $this->assertCount(
             4,
-            SearchRequest::fromQueryResult($response->getScopedResults()),
+            SearchRequest::fromQueryResult($response->getScopedResult()),
             'There should be 4 queries created from the scoped results'
         );
         $this->assertCount(
@@ -278,7 +312,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEntitiesByAttribute()
     {
-        $connector = $this->mockClient('getEntitiesByAttribute', 'advanced');
+        $connector = $this->clientFor('getEntitiesByAttribute', 'advanced');
         $request = $connector->getEntitiesByAttribute(
             'Manufacturer',
             'MeatNStuff'
@@ -312,7 +346,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateEventsPlain()
     {
-        $connector = $this->mockClient('createEvents', 'plain');
+        $connector = $this->clientFor('createEvents', 'plain');
 
         /* Simple events, sent off right away */
         $connector->clickEvent($connector->entity('Product', 12));
@@ -321,7 +355,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateEventsMulti()
     {
-        $connector = $this->mockClient('createEvents', 'multi');
+        $connector = $this->clientFor('createEvents', 'multi');
 
         $purchase = $connector->concatEvents(
             $connector->createEvent('purchase')
@@ -339,7 +373,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testSync()
     {
-        $connector = $this->mockClient('sync', 'plain');
+        $connector = $this->clientFor('sync', 'plain');
         $connector->sync();
     }
 
@@ -355,7 +389,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             return $customUserId->userId();
         };
 
-        $connector = $this->mockClient('createEvents', 'userid')
+        $connector = $this->clientFor('createEvents', 'userid')
             ->withUserId($getUserId);
         $connector->purchaseEvent($connector->entity('Product', 12));
     }

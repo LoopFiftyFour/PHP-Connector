@@ -119,7 +119,7 @@ function autoCompletion($connector)
 
     // CODE SAMPLE autocomplete-scoped BEGIN
     echo 'Suggested scopes for most popular result:' . PHP_EOL;
-    $scopedQuery = $response->getScopedResults();
+    $scopedQuery = $response->getScopedResult();
     if ($scopedQuery != null) {
         echo $scopedQuery['query'] . ' where '
             . $scopedQuery['scopeAttributeName']
