@@ -8,7 +8,7 @@ class Client
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:1.0.2';
+    const LIBVERSION = 'php:V3:1.0.3';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
@@ -255,11 +255,22 @@ class Client
         return $this->queryInstance($request, $this->getRaw());
     }
 
+    /**
+     * Generate a random, compact, unique, yet recogniseable user id.
+     *
+     * Just a plain UUID is easily confused with a million other things, so
+     * append also "UID" in order to disambiguate and help troubleshooting.
+     */
+    public function createUserId()
+    {
+        return 'UID' . rtrim(base64_encode(Uuid::uuid4()->getBytes()), '=');
+    }
+
     private function userId()
     {
         $clientId = $this->remoteClientInfo->userId();
         if ($clientId == null) {
-            return $this->remoteClientInfo->userId(Uuid::uuid4()->toString());
+            return $this->remoteClientInfo->userId($this->createUserId());
         }
         return $clientId;
     }

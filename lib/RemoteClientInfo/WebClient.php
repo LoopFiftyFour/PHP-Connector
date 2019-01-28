@@ -27,7 +27,8 @@ final class WebClient implements Client
             setcookie(
                 self::USER_ID_COOKIE_KEY,
                 $userId,
-                $now->add($oneYear)->getTimestamp()
+                $now->add($oneYear)->getTimestamp(),
+                '/'
             );
             return $userId;
         } elseif (isset($_COOKIE[self::USER_ID_COOKIE_KEY])

@@ -157,6 +157,19 @@ function categoryListing($connector)
         \Loop54\API\ResultsOptions::ORDER_ASC,
         'Price'
     );
+
+    /* Sorting on multiple criteria is possible, but uses a clunky interface */
+    $request->resultsOptions()->getRaw()->setSortBy([
+        new \Loop54\API\OpenAPI\Model\EntitySortingParameter([
+            'type' => \Loop54\API\ResultsOptions::TYPE_ATTRIBUTE,
+            'order' => \Loop54\API\ResultsOptions::ORDER_DESC,
+            'attribute_name' => 'Price'
+        ]),
+        new \Loop54\API\OpenAPI\Model\EntitySortingParameter([
+            'type' => \Loop54\API\ResultsOptions::TYPE_POPULARITY,
+            'order' => \Loop54\API\ResultsOptions::ORDER_DESC
+        ])
+    ]);
     // CODE SAMPLE END
 
     // CODE SAMPLE categorylisting-filter BEGIN
