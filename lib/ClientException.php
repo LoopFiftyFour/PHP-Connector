@@ -30,7 +30,10 @@ class ClientException extends \RuntimeException
 
     public static function http($errorResponse)
     {
-        $details = $errorResponse->detail;
+        $details = '';
+        if(isset($errorResponse->detail))
+            $details = $errorResponse->detail;
+        
         if (isset($errorResponse->parameter)) {
             $details .= " (Applies to: {$errorResponse->parameter})";
         }

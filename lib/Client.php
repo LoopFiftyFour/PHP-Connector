@@ -8,7 +8,7 @@ class Client
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:1.0.3';
+    const LIBVERSION = 'php:V3:1.0.5';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
@@ -103,7 +103,7 @@ class Client
     }
 
     /**
-     * Configure an request to get entities with a specific attribute value.
+     * Configure a request to get entities with a specific attribute value.
      *
      * @param $name string
      *    The attribute to inspect.
@@ -116,6 +116,29 @@ class Client
     public function getEntitiesByAttribute($name, $value)
     {
         return new GetEntitiesByAttributeRequest($name, $value);
+    }
+    
+    /**
+     * Configure a request to get entities.
+     *
+     * @return GetEntitiesRequest
+     */
+    public function getEntities()
+    {
+        return new GetEntitiesRequest();
+    }
+    
+    /**
+     * Configure a request to get entities related to the provided entity.
+     *
+     * @param $entity Entity
+     *    The entity for which to fetch related entities.
+     *
+     * @return GetRelatedEntitiesRequest
+     */
+    public function getRelatedEntities($entity)
+    {
+        return new GetRelatedEntitiesRequest($entity);
     }
 
     /**
@@ -310,11 +333,11 @@ class Client
                 $this->referer()
             );
         } catch (OpenAPI\ApiException $e) {
-            $errorResponse = json_decode($e->getResponseBody())->error;
-            if ($errorResponse != null) {
-                throw ClientException::http($errorResponse);
+            $errorResponseBody = $e->getResponseBody();
+            if (!empty(json_decode($errorResponseBody)->error)) {
+                throw ClientException::http(json_decode($errorResponseBody)->error);
             } else {
-                throw ClientException::unknown($e->getResponseBody());
+                throw ClientException::unknown($errorResponseBody);
             }
         }
     }

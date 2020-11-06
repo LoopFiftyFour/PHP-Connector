@@ -43,12 +43,19 @@ class AutoCompleteResponse implements Response
      */
     public function getResultsAsSearchRequests()
     {
-        return array_merge(
-            SearchRequest::fromQueryResult($this->getScopedResult()),
-            array_map(
+        $unScopedRequests = array_map(
                 '\Loop54\API\SearchRequest::fromQueryResult',
                 $this->getUnscopedResults()
-            )
+            );
+        
+        $scopedResult = $this->getScopedResult();
+        if(!isset($scopedResult['query']))
+            return $unScopedRequests;
+        
+        $scopedRequest = SearchRequest::fromQueryResult($scopedResult);
+        return array_merge(
+            $scopedRequest,
+            $unScopedRequests
         );
     }
 }

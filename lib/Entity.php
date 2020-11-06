@@ -62,7 +62,7 @@ class Entity
         if (!isset($this->attributes[$name])) {
             throw new AttributeMissingException(
                 'Attribute ' . $name . ' missing. Available: ' .
-                print_r($attributes, 1)
+                print_r($this->attributes, 1)
             );
         }
 
@@ -71,5 +71,17 @@ class Entity
         }
 
         return $this->attributes[$name];
+    }
+
+    /**
+     * Determines whether an attribute exists.
+     *
+     * @param $name string Which attribute to look for.
+     *
+     * @return bool
+     */
+    public function hasAttribute($name)
+    {
+        return isset($this->attributes[$name]);
     }
 }

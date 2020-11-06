@@ -28,6 +28,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 There are also standalone phar archives of all releases available for download.
 
+- [Loop54PHPConnector-1.0.5.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.5.phar)
+  (4 MB)
 - [Loop54PHPConnector-1.0.3.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.3.phar)
   (82 MB)
 - [Loop54PHPConnector-1.0.2.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.2.phar)
@@ -234,5 +236,6 @@ Using [phar-composer](https://github.com/clue/phar-composer):
     dependencies.
 
     ```sh
-    $ php -d phar.readonly=off phar-composer.phar build . Loop54PHPConnector-1.0.0.phar
+    $ php -d phar.readonly=off phar-composer.phar build .
+    Loop54PHPConnector-1.0.0.phar
     ```

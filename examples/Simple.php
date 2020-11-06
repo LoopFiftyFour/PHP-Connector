@@ -85,7 +85,14 @@ function searchRequest($connector)
     /* Print all results in this response */
     foreach ($response->getResults() as $entity) {
         $id = $entity->getId();
+
+        //we know that this attribute exists
         $title = $entity->getAttribute('Title');
+
+        //this attribute may not exist, check if it does before using it
+        if($entity->hasAttribute('Does not exist'))
+            echo $entity->getAttribute('Does not exist');
+
         echo $id . ': ' . $title . PHP_EOL;
     }
 
@@ -191,6 +198,53 @@ function categoryListing($connector)
 
     /* Print all results in this response. */
     echo 'Filtered items in category:' . PHP_EOL;
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+}
+
+function getEntities($connector)
+{
+    // CODE SAMPLE getentities-filter BEGIN
+    $filters = new \Loop54\API\FilterParameter();
+
+    $request = $connector->getEntities();
+    /* Filter results to only see new items with a price */
+    $request->resultsOptions()->filter(
+        $filters->attributeExists('Price')
+        ->and($filters->attribute('IsNew', true))
+    );
+    // CODE SAMPLE END
+
+    /* Actually perform the request */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    echo 'Filtered items:' . PHP_EOL;
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+}
+
+function getRelatedEntities($connector)
+{
+    // CODE SAMPLE getrelatedentities BEGIN
+
+    $request = $connector->getRelatedEntities($connector->entity('Product', 12));
+    /* Take only 10 items */
+    $request->resultsOptions()->take(10);
+    
+    // CODE SAMPLE END
+
+    /* Actually perform the request */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    echo 'Taken items:' . PHP_EOL;
     foreach ($response->getResults() as $entity) {
         $id = $entity->getId();
         $title = $entity->getAttribute('Title');
@@ -318,17 +372,21 @@ try {
         $remoteClientInfo
     );
 
-    echo '--------------------------------------------' . PHP_EOL;
+    echo '--------------------SEARCH----------------------' . PHP_EOL;
     searchRequest($connector);
-    echo '--------------------------------------------' . PHP_EOL;
+    echo '------------------AUTOCOMPLETE------------------' . PHP_EOL;
     autoCompletion($connector);
-    echo '--------------------------------------------' . PHP_EOL;
+    echo '---------------------GEBA-----------------------' . PHP_EOL;
     categoryListing($connector);
-    echo '--------------------------------------------' . PHP_EOL;
+    echo '------------------GETENTITIES-------------------' . PHP_EOL;
+    getEntities($connector);
+    echo '---------------GETRELATEDENTITIES---------------' . PHP_EOL;
+    getRelatedEntities($connector);
+    echo '------------------CREATEEVENTS------------------' . PHP_EOL;
     eventCreation($connector);
-    echo '--------------------------------------------' . PHP_EOL;
+    echo '--------------------FACETING--------------------' . PHP_EOL;
     faceting($connector);
-    echo '--------------------------------------------' . PHP_EOL;
+    echo '--------------------SYNCING---------------------' . PHP_EOL;
     syncing($connector);
     echo '--------------------------------------------' . PHP_EOL;
 } catch (Exception $ex) {

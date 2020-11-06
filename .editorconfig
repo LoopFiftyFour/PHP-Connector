@@ -1,0 +1,21 @@
+[*]
+# Use Unix-style newlines (LF) - Windows deals better with LF than Linux does with CRLF
+end_of_line = lf
+
+# Unix requires a terminating newline on each line – including the last one
+insert_final_newline = true
+
+# Use UTF-8 without BOM for everything. The BOM is bad [https://stackoverflow.com/q/2223882/1536933].
+charset = utf-8
+
+# Most existing source files use spaces to indent and this is the default in VS since VS 2005.
+indent_style = space
+
+# Indent by 4 spaces throughout for consistent alignment and consistent wrapping of lines.
+indent_size = 4
+
+# Supported by JetBrains products, Emacs, Vim, and a few others [https://github.com/editorconfig/editorconfig/wiki/EditorConfig-Properties#max_line_length]
+max_line_length = 150
+
+# Used by the VS EditorGuidelines plugin [https://marketplace.visualstudio.com/items?itemName=PaulHarrington.EditorGuidelines].
+guidelines = 150
