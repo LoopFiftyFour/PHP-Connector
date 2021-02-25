@@ -28,6 +28,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 There are also standalone phar archives of all releases available for download.
 
+- [Loop54PHPConnector-1.0.6.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.6.phar)
+  (4 MB)
 - [Loop54PHPConnector-1.0.5.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.5.phar)
   (4 MB)
 - [Loop54PHPConnector-1.0.3.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.3.phar)
@@ -148,22 +150,6 @@ able to work with them all fluently.
 
 
 
-Testing
--------
-
-After having installed necessary dependencies with
-
-```
-$ composer install
-```
-
-unit and integration tests can be run by
-
-```
-./vendor/bin/phpunit test
-```
-
-
 Contributing
 ------------
 
@@ -171,6 +157,48 @@ We welcome any and all contributions! None of us are PHP experts, so if you
 think you've find something that looks wrong – it probably is. Feel free to
 ​file an issue or submit a pull request.
 
+### Setup
+
+First make sure you've installed all dependencies, including dev ones:
+
+```
+$ composer install
+```
+
+### Running the Symphony app
+
+The library has a test application using the Symphony web framework. This
+can be used to verify and test functionality while developing. The app can
+be run on a local webserver on port 5001 by
+
+```
+$ cd examples/app
+$ php -S localhost:5001
+```
+
+Choose whatever port you like. Then open localhost:5001 (or whatever you 
+chose) in a web browser and you can try out the app. It's very simple, 
+but supports search, autoComplete and createEvents.
+
+### Running the examples
+
+The code under /examples are runnable and act as one part of testing the 
+library. They can be run using
+
+```
+$ php examples/Simple.php
+```
+
+These are set up to perform a set of requests to 
+https://helloworld.54proxy.com/ and should not throw any exceptions.
+
+### Testing
+
+Unit and integration tests can be run by
+
+```
+./vendor/bin/phpunit test
+```
 
 ### Generating Low-level Library
 
