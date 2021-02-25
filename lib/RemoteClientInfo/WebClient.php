@@ -82,7 +82,13 @@ final class WebClient implements Client
      */
     public function userAgent($userAgent = null)
     {
-        return isset($userAgent) ? $userAgent : $_SERVER['HTTP_USER_AGENT'];
+        if(isset($userAgent))
+            return $userAgent;
+            
+        if(isset($_SERVER['HTTP_USER_AGENT']))
+            return $_SERVER['HTTP_USER_AGENT'];
+            
+        return 'unknown';
     }
 
     /**
@@ -96,6 +102,12 @@ final class WebClient implements Client
      */
     public function referer($referer = null)
     {
-        return isset($referer) ? $referer : $_SERVER['HTTP_REFERER'];
+        if(isset($referer))
+            return $referer;
+            
+        if(isset($_SERVER['HTTP_REFERER']))
+            return $_SERVER['HTTP_REFERER'];
+            
+        return 'unknown';
     }
 }

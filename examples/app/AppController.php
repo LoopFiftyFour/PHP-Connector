@@ -41,11 +41,6 @@ class AppController extends AbstractController
         return $parameters;
     }
 
-    public function index()
-    {
-        return $this->redirectToRoute('Search');
-    }
-
     public function search()
     {
         $parameters = self::populateParameters($_GET, [
@@ -137,6 +132,10 @@ class AppController extends AbstractController
         if (isset($request)) {
             $response = $this->connector->query($request);
         }
+        else {
+            $response = null;
+        }
+        
 
         return $this->render('search.html', [
             'routes' => $this->allRoutes(),
@@ -184,6 +183,9 @@ class AppController extends AbstractController
 
         if (isset($request)) {
             $response = $this->connector->query($request);
+        }
+        else {
+            $response = null;
         }
 
         return $this->render('autocomplete.html', [
