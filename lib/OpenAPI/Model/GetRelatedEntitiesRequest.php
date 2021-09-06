@@ -60,6 +60,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     protected static $openAPITypes = [
         'entity' => 'Entity',
         'results_options' => 'EntityCollectionParameters',
+        'relation_kind' => 'string',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -71,6 +72,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     protected static $openAPIFormats = [
         'entity' => null,
         'results_options' => null,
+        'relation_kind' => null,
         'custom_data' => null
     ];
 
@@ -103,6 +105,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     protected static $attributeMap = [
         'entity' => 'entity',
         'results_options' => 'resultsOptions',
+        'relation_kind' => 'relationKind',
         'custom_data' => 'customData'
     ];
 
@@ -114,6 +117,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     protected static $setters = [
         'entity' => 'setEntity',
         'results_options' => 'setResultsOptions',
+        'relation_kind' => 'setRelationKind',
         'custom_data' => 'setCustomData'
     ];
 
@@ -125,6 +129,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     protected static $getters = [
         'entity' => 'getEntity',
         'results_options' => 'getResultsOptions',
+        'relation_kind' => 'getRelationKind',
         'custom_data' => 'getCustomData'
     ];
 
@@ -169,9 +174,21 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
         return self::$openAPIModelName;
     }
 
-    
+    const RELATION_KIND_SIMILAR = 'similar';
+    const RELATION_KIND_COMPLEMENTARY = 'complementary';
 
-    
+    /**
+     * Gets allowable values of the enum
+     *
+     * @return string[]
+     */
+    public function getRelationKindAllowableValues()
+    {
+        return [
+            self::RELATION_KIND_SIMILAR,
+            self::RELATION_KIND_COMPLEMENTARY,
+        ];
+    }
 
     /**
      * Associative array for storing property values
@@ -190,6 +207,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     {
         $this->container['entity'] = isset($data['entity']) ? $data['entity'] : null;
         $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;
+        $this->container['relation_kind'] = isset($data['relation_kind']) ? $data['relation_kind'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -205,6 +223,15 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
         if ($this->container['entity'] === null) {
             $invalidProperties[] = "'entity' can't be null";
         }
+        $allowedValues = $this->getRelationKindAllowableValues();
+        if (!is_null($this->container['relation_kind']) && !in_array($this->container['relation_kind'], $allowedValues, true)) {
+            $invalidProperties[] = sprintf(
+                "invalid value '%s' for 'relation_kind', must be one of '%s'",
+                $this->container['relation_kind'],
+                implode("', '", $allowedValues)
+            );
+        }
+
         return $invalidProperties;
     }
 
@@ -264,6 +291,40 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     public function setResultsOptions($results_options)
     {
         $this->container['results_options'] = $results_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets relation_kind
+     *
+     * @return string|null
+     */
+    public function getRelationKind()
+    {
+        return $this->container['relation_kind'];
+    }
+
+    /**
+     * Sets relation_kind
+     *
+     * @param string|null $relation_kind Represents the type of relation that would be done. 'Similar' is more of the same, 'complementary' is 'people also buy'
+     *
+     * @return self
+     */
+    public function setRelationKind($relation_kind)
+    {
+        $allowedValues = $this->getRelationKindAllowableValues();
+        if (!is_null($relation_kind) && !in_array($relation_kind, $allowedValues, true)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Invalid value '%s' for 'relation_kind', must be one of '%s'",
+                    $relation_kind,
+                    implode("', '", $allowedValues)
+                )
+            );
+        }
+        $this->container['relation_kind'] = $relation_kind;
 
         return $this;
     }

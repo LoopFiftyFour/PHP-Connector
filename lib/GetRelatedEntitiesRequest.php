@@ -27,6 +27,11 @@ class GetRelatedEntitiesRequest implements Request
         }
         return new ResultsOptions($this->getRaw()->getResultsOptions());
     }
+    
+    public function relationKind($relKind)
+    {
+        $this->getRaw()->setRelationKind($relKind);
+    }
 
     public function perform(
         $instance,
