@@ -237,7 +237,7 @@ function getRelatedEntities($connector)
     $request = $connector->getRelatedEntities($connector->entity('Product', 12));
     /* Take only 10 items */
     $request->resultsOptions()->take(10);
-    //$request->relationKind('similar');
+//     $request->relationKind('similar');    // this line is commented because "helloworld" engine does not support relationKind yet
     
     // CODE SAMPLE END
 
