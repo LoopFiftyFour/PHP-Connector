@@ -91,6 +91,13 @@ class GetRelatedEntitiesRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test attribute "relation_kind"
+     */
+    public function testPropertyRelationKind()
+    {
+    }
+    
+    /**
      * Test attribute "custom_data"
      */
     public function testPropertyCustomData()

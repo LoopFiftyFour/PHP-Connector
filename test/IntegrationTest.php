@@ -391,6 +391,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 ResultsOptions::ORDER_DESC,
                 'Price'
             );
+        //$request->relationKind('similar');    // this line is commented because "helloworld" engine does not support relationKind yet
 
         $response = $connector->query($request);
 
