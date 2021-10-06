@@ -26,20 +26,8 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 ### Using PHAR Archive
 
-There are also standalone phar archives of all releases available for download.
-
-- [Loop54PHPConnector-1.0.6.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.6.phar)
-  (4 MB)
-- [Loop54PHPConnector-1.0.5.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.5.phar)
-  (4 MB)
-- [Loop54PHPConnector-1.0.3.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.3.phar)
-  (82 MB)
-- [Loop54PHPConnector-1.0.2.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.2.phar)
-  (82 MB)
-- [Loop54PHPConnector-1.0.1.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.1.phar)
-  (82 MB)
-- [Loop54PHPConnector-1.0.0.phar](https://static.loop54.com/lib/php/Loop54PHPConnector-1.0.0.phar)
-  (84 MB)
+There are also standalone phar archives of all releases available for download. They are not automatically kept up to
+date, so if you need one of these, please contact us.
 
 Usage
 -----
