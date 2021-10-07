@@ -24,7 +24,7 @@ if [ "$?" -eq 127 ]; then
     exit 1
 fi
 
-if [ "$do_publish" == "publish" ]; then
+if [ "$do_publish" = "publish" ]; then
     current_version=$(grep -Po '(?<="version": ")[0-9.]+(?=")' composer.json)
     major_minor=$(echo "$current_version" | cut -d. -f1-2)
     patch=$(echo "$current_version" | cut -d. -f3)
@@ -54,7 +54,7 @@ composer install
 echo "Running tests"
 ./vendor/bin/phpunit test
 
-if [ "$do_publish" == "publish" ]; then
+if [ "$do_publish" = "publish" ]; then
     if [ "$?" -ne 0 ]; then
         echo "Some tests failed. Refusing to go on publishing"
         exit 1
@@ -64,7 +64,7 @@ if [ "$do_publish" == "publish" ]; then
     echo "Tagging release commit"
     git tag "$tag_name" HEAD
 
-    if [ "$no_confirm" == '-f' ]; then
+    if [ "$no_confirm" = '-f' ]; then
         confirmation='y'
     else
         echo 'About to push tagged release commit to remote. This is final.'
