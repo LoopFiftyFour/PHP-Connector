@@ -13,7 +13,7 @@ if [ -n "$do_publish" -a "$do_publish" != "publish" ]; then
 fi
 
 current_branch=$(git rev-parse --abbrev-ref HEAD)
-if [ "$current_branch" != "master" ]; then
+if [ "$do_publish" = "publish" -a "$current_branch" != "master" ]; then
     echo "Expected to publish master branch, not $current_branch"
     exit 1
 fi
