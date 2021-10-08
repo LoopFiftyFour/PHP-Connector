@@ -14,7 +14,7 @@
         "homepage": "https://openapi-generator.tech"
     }],
     "require": {
-        "php": ">=7.4",
+        "php": "^7.0",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
