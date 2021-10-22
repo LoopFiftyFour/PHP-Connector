@@ -24,6 +24,11 @@ if [ "$?" -eq 127 ]; then
     exit 1
 fi
 
+if git log -1 --pretty=%B | head -n 1 | grep -E "^Release v[0-9.]+$"; then
+    echo "Latest commit was already a release commit."
+    exit 0
+fi
+
 if [ "$do_publish" = "publish" ]; then
     current_version=$(grep -Po '(?<="version": ")[0-9.]+(?=")' composer.json)
     major_minor=$(echo "$current_version" | cut -d. -f1-2)
