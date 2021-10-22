@@ -73,11 +73,12 @@ if [ "$do_publish" = "publish" ]; then
         read confirmation
     fi
 
-    if [ $confirmation != 'y' -a $confirmation != 'Y' ]; then
+    if [ -n "$confirmation" -a $confirmation = 'y' ]; then
+        git push origin HEAD
+        git push origin "$tag_name"
+    else
         echo 'Failed to get confirmation. Not pushing.'
         exit 0
     fi
 
-    git push origin HEAD
-    git push origin "$tag_name"
 fi
