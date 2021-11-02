@@ -199,6 +199,10 @@ temporary location.
         -g php -i schema.json -o ~/tmp/phpgen \
         --invoker-package 'Loop54\API\OpenAPI'
 
+**If you are having problem with the command above generating names without
+back-slashes (eg 'Loop54APIOpenAPI'). Try double escaping the command:
+`--invoker-package 'Loop54\\API\\OpenAPI'`**
+
 this generates also a bunch of supporting code that we're not very interested
 in, so we copy over just the interesting bits to the repository. (Note that the
 periods are required here, in order for rsync to correctly guess our intent.)
