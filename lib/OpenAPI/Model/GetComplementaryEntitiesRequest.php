@@ -1,6 +1,6 @@
 <?php
 /**
- * GetRelatedEntitiesRequest
+ * GetComplementaryEntitiesRequest
  *
  * PHP version 5
  *
@@ -33,15 +33,15 @@ use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * GetRelatedEntitiesRequest Class Doc Comment
+ * GetComplementaryEntitiesRequest Class Doc Comment
  *
  * @category Class
- * @description Used to perform a request to get entities related to a selected entity.
+ * @description Used to perform a request to get entities complementary to a selected entity.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
+class GetComplementaryEntitiesRequest implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'getRelatedEntitiesRequest';
+    protected static $openAPIModelName = 'getComplementaryEntitiesRequest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -233,7 +233,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     /**
      * Sets entity
      *
-     * @param Entity $entity The entity to find related entities to.
+     * @param Entity $entity The entity to find complementary entities to.
      *
      * @return $this
      */
@@ -257,7 +257,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
     /**
      * Sets results_options
      *
-     * @param EntityCollectionParameters|null $results_options Parameters for specifying which related results to retrieve and how to format them.
+     * @param EntityCollectionParameters|null $results_options Parameters for specifying which complementary results to retrieve and how to format them.
      *
      * @return $this
      */

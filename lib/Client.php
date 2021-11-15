@@ -142,6 +142,19 @@ class Client
     }
 
     /**
+     * Configure a request to get entities complementary to the provided entity.
+     *
+     * @param $entity Entity
+     *    The entity for which to fetch complementary entities.
+     *
+     * @return GetComplementaryEntitiesRequest
+     */
+    public function getComplementaryEntities($entity)
+    {
+        return new GetComplementaryEntitiesRequest($entity);
+    }
+
+    /**
      * Convenience method to create an {@see Entity} with no attributes but
      * with a particular id and type. This is useful e.g. for creating click
      * events, where you may not possess the full entity being clicked on, but

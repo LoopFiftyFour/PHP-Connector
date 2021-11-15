@@ -1,6 +1,6 @@
 <?php
 /**
- * GetRelatedEntitiesRequest
+ * GetComplementaryEntitiesResponse
  *
  * PHP version 5
  *
@@ -28,20 +28,18 @@
  */
 
 namespace Loop54\API\OpenAPI\Model;
-
-use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * GetRelatedEntitiesRequest Class Doc Comment
+ * GetComplementaryEntitiesResponse Class Doc Comment
  *
  * @category Class
- * @description Used to perform a request to get entities related to a selected entity.
+ * @description The result of a request to get complementary entities.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
+class GetComplementaryEntitiesResponse extends Response 
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +48,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'getRelatedEntitiesRequest';
+    protected static $openAPIModelName = 'getComplementaryEntitiesResponse';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,8 +56,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'entity' => 'Entity',
-        'results_options' => 'EntityCollectionParameters',
+        'results' => 'EntityCollection',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -69,8 +66,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'entity' => null,
-        'results_options' => null,
+        'results' => null,
         'custom_data' => null
     ];
 
@@ -81,7 +77,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public static function openAPITypes()
     {
-        return self::$openAPITypes;
+        return self::$openAPITypes + parent::openAPITypes();
     }
 
     /**
@@ -91,7 +87,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public static function openAPIFormats()
     {
-        return self::$openAPIFormats;
+        return self::$openAPIFormats + parent::openAPIFormats();
     }
 
     /**
@@ -101,8 +97,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'entity' => 'entity',
-        'results_options' => 'resultsOptions',
+        'results' => 'results',
         'custom_data' => 'customData'
     ];
 
@@ -112,8 +107,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'entity' => 'setEntity',
-        'results_options' => 'setResultsOptions',
+        'results' => 'setResults',
         'custom_data' => 'setCustomData'
     ];
 
@@ -123,8 +117,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'entity' => 'getEntity',
-        'results_options' => 'getResultsOptions',
+        'results' => 'getResults',
         'custom_data' => 'getCustomData'
     ];
 
@@ -136,7 +129,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public static function attributeMap()
     {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
@@ -146,7 +139,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public static function setters()
     {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     /**
@@ -156,7 +149,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public static function getters()
     {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     /**
@@ -173,12 +166,6 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
 
     
 
-    /**
-     * Associative array for storing property values
-     *
-     * @var mixed[]
-     */
-    protected $container = [];
 
     /**
      * Constructor
@@ -188,8 +175,9 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['entity'] = isset($data['entity']) ? $data['entity'] : null;
-        $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;
+        parent::__construct($data);
+
+        $this->container['results'] = isset($data['results']) ? $data['results'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -200,11 +188,8 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = [];
+        $invalidProperties = parent::listInvalidProperties();
 
-        if ($this->container['entity'] === null) {
-            $invalidProperties[] = "'entity' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -221,49 +206,25 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets entity
+     * Gets results
      *
-     * @return Entity
+     * @return EntityCollection|null
      */
-    public function getEntity()
+    public function getResults()
     {
-        return $this->container['entity'];
+        return $this->container['results'];
     }
 
     /**
-     * Sets entity
+     * Sets results
      *
-     * @param Entity $entity The entity to find related entities to.
+     * @param EntityCollection|null $results The entities that are complementary to the supplied entity.
      *
      * @return $this
      */
-    public function setEntity($entity)
+    public function setResults($results)
     {
-        $this->container['entity'] = $entity;
-
-        return $this;
-    }
-
-    /**
-     * Gets results_options
-     *
-     * @return EntityCollectionParameters|null
-     */
-    public function getResultsOptions()
-    {
-        return $this->container['results_options'];
-    }
-
-    /**
-     * Sets results_options
-     *
-     * @param EntityCollectionParameters|null $results_options Parameters for specifying which related results to retrieve and how to format them.
-     *
-     * @return $this
-     */
-    public function setResultsOptions($results_options)
-    {
-        $this->container['results_options'] = $results_options;
+        $this->container['results'] = $results;
 
         return $this;
     }

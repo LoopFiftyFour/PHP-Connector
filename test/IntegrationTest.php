@@ -391,7 +391,39 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 ResultsOptions::ORDER_DESC,
                 'Price'
             );
-        //$request->relationKind('similar');    // this line is commented because "helloworld" engine does not support relationKind yet
+
+        $response = $connector->query($request);
+
+        $this->assertEmpty(
+            $response->getFacets(),
+            "There should be no facets"
+        );
+        $this->assertCount(
+            3,
+            $response->getResults(),
+            "There should be 3 entities"
+        );
+        $this->assertEquals(
+            'Product',
+            $response->getResults()[0]->getType(),
+            'The type of this entity should be Product'
+        );
+    }
+
+    public function testGetComplementaryEntities()
+    {
+        $connector = $this->clientFor('getComplementaryEntities', 'plain');
+        $request = $connector->getComplementaryEntities(
+            $connector->entity('Product', 12)
+        );
+        $request->resultsOptions()
+            ->skip(1)
+            ->take(3)
+            ->sortBy(
+                ResultsOptions::TYPE_ATTRIBUTE,
+                ResultsOptions::ORDER_DESC,
+                'Price'
+            );
 
         $response = $connector->query($request);
 
