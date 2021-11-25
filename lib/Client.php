@@ -8,7 +8,7 @@ class Client
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:1.2.1';
+    const LIBVERSION = 'php:V3:1.3.0';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
@@ -152,6 +152,19 @@ class Client
     public function getComplementaryEntities($entity)
     {
         return new GetComplementaryEntitiesRequest($entity);
+    }
+
+    /**
+     * Configure a request to get basket recommendations to the provided entities.
+     *
+     * @param $entitiies Entity[]
+     *    The set of entities in a basket for which to fetch recommendations for.
+     *
+     * @return GetBasketRecommendationsRequest
+     */
+    public function getBasketRecommendations($entities)
+    {
+        return new GetBasketRecommendationsRequest($entities);
     }
 
     /**
