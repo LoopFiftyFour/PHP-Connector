@@ -9,7 +9,7 @@ class GetBasketRecommendationsRequest implements Request
     {
         $this->wraps(new OpenAPI\Model\GetBasketRecommendationsRequest([
             'entities' => array_map(function ($entity) { return $entity->getRaw(); }, $entities)
-		]));
+        ]));
     }
 
     /**
