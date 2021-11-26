@@ -396,25 +396,25 @@ try {
         $remoteClientInfo
     );
 
-    // echo '--------------------SEARCH----------------------' . PHP_EOL;
-    // searchRequest($connector);
-    // echo '------------------AUTOCOMPLETE------------------' . PHP_EOL;
-    // autoCompletion($connector);
-    // echo '---------------------GEBA-----------------------' . PHP_EOL;
-    // categoryListing($connector);
-    // echo '------------------GETENTITIES-------------------' . PHP_EOL;
-    // getEntities($connector);
-    // echo '---------------GETRELATEDENTITIES---------------' . PHP_EOL;
-    // getRelatedEntities($connector);
+    echo '--------------------SEARCH----------------------' . PHP_EOL;
+    searchRequest($connector);
+    echo '------------------AUTOCOMPLETE------------------' . PHP_EOL;
+    autoCompletion($connector);
+    echo '---------------------GEBA-----------------------' . PHP_EOL;
+    categoryListing($connector);
+    echo '------------------GETENTITIES-------------------' . PHP_EOL;
+    getEntities($connector);
+    echo '---------------GETRELATEDENTITIES---------------' . PHP_EOL;
+    getRelatedEntities($connector);
     echo '-----------GETBASKETRECOMMENDATIONS-------------' . PHP_EOL;
     getBasketrecommendations($connector);
-    // echo '------------------CREATEEVENTS------------------' . PHP_EOL;
-    // eventCreation($connector);
-    // echo '--------------------FACETING--------------------' . PHP_EOL;
-    // faceting($connector);
-    // echo '--------------------SYNCING---------------------' . PHP_EOL;
-    // syncing($connector);
-    // echo '--------------------------------------------' . PHP_EOL;
+    echo '------------------CREATEEVENTS------------------' . PHP_EOL;
+    eventCreation($connector);
+    echo '--------------------FACETING--------------------' . PHP_EOL;
+    faceting($connector);
+    echo '--------------------SYNCING---------------------' . PHP_EOL;
+    syncing($connector);
+    echo '--------------------------------------------' . PHP_EOL;
 } catch (Exception $ex) {
     print_r($ex->getMessage());
 }
