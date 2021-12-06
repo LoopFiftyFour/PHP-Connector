@@ -253,6 +253,29 @@ function getRelatedEntities($connector)
     }
 }
 
+function getBasketRecommendations($connector)
+{
+    // CODE SAMPLE get-basket-recommendations-full BEGIN
+    $request = $connector->getBasketRecommendations([
+        $connector->entity('Product', 12),
+        $connector->entity('Product', 13)
+    ]);
+
+    /* Take only 10 items */
+    $request->resultsOptions()->take(10);
+
+    /* perform the request to the engine */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
+}
+
 function eventCreation($connector)
 {
     $productId = 12;
@@ -383,6 +406,8 @@ try {
     getEntities($connector);
     echo '---------------GETRELATEDENTITIES---------------' . PHP_EOL;
     getRelatedEntities($connector);
+    echo '-----------GETBASKETRECOMMENDATIONS-------------' . PHP_EOL;
+    getBasketrecommendations($connector);
     echo '------------------CREATEEVENTS------------------' . PHP_EOL;
     eventCreation($connector);
     echo '--------------------FACETING--------------------' . PHP_EOL;
