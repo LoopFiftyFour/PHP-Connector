@@ -201,16 +201,13 @@ temporary location.
 
 **If you are having problem with the command above generating names without
 back-slashes (eg 'Loop54APIOpenAPI'). Try double escaping the command:
-`--invoker-package 'Loop54\\API\\OpenAPI'`**
+`--invoker-package 'Loop54\\API\\OpenAPI'` (or even `\\\\`)**
 
 this generates also a bunch of supporting code that we're not very interested
 in, so we copy over just the interesting bits to the repository. (Note that the
 periods are required here, in order for rsync to correctly guess our intent.)
 
-    dirs="lib test"
-    for dir in $dirs; do
-        rsync -a ~/tmp/phpgen/$dir/. $dir/OpenAPI/.
-    done
+    rsync -a ~/tmp/phpgen/lib/. lib/OpenAPI/.
 
 However! At least as of `openapi-generator` 3.3.1, the generated code does not
 run out of the box: the `ObjectSerializer` class is broken for model classes
