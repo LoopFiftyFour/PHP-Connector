@@ -11,9 +11,12 @@ use GuzzleHttp\ClientInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
-class IntegrationTest extends \PHPUnit_Framework_TestCase
+class IntegrationTest extends \PHPUnit\Framework\TestCase
 {
+    use ProphecyTrait;
+
     private static $resources = __DIR__ . '/resources';
 
     private static $requiredHeaders = [
@@ -53,7 +56,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     private function assertBodyContains($request, $string)
     {
-        $this->assertContains(
+        $this->assertStringContainsString(
             $string,
             $request->getBody()->__toString(),
             'Request body should contain ' . $string

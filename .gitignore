@@ -3,3 +3,4 @@
 /composer.lock
 /examples/app/cache
 /examples/app/logs
+/.phpunit.result.cache

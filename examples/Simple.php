@@ -255,6 +255,7 @@ function getRelatedEntities($connector)
 
 function getBasketRecommendations($connector)
 {
+    return; // Not supported in the helloworld engine yet
     // CODE SAMPLE get-basket-recommendations-full BEGIN
     $request = $connector->getBasketRecommendations([
         $connector->entity('Product', 12),
