@@ -255,6 +255,8 @@ function getRelatedEntities($connector)
 
 function getBasketRecommendations($connector)
 {
+    echo 'Skipped, not supported in the helloworld engine yet' . PHP_EOL;
+    return;
     // CODE SAMPLE get-basket-recommendations-full BEGIN
     $request = $connector->getBasketRecommendations([
         $connector->entity('Product', 12),
