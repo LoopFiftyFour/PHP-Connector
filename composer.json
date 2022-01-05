@@ -1,7 +1,7 @@
 {
     "name": "loop54/php-connector",
     "description": "Wrapper around the API for querying your Loop54 engine.",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "type": "library",
     "keywords": ["search", "service", "api", "ecommerce"],
     "homepage": "https://github.com/LoopFiftyFour/PHP-Connector",
@@ -18,7 +18,7 @@
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "guzzlehttp/guzzle": "^6.2",
+        "guzzlehttp/guzzle": "^7.2",
         "ramsey/uuid": "^3.8"
     },
     "require-dev": {
