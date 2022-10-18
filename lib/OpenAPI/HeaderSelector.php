@@ -54,7 +54,10 @@ class HeaderSelector
         if ($accept !== null) {
             $headers['Accept'] = $accept;
         }
-
+		
+		//always ask for gzipped content
+		$headers['Accept-Encoding'] = "gzip";
+		
         $headers['Content-Type'] = $this->selectContentTypeHeader($contentTypes);
         return $headers;
     }
@@ -107,4 +110,3 @@ class HeaderSelector
         }
     }
 }
-
