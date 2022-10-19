@@ -55,7 +55,7 @@ class HeaderSelector
             $headers['Accept'] = $accept;
         }
 		
-		//always ask for gzipped content
+		//always ask for gzipped content to reduce bandwidth usage
 		$headers['Accept-Encoding'] = "gzip";
 		
         $headers['Content-Type'] = $this->selectContentTypeHeader($contentTypes);
