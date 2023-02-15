@@ -322,7 +322,7 @@ class EntityCollectionParameters implements ModelInterface, ArrayAccess
     /**
      * Sets sort_by
      *
-     * @param \Loop54\API\OpenAPI\Model\EntitySortingParameter[]|null $sort_by Array of sortingparameters specifying how the result should be sorted. The first sortingparameter specifies the primary order. If items are equal, they will be sorted using the second parameter, and so on.
+     * @param \Loop54\API\OpenAPI\Model\EntitySortingParameter[]|null $sort_by Array of sorting parameters specifying how the result should be sorted. The first sorting parameter specifies the primary order. If items are equal, they will be sorted using the second parameter, and so on.   The last two sorting parameters will always be descending relevance followed by ascending ID. These are added onto whatever sorting parameters are requested, such that any requested parameters get priority over those.   As a general rule, you can let Loop54 deal with relevance; things will be sorted the way you ask them to, but if there is ever a choice where both options are equally valid according to the request, the more relevant result will come first.   Concrete example to make this more clear: if you are selling podracers and your users want to sort them by number of engines, then all you need to pass in is the parameter to sort by ascending engine count. Loop54 will ensure that models with one engine will be shown first, in order of relevance; then all models with two engines, most relevant first again; and so on.   ID is used simply as a tiebreaker to get deterministic results (which is useful for pagination, among other things).
      *
      * @return $this
      */
@@ -346,7 +346,7 @@ class EntityCollectionParameters implements ModelInterface, ArrayAccess
     /**
      * Sets facets
      *
-     * @param object[]|null $facets List of facets to calculate and possibly filter the result on. If not set, no faceting is done.
+     * @param object[]|null $facets Array of facets to calculate and possibly filter the result on. If not set, no faceting is done.
      *
      * @return $this
      */

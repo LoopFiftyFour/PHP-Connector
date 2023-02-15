@@ -59,7 +59,8 @@ class Facet implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'name' => 'string',
-        'type' => 'string'
+        'type' => 'string',
+        'approximated' => 'bool'
     ];
 
     /**
@@ -69,7 +70,8 @@ class Facet implements ModelInterface, ArrayAccess
       */
     protected static $openAPIFormats = [
         'name' => null,
-        'type' => null
+        'type' => null,
+        'approximated' => null
     ];
 
     /**
@@ -100,7 +102,8 @@ class Facet implements ModelInterface, ArrayAccess
      */
     protected static $attributeMap = [
         'name' => 'name',
-        'type' => 'type'
+        'type' => 'type',
+        'approximated' => 'approximated'
     ];
 
     /**
@@ -110,7 +113,8 @@ class Facet implements ModelInterface, ArrayAccess
      */
     protected static $setters = [
         'name' => 'setName',
-        'type' => 'setType'
+        'type' => 'setType',
+        'approximated' => 'setApproximated'
     ];
 
     /**
@@ -120,7 +124,8 @@ class Facet implements ModelInterface, ArrayAccess
      */
     protected static $getters = [
         'name' => 'getName',
-        'type' => 'getType'
+        'type' => 'getType',
+        'approximated' => 'getApproximated'
     ];
 
     /**
@@ -200,6 +205,7 @@ class Facet implements ModelInterface, ArrayAccess
     {
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['type'] = isset($data['type']) ? $data['type'] : null;
+        $this->container['approximated'] = isset($data['approximated']) ? $data['approximated'] : false;
     }
 
     /**
@@ -287,6 +293,30 @@ class Facet implements ModelInterface, ArrayAccess
             );
         }
         $this->container['type'] = $type;
+
+        return $this;
+    }
+
+    /**
+     * Gets approximated
+     *
+     * @return bool|null
+     */
+    public function getApproximated()
+    {
+        return $this->container['approximated'];
+    }
+
+    /**
+     * Sets approximated
+     *
+     * @param bool|null $approximated Whether the Items or Values are approximate, rather than exact.
+     *
+     * @return $this
+     */
+    public function setApproximated($approximated)
+    {
+        $this->container['approximated'] = $approximated;
 
         return $this;
     }

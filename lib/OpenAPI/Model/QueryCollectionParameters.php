@@ -310,7 +310,7 @@ class QueryCollectionParameters implements ModelInterface, ArrayAccess
     /**
      * Sets sort_by
      *
-     * @param \Loop54\API\OpenAPI\Model\QuerySortingParameter[]|null $sort_by How to sort the collection.
+     * @param \Loop54\API\OpenAPI\Model\QuerySortingParameter[]|null $sort_by Array of sorting parameters specifying how the resulting queries should be sorted. The first sorting parameter specifies the primary order. If items are equal, they will be sorted using the second parameter, and so on. Default: sort by descending relevance.
      *
      * @return $this
      */

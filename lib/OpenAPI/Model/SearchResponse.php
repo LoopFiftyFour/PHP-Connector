@@ -61,6 +61,7 @@ class SearchResponse extends Response
         'related_queries' => 'QueryCollection',
         'results' => 'EntityCollection',
         'related_results' => 'EntityCollection',
+        'redirect' => 'string',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -75,6 +76,7 @@ class SearchResponse extends Response
         'related_queries' => null,
         'results' => null,
         'related_results' => null,
+        'redirect' => null,
         'custom_data' => null
     ];
 
@@ -110,6 +112,7 @@ class SearchResponse extends Response
         'related_queries' => 'relatedQueries',
         'results' => 'results',
         'related_results' => 'relatedResults',
+        'redirect' => 'redirect',
         'custom_data' => 'customData'
     ];
 
@@ -124,6 +127,7 @@ class SearchResponse extends Response
         'related_queries' => 'setRelatedQueries',
         'results' => 'setResults',
         'related_results' => 'setRelatedResults',
+        'redirect' => 'setRedirect',
         'custom_data' => 'setCustomData'
     ];
 
@@ -138,6 +142,7 @@ class SearchResponse extends Response
         'related_queries' => 'getRelatedQueries',
         'results' => 'getResults',
         'related_results' => 'getRelatedResults',
+        'redirect' => 'getRedirect',
         'custom_data' => 'getCustomData'
     ];
 
@@ -202,6 +207,7 @@ class SearchResponse extends Response
         $this->container['related_queries'] = isset($data['related_queries']) ? $data['related_queries'] : null;
         $this->container['results'] = isset($data['results']) ? $data['results'] : null;
         $this->container['related_results'] = isset($data['related_results']) ? $data['related_results'] : null;
+        $this->container['redirect'] = isset($data['redirect']) ? $data['redirect'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -348,6 +354,30 @@ class SearchResponse extends Response
     public function setRelatedResults($related_results)
     {
         $this->container['related_results'] = $related_results;
+
+        return $this;
+    }
+
+    /**
+     * Gets redirect
+     *
+     * @return string|null
+     */
+    public function getRedirect()
+    {
+        return $this->container['redirect'];
+    }
+
+    /**
+     * Sets redirect
+     *
+     * @param string|null $redirect The redirect target.
+     *
+     * @return $this
+     */
+    public function setRedirect($redirect)
+    {
+        $this->container['redirect'] = $redirect;
 
         return $this;
     }

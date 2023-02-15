@@ -217,6 +217,10 @@ class Event implements ModelInterface, ArrayAccess
         if ($this->container['type'] === null) {
             $invalidProperties[] = "'type' can't be null";
         }
+        if ((mb_strlen($this->container['type']) > 100)) {
+            $invalidProperties[] = "invalid value for 'type', the character length must be smaller than or equal to 100.";
+        }
+
         if ($this->container['entity'] === null) {
             $invalidProperties[] = "'entity' can't be null";
         }
@@ -270,6 +274,10 @@ class Event implements ModelInterface, ArrayAccess
      */
     public function setType($type)
     {
+        if ((mb_strlen($type) > 100)) {
+            throw new \InvalidArgumentException('invalid length for $type when calling Event., must be smaller than or equal to 100.');
+        }
+
         $this->container['type'] = $type;
 
         return $this;

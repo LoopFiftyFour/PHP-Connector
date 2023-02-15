@@ -1,6 +1,6 @@
 <?php
 /**
- * AttributeNameValuePair
+ * RequestAliasFields
  *
  * PHP version 5
  *
@@ -33,15 +33,15 @@ use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * AttributeNameValuePair Class Doc Comment
+ * RequestAliasFields Class Doc Comment
  *
  * @category Class
- * @description A combination of an attribute name and an attribute value.
+ * @description Human-readable labels to be displayed in the Portal.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class AttributeNameValuePair implements ModelInterface, ArrayAccess
+class RequestAliasFields implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'attributeNameValuePair';
+    protected static $openAPIModelName = 'requestAliasFields';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -59,7 +59,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'name' => 'string',
-        'value' => 'string[]'
+        'value' => 'string',
+        'details' => 'string'
     ];
 
     /**
@@ -69,7 +70,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       */
     protected static $openAPIFormats = [
         'name' => null,
-        'value' => null
+        'value' => null,
+        'details' => null
     ];
 
     /**
@@ -100,7 +102,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     protected static $attributeMap = [
         'name' => 'name',
-        'value' => 'value'
+        'value' => 'value',
+        'details' => 'details'
     ];
 
     /**
@@ -110,7 +113,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     protected static $setters = [
         'name' => 'setName',
-        'value' => 'setValue'
+        'value' => 'setValue',
+        'details' => 'setDetails'
     ];
 
     /**
@@ -120,7 +124,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     protected static $getters = [
         'name' => 'getName',
-        'value' => 'getValue'
+        'value' => 'getValue',
+        'details' => 'getDetails'
     ];
 
     /**
@@ -185,6 +190,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
     {
         $this->container['name'] = isset($data['name']) ? $data['name'] : null;
         $this->container['value'] = isset($data['value']) ? $data['value'] : null;
+        $this->container['details'] = isset($data['details']) ? $data['details'] : null;
     }
 
     /**
@@ -201,6 +207,9 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
         }
         if ($this->container['value'] === null) {
             $invalidProperties[] = "'value' can't be null";
+        }
+        if ($this->container['details'] === null) {
+            $invalidProperties[] = "'details' can't be null";
         }
         return $invalidProperties;
     }
@@ -230,7 +239,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
     /**
      * Sets name
      *
-     * @param string $name The name of the attribute.
+     * @param string $name Specify an alias for this attribute name.
      *
      * @return $this
      */
@@ -244,7 +253,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
     /**
      * Gets value
      *
-     * @return string[]
+     * @return string
      */
     public function getValue()
     {
@@ -254,13 +263,37 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
     /**
      * Sets value
      *
-     * @param string[] $value The value of the attribute. NOTE: Not all engines currently support multiple values. Please test whether this works with your engine and contact support if you receive an error.
+     * @param string $value Specify an alias for this attribute value.
      *
      * @return $this
      */
     public function setValue($value)
     {
         $this->container['value'] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Gets details
+     *
+     * @return string
+     */
+    public function getDetails()
+    {
+        return $this->container['details'];
+    }
+
+    /**
+     * Sets details
+     *
+     * @param string $details Specify a more detailed description for this attribute name-value pair. Will be shown in the Portal.
+     *
+     * @return $this
+     */
+    public function setDetails($details)
+    {
+        $this->container['details'] = $details;
 
         return $this;
     }

@@ -215,7 +215,7 @@ class AndFilterParameter extends FilterParameter
     /**
      * Sets and
      *
-     * @param object[] $and The filters that should be combined.
+     * @param object[] $and An array containing the filters that should be combined.
      *
      * @return $this
      */

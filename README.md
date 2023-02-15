@@ -192,12 +192,17 @@ Unit and integration tests can be run by
 
 Code under `lib/OpenAPI` is generated from [the OpenAPI
 specification](https://docs.loop54.com/latest/api/docs.html) with a semi-manual
-process. First we generate the code from the specification and write it to a
+process. First, download the schema from https://docs.loop54.com/latest/api/schema.json. 
+Then, we generate the code from the specification and write it to a
 temporary location.
 
     openapi-generator-cli generate \
         -g php -i schema.json -o ~/tmp/phpgen \
         --invoker-package 'Loop54\API\OpenAPI'
+		
+If you don't have openapi-generator-cli you can get it with
+
+	npm install @openapitools/openapi-generator-cli -g
 
 **If you are having problem with the command above generating names without
 back-slashes (eg 'Loop54APIOpenAPI'). Try double escaping the command:

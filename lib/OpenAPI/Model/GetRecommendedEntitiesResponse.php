@@ -1,6 +1,6 @@
 <?php
 /**
- * AttributeNameValuePair
+ * GetRecommendedEntitiesResponse
  *
  * PHP version 5
  *
@@ -28,20 +28,18 @@
  */
 
 namespace Loop54\API\OpenAPI\Model;
-
-use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * AttributeNameValuePair Class Doc Comment
+ * GetRecommendedEntitiesResponse Class Doc Comment
  *
  * @category Class
- * @description A combination of an attribute name and an attribute value.
+ * @description The result of a request to get personalized recommendations.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class AttributeNameValuePair implements ModelInterface, ArrayAccess
+class GetRecommendedEntitiesResponse extends Response 
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +48,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'attributeNameValuePair';
+    protected static $openAPIModelName = 'getRecommendedEntitiesResponse';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,8 +56,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'name' => 'string',
-        'value' => 'string[]'
+        'results' => 'EntityCollection',
+        'custom_data' => 'map[string,object]'
     ];
 
     /**
@@ -68,8 +66,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'name' => null,
-        'value' => null
+        'results' => null,
+        'custom_data' => null
     ];
 
     /**
@@ -79,7 +77,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public static function openAPITypes()
     {
-        return self::$openAPITypes;
+        return self::$openAPITypes + parent::openAPITypes();
     }
 
     /**
@@ -89,7 +87,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public static function openAPIFormats()
     {
-        return self::$openAPIFormats;
+        return self::$openAPIFormats + parent::openAPIFormats();
     }
 
     /**
@@ -99,8 +97,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'name' => 'name',
-        'value' => 'value'
+        'results' => 'results',
+        'custom_data' => 'customData'
     ];
 
     /**
@@ -109,8 +107,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'name' => 'setName',
-        'value' => 'setValue'
+        'results' => 'setResults',
+        'custom_data' => 'setCustomData'
     ];
 
     /**
@@ -119,8 +117,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'name' => 'getName',
-        'value' => 'getValue'
+        'results' => 'getResults',
+        'custom_data' => 'getCustomData'
     ];
 
     /**
@@ -131,7 +129,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public static function attributeMap()
     {
-        return self::$attributeMap;
+        return parent::attributeMap() + self::$attributeMap;
     }
 
     /**
@@ -141,7 +139,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public static function setters()
     {
-        return self::$setters;
+        return parent::setters() + self::$setters;
     }
 
     /**
@@ -151,7 +149,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public static function getters()
     {
-        return self::$getters;
+        return parent::getters() + self::$getters;
     }
 
     /**
@@ -168,12 +166,6 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
 
     
 
-    /**
-     * Associative array for storing property values
-     *
-     * @var mixed[]
-     */
-    protected $container = [];
 
     /**
      * Constructor
@@ -183,8 +175,10 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['value'] = isset($data['value']) ? $data['value'] : null;
+        parent::__construct($data);
+
+        $this->container['results'] = isset($data['results']) ? $data['results'] : null;
+        $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
     /**
@@ -194,14 +188,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public function listInvalidProperties()
     {
-        $invalidProperties = [];
+        $invalidProperties = parent::listInvalidProperties();
 
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
-        if ($this->container['value'] === null) {
-            $invalidProperties[] = "'value' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -218,49 +206,49 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets name
+     * Gets results
      *
-     * @return string
+     * @return EntityCollection|null
      */
-    public function getName()
+    public function getResults()
     {
-        return $this->container['name'];
+        return $this->container['results'];
     }
 
     /**
-     * Sets name
+     * Sets results
      *
-     * @param string $name The name of the attribute.
+     * @param EntityCollection|null $results The personalized recommended entities.
      *
      * @return $this
      */
-    public function setName($name)
+    public function setResults($results)
     {
-        $this->container['name'] = $name;
+        $this->container['results'] = $results;
 
         return $this;
     }
 
     /**
-     * Gets value
+     * Gets custom_data
      *
-     * @return string[]
+     * @return map[string,object]|null
      */
-    public function getValue()
+    public function getCustomData()
     {
-        return $this->container['value'];
+        return $this->container['custom_data'];
     }
 
     /**
-     * Sets value
+     * Sets custom_data
      *
-     * @param string[] $value The value of the attribute. NOTE: Not all engines currently support multiple values. Please test whether this works with your engine and contact support if you receive an error.
+     * @param map[string,object]|null $custom_data Any additional, non-standard, data. Contact support for information about how and when to use this.
      *
      * @return $this
      */
-    public function setValue($value)
+    public function setCustomData($custom_data)
     {
-        $this->container['value'] = $value;
+        $this->container['custom_data'] = $custom_data;
 
         return $this;
     }

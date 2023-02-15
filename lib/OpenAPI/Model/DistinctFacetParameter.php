@@ -218,7 +218,7 @@ class DistinctFacetParameter extends FacetParameter
     /**
      * Sets selected
      *
-     * @param object[]|null $selected The selected values. Only entities belonging to these will be returned. If not set, no filtering is done.
+     * @param object[]|null $selected An array containing the selected values. Only entities belonging to these will be returned. If not set, no filtering is done.
      *
      * @return $this
      */
@@ -242,7 +242,7 @@ class DistinctFacetParameter extends FacetParameter
     /**
      * Sets sort_by
      *
-     * @param \Loop54\API\OpenAPI\Model\DistinctFacetItemSortingParameter[]|null $sort_by Array of sortingparameters specifying how the facet items should be sorted. The first sortingparameter specifies the primary order. If items are equal, they will be sorted using the second parameter, and so on.
+     * @param \Loop54\API\OpenAPI\Model\DistinctFacetItemSortingParameter[]|null $sort_by Array of sorting parameters specifying how the facet items should be sorted. The first sorting parameter specifies the primary order. If items are equal, they will be sorted using the second parameter, and so on. Default: sort by descending count.
      *
      * @return $this
      */
