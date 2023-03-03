@@ -203,6 +203,49 @@ function categoryListing($connector)
         $title = $entity->getAttribute('Title');
         echo $id . ': ' . $title . PHP_EOL;
     }
+
+    // CODE SAMPLE categorylisting-with-multiple-values BEGIN
+    /* Configure a request to get the 9 first items in the Meat and Dairy category */
+    $request = $connector->getEntitiesByAttribute('Category', ['Meat', 'Dairy']);
+    $request->resultsOptions()
+        ->skip(0)
+        ->take(9);
+
+    /* Actually perform the request */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    echo 'Items in Meat & Dairy category:' . PHP_EOL;
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
+
+    // CODE SAMPLE categorylisting-with-request-alias BEGIN
+    /* Configure a request to get items in the Dairy category with a custom request alias */
+    $request = $connector->getEntitiesByAttribute('Category', 'Dairy');
+
+    $request->requestAlias()
+        // 'Category' should display as 'Section'
+        ->name('Section')
+        // 'Dairy' should display as 'Milk-based'
+        ->value('Milk-based')
+        // Assoicate any custom details with the category
+        ->details('Not suitable for lactose intolerance');
+
+    /* Actually perform the request */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    echo 'Items in Dairy category:' . PHP_EOL;
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
 }
 
 function getEntities($connector)
@@ -255,13 +298,31 @@ function getRelatedEntities($connector)
 
 function getBasketRecommendations($connector)
 {
-    echo 'Skipped, not supported in the helloworld engine yet' . PHP_EOL;
-    return;
     // CODE SAMPLE get-basket-recommendations-full BEGIN
     $request = $connector->getBasketRecommendations([
         $connector->entity('Product', 12),
         $connector->entity('Product', 13)
     ]);
+
+    /* Take only 10 items */
+    $request->resultsOptions()->take(10);
+
+    /* perform the request to the engine */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
+}
+
+function getComplementaryEntities($connector)
+{
+    // CODE SAMPLE get-complementary-recommendations-full BEGIN
+    $request = $connector->getComplementaryEntities($connector->entity('Product', 12));
 
     /* Take only 10 items */
     $request->resultsOptions()->take(10);
@@ -408,6 +469,8 @@ try {
     getEntities($connector);
     echo '---------------GETRELATEDENTITIES---------------' . PHP_EOL;
     getRelatedEntities($connector);
+    echo '-----------GETCOMPLEMENTARYENTITIES-------------' . PHP_EOL;
+    getComplementaryEntities($connector);
     echo '-----------GETBASKETRECOMMENDATIONS-------------' . PHP_EOL;
     getBasketrecommendations($connector);
     echo '------------------CREATEEVENTS------------------' . PHP_EOL;
