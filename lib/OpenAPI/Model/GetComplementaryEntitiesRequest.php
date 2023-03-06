@@ -36,7 +36,7 @@ use \Loop54\API\OpenAPI\ObjectSerializer;
  * GetComplementaryEntitiesRequest Class Doc Comment
  *
  * @category Class
- * @description Used to perform a request to get entities complementary to a selected entity.
+ * @description Used to perform a request to get entities that are complementary to a selected entity.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech

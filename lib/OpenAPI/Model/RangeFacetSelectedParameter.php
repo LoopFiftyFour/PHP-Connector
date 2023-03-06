@@ -196,12 +196,6 @@ class RangeFacetSelectedParameter implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['min'] === null) {
-            $invalidProperties[] = "'min' can't be null";
-        }
-        if ($this->container['max'] === null) {
-            $invalidProperties[] = "'max' can't be null";
-        }
         return $invalidProperties;
     }
 
@@ -220,7 +214,7 @@ class RangeFacetSelectedParameter implements ModelInterface, ArrayAccess
     /**
      * Gets min
      *
-     * @return object
+     * @return object|null
      */
     public function getMin()
     {
@@ -230,7 +224,7 @@ class RangeFacetSelectedParameter implements ModelInterface, ArrayAccess
     /**
      * Sets min
      *
-     * @param object $min The lower value of the range, comparison is inclusive
+     * @param object|null $min The lower value of the range, comparison is inclusive
      *
      * @return $this
      */
@@ -244,7 +238,7 @@ class RangeFacetSelectedParameter implements ModelInterface, ArrayAccess
     /**
      * Gets max
      *
-     * @return object
+     * @return object|null
      */
     public function getMax()
     {
@@ -254,7 +248,7 @@ class RangeFacetSelectedParameter implements ModelInterface, ArrayAccess
     /**
      * Sets max
      *
-     * @param object $max The upper value of the range, comparison is inclusive
+     * @param object|null $max The upper value of the range, comparison is inclusive
      *
      * @return $this
      */

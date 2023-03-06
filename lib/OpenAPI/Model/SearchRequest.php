@@ -223,8 +223,8 @@ class SearchRequest implements ModelInterface, ArrayAccess
         if ($this->container['query'] === null) {
             $invalidProperties[] = "'query' can't be null";
         }
-        if ((mb_strlen($this->container['query']) > 200)) {
-            $invalidProperties[] = "invalid value for 'query', the character length must be smaller than or equal to 200.";
+        if ((mb_strlen($this->container['query']) > 100)) {
+            $invalidProperties[] = "invalid value for 'query', the character length must be smaller than or equal to 100.";
         }
 
         return $invalidProperties;
@@ -261,8 +261,8 @@ class SearchRequest implements ModelInterface, ArrayAccess
      */
     public function setQuery($query)
     {
-        if ((mb_strlen($query) > 200)) {
-            throw new \InvalidArgumentException('invalid length for $query when calling SearchRequest., must be smaller than or equal to 200.');
+        if ((mb_strlen($query) > 100)) {
+            throw new \InvalidArgumentException('invalid length for $query when calling SearchRequest., must be smaller than or equal to 100.');
         }
 
         $this->container['query'] = $query;

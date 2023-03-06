@@ -227,7 +227,7 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
     /**
      * Sets events
      *
-     * @param \Loop54\API\OpenAPI\Model\Event[] $events Parameters for specifying which query suggestions to retrieve.
+     * @param \Loop54\API\OpenAPI\Model\Event[] $events Array of events submitted to the engine.
      *
      * @return $this
      */

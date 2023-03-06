@@ -16,6 +16,22 @@ class GetEntitiesByAttributeRequest implements Request
     }
 
     /**
+     * Manipulate the request alias for the request
+     *
+     * @return RequestAliasFields
+     */
+    public function requestAlias()
+    {
+        if ($this->getRaw()->getRequestAlias() == null) {
+            $this->getRaw()->setRequestAlias(
+                new OpenAPI\Model\RequestAliasFields()
+            );
+        }
+
+        return new RequestAliasFields($this->getRaw()->getRequestAlias());
+    }
+
+    /**
      * Manipulate the options (skip, take, facets, filters, etc) for the
      * results.
      *

@@ -36,7 +36,7 @@ use \Loop54\API\OpenAPI\ObjectSerializer;
  * GetEntitiesByAttributeRequest Class Doc Comment
  *
  * @category Class
- * @description Used to perform a request to get entities with an indexed string attribute. For attributes that are not indexed, use GetEntities with a filter instead. To find out what attributes are indexed in the engine call /getIndexedAttributes.
+ * @description Used to perform a request to get entities with an indexed string attribute. For attributes that are not indexed, use GetEntities with a filter instead. To find out what attributes are indexed in the engine call /getIndexedAttributes. To find out what values are available call /getIndexedAttributeValues.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
@@ -60,6 +60,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     protected static $openAPITypes = [
         'attribute' => 'AttributeNameValuePair',
         'results_options' => 'EntityCollectionParameters',
+        'request_alias' => 'RequestAliasFields',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -71,6 +72,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     protected static $openAPIFormats = [
         'attribute' => null,
         'results_options' => null,
+        'request_alias' => null,
         'custom_data' => null
     ];
 
@@ -103,6 +105,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     protected static $attributeMap = [
         'attribute' => 'attribute',
         'results_options' => 'resultsOptions',
+        'request_alias' => 'requestAlias',
         'custom_data' => 'customData'
     ];
 
@@ -114,6 +117,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     protected static $setters = [
         'attribute' => 'setAttribute',
         'results_options' => 'setResultsOptions',
+        'request_alias' => 'setRequestAlias',
         'custom_data' => 'setCustomData'
     ];
 
@@ -125,6 +129,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     protected static $getters = [
         'attribute' => 'getAttribute',
         'results_options' => 'getResultsOptions',
+        'request_alias' => 'getRequestAlias',
         'custom_data' => 'getCustomData'
     ];
 
@@ -190,6 +195,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     {
         $this->container['attribute'] = isset($data['attribute']) ? $data['attribute'] : null;
         $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;
+        $this->container['request_alias'] = isset($data['request_alias']) ? $data['request_alias'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -264,6 +270,30 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     public function setResultsOptions($results_options)
     {
         $this->container['results_options'] = $results_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets request_alias
+     *
+     * @return RequestAliasFields|null
+     */
+    public function getRequestAlias()
+    {
+        return $this->container['request_alias'];
+    }
+
+    /**
+     * Sets request_alias
+     *
+     * @param RequestAliasFields|null $request_alias Provides human-readable labels in the Portal.
+     *
+     * @return $this
+     */
+    public function setRequestAlias($request_alias)
+    {
+        $this->container['request_alias'] = $request_alias;
 
         return $this;
     }

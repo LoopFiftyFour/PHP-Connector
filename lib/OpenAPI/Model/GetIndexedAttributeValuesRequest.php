@@ -1,6 +1,6 @@
 <?php
 /**
- * AttributeNameValuePair
+ * GetIndexedAttributeValuesRequest
  *
  * PHP version 5
  *
@@ -33,15 +33,15 @@ use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * AttributeNameValuePair Class Doc Comment
+ * GetIndexedAttributeValuesRequest Class Doc Comment
  *
  * @category Class
- * @description A combination of an attribute name and an attribute value.
+ * @description Used to perform a request to get a list of all unique values that are indexed for the provided attribute. To find out what attributes are indexed in the engine call /getIndexedAttributes.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class AttributeNameValuePair implements ModelInterface, ArrayAccess
+class GetIndexedAttributeValuesRequest implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'attributeNameValuePair';
+    protected static $openAPIModelName = 'getIndexedAttributeValuesRequest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,8 +58,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'name' => 'string',
-        'value' => 'string[]'
+        'attribute_name' => 'string',
+        'custom_data' => 'map[string,object]'
     ];
 
     /**
@@ -68,8 +68,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'name' => null,
-        'value' => null
+        'attribute_name' => null,
+        'custom_data' => null
     ];
 
     /**
@@ -99,8 +99,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'name' => 'name',
-        'value' => 'value'
+        'attribute_name' => 'attributeName',
+        'custom_data' => 'customData'
     ];
 
     /**
@@ -109,8 +109,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'name' => 'setName',
-        'value' => 'setValue'
+        'attribute_name' => 'setAttributeName',
+        'custom_data' => 'setCustomData'
     ];
 
     /**
@@ -119,8 +119,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'name' => 'getName',
-        'value' => 'getValue'
+        'attribute_name' => 'getAttributeName',
+        'custom_data' => 'getCustomData'
     ];
 
     /**
@@ -183,8 +183,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['name'] = isset($data['name']) ? $data['name'] : null;
-        $this->container['value'] = isset($data['value']) ? $data['value'] : null;
+        $this->container['attribute_name'] = isset($data['attribute_name']) ? $data['attribute_name'] : null;
+        $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
     /**
@@ -196,11 +196,8 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['name'] === null) {
-            $invalidProperties[] = "'name' can't be null";
-        }
-        if ($this->container['value'] === null) {
-            $invalidProperties[] = "'value' can't be null";
+        if ($this->container['attribute_name'] === null) {
+            $invalidProperties[] = "'attribute_name' can't be null";
         }
         return $invalidProperties;
     }
@@ -218,49 +215,49 @@ class AttributeNameValuePair implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets name
+     * Gets attribute_name
      *
      * @return string
      */
-    public function getName()
+    public function getAttributeName()
     {
-        return $this->container['name'];
+        return $this->container['attribute_name'];
     }
 
     /**
-     * Sets name
+     * Sets attribute_name
      *
-     * @param string $name The name of the attribute.
+     * @param string $attribute_name The name of the attribute for which to fetch indexed values.
      *
      * @return $this
      */
-    public function setName($name)
+    public function setAttributeName($attribute_name)
     {
-        $this->container['name'] = $name;
+        $this->container['attribute_name'] = $attribute_name;
 
         return $this;
     }
 
     /**
-     * Gets value
+     * Gets custom_data
      *
-     * @return string[]
+     * @return map[string,object]|null
      */
-    public function getValue()
+    public function getCustomData()
     {
-        return $this->container['value'];
+        return $this->container['custom_data'];
     }
 
     /**
-     * Sets value
+     * Sets custom_data
      *
-     * @param string[] $value The value of the attribute. NOTE: Not all engines currently support multiple values. Please test whether this works with your engine and contact support if you receive an error.
+     * @param map[string,object]|null $custom_data Any additional, non-standard, data. Contact support for information about how and when to use this.
      *
      * @return $this
      */
-    public function setValue($value)
+    public function setCustomData($custom_data)
     {
-        $this->container['value'] = $value;
+        $this->container['custom_data'] = $custom_data;
 
         return $this;
     }

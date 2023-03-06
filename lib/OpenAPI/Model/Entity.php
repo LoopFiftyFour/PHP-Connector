@@ -205,9 +205,17 @@ class Entity implements ModelInterface, ArrayAccess
         if ($this->container['type'] === null) {
             $invalidProperties[] = "'type' can't be null";
         }
+        if ((mb_strlen($this->container['type']) > 100)) {
+            $invalidProperties[] = "invalid value for 'type', the character length must be smaller than or equal to 100.";
+        }
+
         if ($this->container['id'] === null) {
             $invalidProperties[] = "'id' can't be null";
         }
+        if ((mb_strlen($this->container['id']) > 300)) {
+            $invalidProperties[] = "invalid value for 'id', the character length must be smaller than or equal to 300.";
+        }
+
         return $invalidProperties;
     }
 
@@ -242,6 +250,10 @@ class Entity implements ModelInterface, ArrayAccess
      */
     public function setType($type)
     {
+        if ((mb_strlen($type) > 100)) {
+            throw new \InvalidArgumentException('invalid length for $type when calling Entity., must be smaller than or equal to 100.');
+        }
+
         $this->container['type'] = $type;
 
         return $this;
@@ -266,6 +278,10 @@ class Entity implements ModelInterface, ArrayAccess
      */
     public function setId($id)
     {
+        if ((mb_strlen($id) > 300)) {
+            throw new \InvalidArgumentException('invalid length for $id when calling Entity., must be smaller than or equal to 300.');
+        }
+
         $this->container['id'] = $id;
 
         return $this;
@@ -284,7 +300,7 @@ class Entity implements ModelInterface, ArrayAccess
     /**
      * Sets attributes
      *
-     * @param \Loop54\API\OpenAPI\Model\EntityAttributes[]|null $attributes The data for this particular Entity.
+     * @param \Loop54\API\OpenAPI\Model\EntityAttributes[]|null $attributes An array of attributes for this particular Entity.
      *
      * @return $this
      */

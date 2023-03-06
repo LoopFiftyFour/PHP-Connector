@@ -215,7 +215,7 @@ class OrFilterParameter extends FilterParameter
     /**
      * Sets or
      *
-     * @param object[] $or The filters that should be combined.
+     * @param object[] $or An array containing the filters that should be combined.
      *
      * @return $this
      */
