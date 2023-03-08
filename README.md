@@ -188,6 +188,14 @@ Unit and integration tests can be run by
 ./vendor/bin/phpunit test
 ```
 
+To test multiple PHP versions (using docker) run
+
+```
+./test-matrix.sh
+```
+
+This will run the (examples)(### Running the examples) in addition to the unit and integration tests.
+
 ### Generating Low-level Library
 
 Code under `lib/OpenAPI` is generated from [the OpenAPI
