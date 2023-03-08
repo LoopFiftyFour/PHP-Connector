@@ -205,7 +205,7 @@ Then, we generate the code from the specification and write it to a
 temporary location.
 
     openapi-generator-cli generate \
-        -g php -i schema.json -o ~/tmp/phpgen \
+        -g php -i schema.json -o ~/tmp/phpgen -t templates \
         --invoker-package 'Loop54\API\OpenAPI'
 		
 If you don't have openapi-generator-cli you can get it with
