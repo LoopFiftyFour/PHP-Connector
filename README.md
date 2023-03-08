@@ -205,7 +205,7 @@ Then, we generate the code from the specification and write it to a
 temporary location.
 
     openapi-generator-cli generate \
-        -g php -i schema.json -o ~/tmp/phpgen \
+        -g php -i schema.json -o ~/tmp/phpgen -t templates \
         --invoker-package 'Loop54\API\OpenAPI'
 		
 If you don't have openapi-generator-cli you can get it with
@@ -221,33 +221,6 @@ in, so we copy over just the interesting bits to the repository. (Note that the
 periods are required here, in order for rsync to correctly guess our intent.)
 
     rsync -a ~/tmp/phpgen/lib/. lib/OpenAPI/.
-
-However! At least as of `openapi-generator` 3.3.1, the generated code does not
-run out of the box: the `ObjectSerializer` class is broken for model classes
-that are in a different namespace. Fortunately, the fix is simple:
-
-    --- lib/OpenAPI/ObjectSerializer.php	2018-10-26 15:39:46.000000000 +0200
-    +++ lib/OpenAPI/ObjectSerializer.php	2018-10-26 15:57:45.000000000 +0200
-    @@ -301,6 +301,9 @@
-                 }
-                 return $data;
-             } else {
-    +            if ($class[0] != '\\') {
-    +                $class = '\Loop54\API\OpenAPI\Model\\' . $class;
-    +            }
-                 $data = is_string($data) ? json_decode($data) : $data;
-                 // If a discriminator is defined and points to a valid subclass, use it.
-                 $discriminator = $class::DISCRIMINATOR;
-
-Either patch this manually (it's a three-liner after all) or save the diff as
-`serializerfix.diff` and then you can apply it by running
-
-```sh
-patch < serializerfix.diff
-```
-
-There is probably a better way to do this, and if you figure one out, please
-submit a patch!
 
 ### Building phar Archive
 
