@@ -20,7 +20,7 @@ require_once('Config.php');
  * Check whether or not the search query made sense to the engine, and
  * suggest alternative spellings if they exist.
  *
- * @param $response \Loop54\API\SearchResponse
+ * @param \Loop54\API\SearchResponse $response
  */
 function checkSearchResponse($response)
 {
@@ -48,7 +48,7 @@ function checkSearchResponse($response)
  * first three results, take two results after that, and define two distinct
  * facets on categories.
  *
- * @param $connector \Loop54\API\Client
+ * @param \Loop54\API\Client $connector
  *
  * @return \Loop54\API\SearchRequest
  */
