@@ -1,6 +1,6 @@
 <?php
 /**
- * CreateEventsRequest
+ * GetPopularEntitiesRequest
  *
  * PHP version 5
  *
@@ -33,15 +33,15 @@ use \ArrayAccess;
 use \Loop54\API\OpenAPI\ObjectSerializer;
 
 /**
- * CreateEventsRequest Class Doc Comment
+ * GetPopularEntitiesRequest Class Doc Comment
  *
  * @category Class
- * @description Used to signal the engine that the user has exhibited a behavior.
+ * @description Used to perform a request to get entities that a user (or all users) most commonly interacted with or navigated to.
  * @package  Loop54\API\OpenAPI
  * @author   OpenAPI Generator team
  * @link     https://openapi-generator.tech
  */
-class CreateEventsRequest implements ModelInterface, ArrayAccess
+class GetPopularEntitiesRequest implements ModelInterface, ArrayAccess
 {
     const DISCRIMINATOR = null;
 
@@ -50,7 +50,7 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
       *
       * @var string
       */
-    protected static $openAPIModelName = 'createEventsRequest';
+    protected static $openAPIModelName = 'getPopularEntitiesRequest';
 
     /**
       * Array of property to type mappings. Used for (de)serialization
@@ -58,7 +58,10 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'events' => '\Loop54\API\OpenAPI\Model\Event[]',
+        'behavior_type' => 'string',
+        'entity_type' => 'string[]',
+        'for_user_id' => 'string',
+        'results_options' => 'EntityCollectionParameters',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -68,7 +71,10 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'events' => null,
+        'behavior_type' => null,
+        'entity_type' => null,
+        'for_user_id' => null,
+        'results_options' => null,
         'custom_data' => null
     ];
 
@@ -99,7 +105,10 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'events' => 'events',
+        'behavior_type' => 'behaviorType',
+        'entity_type' => 'entityType',
+        'for_user_id' => 'forUserId',
+        'results_options' => 'resultsOptions',
         'custom_data' => 'customData'
     ];
 
@@ -109,7 +118,10 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'events' => 'setEvents',
+        'behavior_type' => 'setBehaviorType',
+        'entity_type' => 'setEntityType',
+        'for_user_id' => 'setForUserId',
+        'results_options' => 'setResultsOptions',
         'custom_data' => 'setCustomData'
     ];
 
@@ -119,7 +131,10 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'events' => 'getEvents',
+        'behavior_type' => 'getBehaviorType',
+        'entity_type' => 'getEntityType',
+        'for_user_id' => 'getForUserId',
+        'results_options' => 'getResultsOptions',
         'custom_data' => 'getCustomData'
     ];
 
@@ -183,7 +198,10 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
      */
     public function __construct(array $data = null)
     {
-        $this->container['events'] = isset($data['events']) ? $data['events'] : null;
+        $this->container['behavior_type'] = isset($data['behavior_type']) ? $data['behavior_type'] : null;
+        $this->container['entity_type'] = isset($data['entity_type']) ? $data['entity_type'] : null;
+        $this->container['for_user_id'] = isset($data['for_user_id']) ? $data['for_user_id'] : null;
+        $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -196,8 +214,8 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
     {
         $invalidProperties = [];
 
-        if ($this->container['events'] === null) {
-            $invalidProperties[] = "'events' can't be null";
+        if ($this->container['behavior_type'] === null) {
+            $invalidProperties[] = "'behavior_type' can't be null";
         }
         return $invalidProperties;
     }
@@ -215,25 +233,97 @@ class CreateEventsRequest implements ModelInterface, ArrayAccess
 
 
     /**
-     * Gets events
+     * Gets behavior_type
      *
-     * @return \Loop54\API\OpenAPI\Model\Event[]
+     * @return string
      */
-    public function getEvents()
+    public function getBehaviorType()
     {
-        return $this->container['events'];
+        return $this->container['behavior_type'];
     }
 
     /**
-     * Sets events
+     * Sets behavior_type
      *
-     * @param \Loop54\API\OpenAPI\Model\Event[] $events Array of events submitted to the engine.
+     * @param string $behavior_type The interaction or navigation type to include (such as \"click\", \"purchase\" or \"search\").
      *
      * @return $this
      */
-    public function setEvents($events)
+    public function setBehaviorType($behavior_type)
     {
-        $this->container['events'] = $events;
+        $this->container['behavior_type'] = $behavior_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets entity_type
+     *
+     * @return string[]|null
+     */
+    public function getEntityType()
+    {
+        return $this->container['entity_type'];
+    }
+
+    /**
+     * Sets entity_type
+     *
+     * @param string[]|null $entity_type The entity types to include (such as \"Product\" or \"Query\") or null for all.
+     *
+     * @return $this
+     */
+    public function setEntityType($entity_type)
+    {
+        $this->container['entity_type'] = $entity_type;
+
+        return $this;
+    }
+
+    /**
+     * Gets for_user_id
+     *
+     * @return string|null
+     */
+    public function getForUserId()
+    {
+        return $this->container['for_user_id'];
+    }
+
+    /**
+     * Sets for_user_id
+     *
+     * @param string|null $for_user_id A user ID (normally the same as the one in the User-Id header) to retrieve the most common/recent entities for that user or null to retrieve the globally most common/recent entities.
+     *
+     * @return $this
+     */
+    public function setForUserId($for_user_id)
+    {
+        $this->container['for_user_id'] = $for_user_id;
+
+        return $this;
+    }
+
+    /**
+     * Gets results_options
+     *
+     * @return EntityCollectionParameters|null
+     */
+    public function getResultsOptions()
+    {
+        return $this->container['results_options'];
+    }
+
+    /**
+     * Sets results_options
+     *
+     * @param EntityCollectionParameters|null $results_options Parameters for specifying how to filter and sort the results.
+     *
+     * @return $this
+     */
+    public function setResultsOptions($results_options)
+    {
+        $this->container['results_options'] = $results_options;
 
         return $this;
     }

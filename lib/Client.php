@@ -142,6 +142,16 @@ class Client
     }
 
     /**
+     * Configure a request to get personalized recommendations.
+     *
+     * @return GetRecommendedEntitiesRequest
+     */
+    public function getRecommendedEntities()
+    {
+        return new GetRecommendedEntitiesRequest();
+    }
+
+    /**
      * Configure a request to get entities complementary to the provided entity.
      *
      * @param $entity Entity
@@ -165,6 +175,40 @@ class Client
     public function getBasketRecommendations($entities)
     {
         return new GetBasketRecommendationsRequest($entities);
+    }
+
+    /**
+     * Used to perform a request to get entities that a user (or all users) most commonly interacted with or navigated to.
+     *
+     * @param $behaviorType string
+     *    Interaction or navigation type to include (such as click, purchase or search).
+     * @param $forUserId string
+     *    User ID (normally the same as the one in the User-Id header) to retrieve the most common entities for that user or null to retrieve the globally most common entities.
+     * @param $entityType array<string> 
+     *    Entity types to include (such as Product or Query) or null for all types.
+     * 
+     * @return GetPopularEntitiesRequest
+     */
+    public function getPopularEntities($behaviorType, $forUserId = null, $entityType = null)
+    {
+        return new GetPopularEntitiesRequest($behaviorType, $forUserId, $entityType);
+    }
+
+    /**
+     * Used to perform a request to get entities that a user (or all users) most recently interacted with or navigated to.
+     *
+     * @param $behaviorType string
+     *    Interaction or navigation type to include (such as click, purchase or search).
+     * @param $forUserId string
+     *    User ID (normally the same as the one in the User-Id header) to retrieve the most recent entities for that user or null to retrieve the globally most recent entities.
+     * @param $entityType array<string> 
+     *    Entity types to include (such as Product or Query) or null for all types.
+     * 
+     * @return GetRecentEntitiesRequest
+     */
+    public function getRecentEntities($behaviorType, $forUserId = null, $entityType = null)
+    {
+        return new GetRecentEntitiesRequest($behaviorType, $forUserId, $entityType);
     }
 
     /**

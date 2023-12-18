@@ -516,7 +516,7 @@ class UserInitiatedApi
     /**
      * Operation createEventsPost
      *
-     * Create behaviour events
+     * Create behavior events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -540,7 +540,7 @@ class UserInitiatedApi
     /**
      * Operation createEventsPostWithHttpInfo
      *
-     * Create behaviour events
+     * Create behavior events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -715,7 +715,7 @@ class UserInitiatedApi
     /**
      * Operation createEventsPostAsync
      *
-     * Create behaviour events
+     * Create behavior events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -742,7 +742,7 @@ class UserInitiatedApi
     /**
      * Operation createEventsPostAsyncWithHttpInfo
      *
-     * Create behaviour events
+     * Create behavior events
      *
      * @param  string $api_version What version of the API to use. (required)
      * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
@@ -2580,6 +2580,858 @@ class UserInitiatedApi
         $_tempBody = null;
         if (isset($get_entities_request)) {
             $_tempBody = $get_entities_request;
+        }
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        return new Request(
+            'POST',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getPopularEntitiesPost
+     *
+     * Get popular entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetPopularEntitiesRequest $get_popular_entities_request get_popular_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Loop54\API\OpenAPI\Model\GetEntitiesResponse|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails
+     */
+    public function getPopularEntitiesPost($api_version, $user_id, $get_popular_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        list($response) = $this->getPopularEntitiesPostWithHttpInfo($api_version, $user_id, $get_popular_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key);
+        return $response;
+    }
+
+    /**
+     * Operation getPopularEntitiesPostWithHttpInfo
+     *
+     * Get popular entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetPopularEntitiesRequest $get_popular_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Loop54\API\OpenAPI\Model\GetEntitiesResponse|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getPopularEntitiesPostWithHttpInfo($api_version, $user_id, $get_popular_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        $request = $this->getPopularEntitiesPostRequest($api_version, $user_id, $get_popular_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\Loop54\API\OpenAPI\Model\GetEntitiesResponse' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\GetEntitiesResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\Loop54\API\OpenAPI\Model\GetEntitiesResponse';
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\GetEntitiesResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getPopularEntitiesPostAsync
+     *
+     * Get popular entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetPopularEntitiesRequest $get_popular_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getPopularEntitiesPostAsync($api_version, $user_id, $get_popular_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        return $this->getPopularEntitiesPostAsyncWithHttpInfo($api_version, $user_id, $get_popular_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getPopularEntitiesPostAsyncWithHttpInfo
+     *
+     * Get popular entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetPopularEntitiesRequest $get_popular_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getPopularEntitiesPostAsyncWithHttpInfo($api_version, $user_id, $get_popular_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        $returnType = '\Loop54\API\OpenAPI\Model\GetEntitiesResponse';
+        $request = $this->getPopularEntitiesPostRequest($api_version, $user_id, $get_popular_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getPopularEntitiesPost'
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetPopularEntitiesRequest $get_popular_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getPopularEntitiesPostRequest($api_version, $user_id, $get_popular_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        // verify the required parameter 'api_version' is set
+        if ($api_version === null || (is_array($api_version) && count($api_version) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $api_version when calling getPopularEntitiesPost'
+            );
+        }
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null || (is_array($user_id) && count($user_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $user_id when calling getPopularEntitiesPost'
+            );
+        }
+        if (strlen($user_id) > 100) {
+            throw new \InvalidArgumentException('invalid length for "$user_id" when calling UserInitiatedApi.getPopularEntitiesPost, must be smaller than or equal to 100.');
+        }
+
+        // verify the required parameter 'get_popular_entities_request' is set
+        if ($get_popular_entities_request === null || (is_array($get_popular_entities_request) && count($get_popular_entities_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $get_popular_entities_request when calling getPopularEntitiesPost'
+            );
+        }
+
+        $resourcePath = '/getPopularEntities';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // header params
+        if ($api_version !== null) {
+            $headerParams['Api-Version'] = ObjectSerializer::toHeaderValue($api_version);
+        }
+        // header params
+        if ($user_id !== null) {
+            $headerParams['User-Id'] = ObjectSerializer::toHeaderValue($user_id);
+        }
+        // header params
+        if ($user_ip !== null) {
+            $headerParams['User-Ip'] = ObjectSerializer::toHeaderValue($user_ip);
+        }
+        // header params
+        if ($user_useragent !== null) {
+            $headerParams['User-Useragent'] = ObjectSerializer::toHeaderValue($user_useragent);
+        }
+        // header params
+        if ($user_referer !== null) {
+            $headerParams['User-Referer'] = ObjectSerializer::toHeaderValue($user_referer);
+        }
+        // header params
+        if ($lib_version !== null) {
+            $headerParams['Lib-Version'] = ObjectSerializer::toHeaderValue($lib_version);
+        }
+        // header params
+        if ($loop54_key !== null) {
+            $headerParams['Loop54-key'] = ObjectSerializer::toHeaderValue($loop54_key);
+        }
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($get_popular_entities_request)) {
+            $_tempBody = $get_popular_entities_request;
+        }
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody));
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \GuzzleHttp\json_encode($formParams);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        return new Request(
+            'POST',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation getRecentEntitiesPost
+     *
+     * Get recent entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetRecentEntitiesRequest $get_recent_entities_request get_recent_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Loop54\API\OpenAPI\Model\GetEntitiesResponse|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails
+     */
+    public function getRecentEntitiesPost($api_version, $user_id, $get_recent_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        list($response) = $this->getRecentEntitiesPostWithHttpInfo($api_version, $user_id, $get_recent_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key);
+        return $response;
+    }
+
+    /**
+     * Operation getRecentEntitiesPostWithHttpInfo
+     *
+     * Get recent entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetRecentEntitiesRequest $get_recent_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Loop54\API\OpenAPI\Model\GetEntitiesResponse|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getRecentEntitiesPostWithHttpInfo($api_version, $user_id, $get_recent_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        $request = $this->getRecentEntitiesPostRequest($api_version, $user_id, $get_recent_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\Loop54\API\OpenAPI\Model\GetEntitiesResponse' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\GetEntitiesResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\Loop54\API\OpenAPI\Model\GetEntitiesResponse';
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\GetEntitiesResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getRecentEntitiesPostAsync
+     *
+     * Get recent entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetRecentEntitiesRequest $get_recent_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRecentEntitiesPostAsync($api_version, $user_id, $get_recent_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        return $this->getRecentEntitiesPostAsyncWithHttpInfo($api_version, $user_id, $get_recent_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getRecentEntitiesPostAsyncWithHttpInfo
+     *
+     * Get recent entities
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetRecentEntitiesRequest $get_recent_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getRecentEntitiesPostAsyncWithHttpInfo($api_version, $user_id, $get_recent_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        $returnType = '\Loop54\API\OpenAPI\Model\GetEntitiesResponse';
+        $request = $this->getRecentEntitiesPostRequest($api_version, $user_id, $get_recent_entities_request, $user_ip, $user_useragent, $user_referer, $lib_version, $loop54_key);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getRecentEntitiesPost'
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $user_id A unique identifier of the end user that initiated the action. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetRecentEntitiesRequest $get_recent_entities_request (required)
+     * @param  string $user_ip The IP address of the end user. (optional)
+     * @param  string $user_useragent The User-Agent header sent by the end user. (optional)
+     * @param  string $user_referer The referer header sent by the end user. (optional)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     * @param  string $loop54_key Your API key. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getRecentEntitiesPostRequest($api_version, $user_id, $get_recent_entities_request, $user_ip = null, $user_useragent = null, $user_referer = null, $lib_version = null, $loop54_key = null)
+    {
+        // verify the required parameter 'api_version' is set
+        if ($api_version === null || (is_array($api_version) && count($api_version) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $api_version when calling getRecentEntitiesPost'
+            );
+        }
+        // verify the required parameter 'user_id' is set
+        if ($user_id === null || (is_array($user_id) && count($user_id) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $user_id when calling getRecentEntitiesPost'
+            );
+        }
+        if (strlen($user_id) > 100) {
+            throw new \InvalidArgumentException('invalid length for "$user_id" when calling UserInitiatedApi.getRecentEntitiesPost, must be smaller than or equal to 100.');
+        }
+
+        // verify the required parameter 'get_recent_entities_request' is set
+        if ($get_recent_entities_request === null || (is_array($get_recent_entities_request) && count($get_recent_entities_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $get_recent_entities_request when calling getRecentEntitiesPost'
+            );
+        }
+
+        $resourcePath = '/getRecentEntities';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // header params
+        if ($api_version !== null) {
+            $headerParams['Api-Version'] = ObjectSerializer::toHeaderValue($api_version);
+        }
+        // header params
+        if ($user_id !== null) {
+            $headerParams['User-Id'] = ObjectSerializer::toHeaderValue($user_id);
+        }
+        // header params
+        if ($user_ip !== null) {
+            $headerParams['User-Ip'] = ObjectSerializer::toHeaderValue($user_ip);
+        }
+        // header params
+        if ($user_useragent !== null) {
+            $headerParams['User-Useragent'] = ObjectSerializer::toHeaderValue($user_useragent);
+        }
+        // header params
+        if ($user_referer !== null) {
+            $headerParams['User-Referer'] = ObjectSerializer::toHeaderValue($user_referer);
+        }
+        // header params
+        if ($lib_version !== null) {
+            $headerParams['Lib-Version'] = ObjectSerializer::toHeaderValue($lib_version);
+        }
+        // header params
+        if ($loop54_key !== null) {
+            $headerParams['Loop54-key'] = ObjectSerializer::toHeaderValue($loop54_key);
+        }
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($get_recent_entities_request)) {
+            $_tempBody = $get_recent_entities_request;
         }
 
         if ($multipart) {
