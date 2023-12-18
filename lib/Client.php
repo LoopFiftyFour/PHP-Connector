@@ -8,7 +8,7 @@ class Client
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:2.2.3';
+    const LIBVERSION = 'php:V3:2.2.4';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
