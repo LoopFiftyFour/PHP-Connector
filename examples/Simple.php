@@ -20,7 +20,7 @@ require_once('Config.php');
  * Check whether or not the search query made sense to the engine, and
  * suggest alternative spellings if they exist.
  *
- * @param $response \Loop54\API\SearchResponse
+ * @param \Loop54\API\SearchResponse $response
  */
 function checkSearchResponse($response)
 {
@@ -48,7 +48,7 @@ function checkSearchResponse($response)
  * first three results, take two results after that, and define two distinct
  * facets on categories.
  *
- * @param $connector \Loop54\API\Client
+ * @param \Loop54\API\Client $connector
  *
  * @return \Loop54\API\SearchRequest
  */
@@ -296,6 +296,66 @@ function getRelatedEntities($connector)
     }
 }
 
+function getRecommendedEntities($connector)
+{
+    // CODE SAMPLE get-recommended-entities-full BEGIN
+    $request = $connector->getRecommendedEntities();
+
+    /* Take only 5 items */
+    $request->resultsOptions()->take(5);
+
+    /* perform the request to the engine */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
+}
+
+function getRecentEntities($connector)
+{
+    // CODE SAMPLE get-recent-entities-full BEGIN
+    $request = $connector->getRecentEntities('click');
+
+    /* Take only 5 items */
+    $request->resultsOptions()->take(5);
+
+    /* perform the request to the engine */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
+}
+
+function getPopularEntities($connector)
+{
+    // CODE SAMPLE get-popular-entities-full BEGIN
+    $request = $connector->getPopularEntities('click');
+
+    /* Take only 5 items */
+    $request->resultsOptions()->take(5);
+
+    /* perform the request to the engine */
+    $response = $connector->query($request);
+
+    /* Print all results in this response. */
+    foreach ($response->getResults() as $entity) {
+        $id = $entity->getId();
+        $title = $entity->getAttribute('Title');
+        echo $id . ': ' . $title . PHP_EOL;
+    }
+    // CODE SAMPLE END
+}
+
 function getBasketRecommendations($connector)
 {
     // CODE SAMPLE get-basket-recommendations-full BEGIN
@@ -469,10 +529,16 @@ try {
     getEntities($connector);
     echo '---------------GETRELATEDENTITIES---------------' . PHP_EOL;
     getRelatedEntities($connector);
+    echo '------------GETRECOMMENDEDENTITIES--------------' . PHP_EOL;
+    getRecommendedEntities($connector);
     echo '-----------GETCOMPLEMENTARYENTITIES-------------' . PHP_EOL;
     getComplementaryEntities($connector);
     echo '-----------GETBASKETRECOMMENDATIONS-------------' . PHP_EOL;
     getBasketrecommendations($connector);
+    echo '--------------GETRECENTENTITIES-----------------' . PHP_EOL;
+    getRecentEntities($connector);
+    echo '--------------GETPOPULARENTITIES----------------' . PHP_EOL;
+    getPopularEntities($connector);
     echo '------------------CREATEEVENTS------------------' . PHP_EOL;
     eventCreation($connector);
     echo '--------------------FACETING--------------------' . PHP_EOL;

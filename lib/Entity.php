@@ -48,14 +48,14 @@ class Entity
      *
      * The current implementation of the engine does not support multiple
      * attributes with the same name, so this method should always return a
-     * single {@see OpenAPI\Model\EntityAttribute}. However, the API protocol
+     * single {@see \Loop54\API\OpenAPI\Model\EntityAttributes}. However, the API protocol
      * technically allows multiple attributes with the same name, and if that
      * situation occurs, this method will return an array wrapping all
      * attributes.
      *
-     * @param $name string Which attribute values to return.
+     * @param string $name Which attribute values to return.
      *
-     * @return OpenAPI\Model\EntityAttribute|OpenAPI\Model\EntityAttribute[]
+     * @return \Loop54\API\OpenAPI\Model\EntityAttributes|\Loop54\API\OpenAPI\Model\EntityAttributes[]
      */
     public function getAttribute($name)
     {
@@ -76,7 +76,7 @@ class Entity
     /**
      * Determines whether an attribute exists.
      *
-     * @param $name string Which attribute to look for.
+     * @param string $name Which attribute to look for.
      *
      * @return bool
      */

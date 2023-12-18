@@ -17,7 +17,7 @@ class SearchRequest implements Request
      * {@see OpenAPI\Model\QueryResult}. Returns an array of search requests
      * (one for each scope value) if the suggested query is scoped.
      *
-     * @param $queryResult ScopedQueryResult|UnScopedQueryResult
+     * @param OpenAPI\Model\ScopedQueryResult|OpenAPI\Model\UnScopedQueryResult $queryResult
      *
      * @return SearchRequest|SearchRequest[]
      */
