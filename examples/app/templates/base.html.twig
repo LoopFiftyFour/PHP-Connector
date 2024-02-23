@@ -37,8 +37,8 @@
 
     <script>
         function generateUserId() {
-            let text = "UID";
-            const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            let text = 'UID';
+            const possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
             for (var i = 0; i < 22; i++) {
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
@@ -57,7 +57,7 @@
 
         if (!cookies['Loop54User']) {
             const userId = generateUserId();
-            document.cookie = 'Loop54User=' + userId + '; path=/;';
+            document.cookie = `Loop54User=${userId}; expires=${new Date(new Date().getTime()+1000*60*60*24*365).toUTCString()}; path=/`;
         }
     </script>
 
