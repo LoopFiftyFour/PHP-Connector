@@ -191,7 +191,7 @@ class Client
      */
     public function getPopularEntities($behaviorType, $forUserId = null, $entityType = null)
     {
-        return new GetPopularEntitiesRequest($behaviorType, $forUserId, $entityType);
+        return new GetPopularEntitiesRequest($behaviorType, $entityType, $forUserId);
     }
 
     /**
@@ -208,7 +208,7 @@ class Client
      */
     public function getRecentEntities($behaviorType, $forUserId = null, $entityType = null)
     {
-        return new GetRecentEntitiesRequest($behaviorType, $forUserId, $entityType);
+        return new GetRecentEntitiesRequest($behaviorType, $entityType, $forUserId);
     }
 
     /**
