@@ -82,9 +82,13 @@ $connector = new \Loop54\API\Client(
 ```
 
 In order for the Loop54 engine to properly register user interaction, it needs
-to be told about things like the IP address, user ID, and user-agent of the end
+to be told about things like the IP address and user-agent of the end
 user. The `\Loop54\API\RemoteClientInfo\WebClient` object will automatically get
 this information from the PHP environment.
+
+Another important parameter that should be constant per visitor is user ID (`userId`).
+In your code, you should create a cookie named `Loop54User` with a generated unique userId value.
+The example how to generate it you could find in `examples/app/templates/base.html.twig`
 
 If you want more control over this, the `\Loop54\API\RemoteClientInfo\Client`
 interface contains the methods to implement. A sample implementation that simply

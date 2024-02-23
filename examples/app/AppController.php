@@ -137,7 +137,7 @@ class AppController extends AbstractController
         }
         
 
-        return $this->render('search.html', [
+        return $this->render('search.html.twig', [
             'routes' => $this->allRoutes(),
             'currentPage' => 'Search',
             'parameters' => $parameters,
@@ -188,7 +188,7 @@ class AppController extends AbstractController
             $response = null;
         }
 
-        return $this->render('autocomplete.html', [
+        return $this->render('autocomplete.html.twig', [
             'routes' => $this->allRoutes(),
             'currentPage' => 'AutoComplete',
             'parameters' => $parameters,

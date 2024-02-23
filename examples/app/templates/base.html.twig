@@ -10,7 +10,7 @@
             <h2>Test Environment</h2>
         </header>
         {{
-            include('nav.html', {
+            include('nav.html.twig', {
                 'active': currentPage,
                 'routes': routes
             })
@@ -19,7 +19,7 @@
             <nav>
                 <h1>Parameters</h1>
                 {{
-                    include('controls.html', {
+                    include('controls.html.twig', {
                         'active': currentPage,
                         'parameters': parameters
                     })
@@ -34,5 +34,32 @@
             <pre>{{raw_response}}</pre>
             {% endif %}
         </main>
+
+    <script>
+        function generateUserId() {
+            let text = "UID";
+            const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+            for (var i = 0; i < 22; i++) {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+
+            return text;
+        }
+
+        const cookies = document.cookie.split('; ').reduce((acc, cookie) => {
+            const cookieData = cookie.split('=');
+            const [key, value] = cookieData;
+            acc[key] = value;
+
+            return acc;
+        }, {});
+
+        if (!cookies['Loop54User']) {
+            const userId = generateUserId();
+            document.cookie = 'Loop54User=' + userId + '; path=/;';
+        }
+    </script>
+
     </body>
 </html>

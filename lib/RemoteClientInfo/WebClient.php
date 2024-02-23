@@ -1,18 +1,13 @@
 <?php
 namespace Loop54\API\RemoteClientInfo;
 
-use DateTime;
-use DateInterval;
-use DomainException;
-use Ramsey\Uuid\Uuid;
-
 final class WebClient implements Client
 {
     const USER_ID_COOKIE_KEY = 'Loop54User';
 
     /**
      * By default, return the user ID value set in cookies. If user ID is
-     * specified as an argument, set the user ID cookie.
+     * specified as an argument. Otherwise, use userId pass as argument.
      *
      * @param string|null $userId
      *    Optional user ID. Sets the user ID cookie when specified.
@@ -21,23 +16,15 @@ final class WebClient implements Client
      */
     public function userId($userId = null)
     {
-        if (isset($userId)) {
-            $now = new DateTime();
-            $oneYear = new DateInterval('P1Y');
-            setcookie(
-                self::USER_ID_COOKIE_KEY,
-                $userId,
-                $now->add($oneYear)->getTimestamp(),
-                '/'
-            );
-            return $userId;
-        } elseif (isset($_COOKIE[self::USER_ID_COOKIE_KEY])
-                  || array_key_exists(self::USER_ID_COOKIE_KEY, $_COOKIE)
-        ) {
+        if (!empty($_COOKIE[self::USER_ID_COOKIE_KEY])) {
             return $_COOKIE[self::USER_ID_COOKIE_KEY];
-        } else {
-            return null;
         }
+
+        if ($userId) {
+            return $userId;
+        }
+
+        return null;
     }
 
     /**
