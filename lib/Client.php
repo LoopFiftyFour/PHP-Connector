@@ -208,7 +208,7 @@ class Client
      */
     public function getRecentEntities($behaviorType, $forUserId = null, $entityType = null)
     {
-        return new GetRecentEntitiesRequest($behaviorType, $forUserId, $entityType);
+        return new GetRecentEntitiesRequest($behaviorType, $entityType, $forUserId);
     }
 
     /**
