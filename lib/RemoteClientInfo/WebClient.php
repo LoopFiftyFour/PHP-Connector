@@ -6,8 +6,8 @@ final class WebClient implements Client
     const USER_ID_COOKIE_KEY = 'Loop54User';
 
     /**
-     * By default, return the user ID value set in cookies. If user ID is
-     * specified as an argument. Otherwise, use userId pass as argument.
+     * By default, return the user ID value set in cookies.
+     * Otherwise, use userId pass as argument.
      *
      * @param string|null $userId
      *    Optional user ID. Sets the user ID cookie when specified.
