@@ -5,6 +5,8 @@ class GetRecentEntitiesRequest implements Request
 {
     use OpenAPIWrapper;
 
+    const CURRENT_USER_PLACEHOLDER = "(CurrentUser)";
+
     public function __construct($behaviorType, $entityType, $forUserId)
     {
         $this->wraps(new OpenAPI\Model\GetRecentEntitiesRequest([
@@ -12,6 +14,11 @@ class GetRecentEntitiesRequest implements Request
             'entity_type' => $entityType,
             'for_user_id' => $forUserId,
         ]));
+    }
+
+    public static function GetRecentEntitiesRequestForCurrentUser($behaviorType, $entityType)
+    {
+        return new GetRecentEntitiesRequest($behaviorType, $entityType, self::CURRENT_USER_PLACEHOLDER);
     }
 
     /**
