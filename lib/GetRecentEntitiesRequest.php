@@ -14,6 +14,11 @@ class GetRecentEntitiesRequest implements Request
         ]));
     }
 
+    public static function GetRecentEntitiesRequestForCurrentUser($behaviorType, $entityType)
+    {
+        return new GetRecentEntitiesRequest($behaviorType, $entityType, GetPopularEntitiesRequest::CURRENT_USER_PLACEHOLDER);
+    }
+
     /**
      * Manipulate the options (skip, take, facets, filters, etc) for the
      * results.

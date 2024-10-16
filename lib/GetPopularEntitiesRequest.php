@@ -4,6 +4,7 @@ namespace Loop54\API;
 class GetPopularEntitiesRequest implements Request
 {
     use OpenAPIWrapper;
+    const CURRENT_USER_PLACEHOLDER = "(CurrentUser)";
 
     public function __construct($behaviorType, $entityType, $forUserId)
     {
@@ -12,6 +13,11 @@ class GetPopularEntitiesRequest implements Request
             'entity_type' => $entityType,
             'for_user_id' => $forUserId,
         ]));
+    }
+
+    public static function GetPopularEntitiesRequestForCurrentUser($behaviorType, $entityType)
+    {
+        return new GetPopularEntitiesRequest($behaviorType, $entityType, self::CURRENT_USER_PLACEHOLDER);
     }
 
     /**
