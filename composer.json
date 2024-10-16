@@ -1,7 +1,7 @@
 {
     "name": "loop54/php-connector",
     "description": "Wrapper around the API for querying your Loop54 engine.",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "type": "library",
     "keywords": ["search", "service", "api", "ecommerce"],
     "homepage": "https://github.com/LoopFiftyFour/PHP-Connector",
