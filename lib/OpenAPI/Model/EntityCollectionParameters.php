@@ -196,7 +196,7 @@ class EntityCollectionParameters implements ModelInterface, ArrayAccess
      * @param mixed[] $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->container['skip'] = isset($data['skip']) ? $data['skip'] : 0;
         $this->container['take'] = isset($data['take']) ? $data['take'] : 5;

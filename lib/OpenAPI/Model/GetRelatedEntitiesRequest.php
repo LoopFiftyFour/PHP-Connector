@@ -186,7 +186,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
      * @param mixed[] $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->container['entity'] = isset($data['entity']) ? $data['entity'] : null;
         $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;
