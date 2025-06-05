@@ -186,7 +186,7 @@ class GetBasketRecommendationsRequest implements ModelInterface, ArrayAccess
      * @param mixed[] $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(array $data = null)
+    public function __construct(?array $data = null)
     {
         $this->container['entities'] = isset($data['entities']) ? $data['entities'] : null;
         $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;

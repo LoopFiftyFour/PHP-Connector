@@ -1,7 +1,7 @@
 {
     "name": "loop54/php-connector",
     "description": "Wrapper around the API for querying your Loop54 engine.",
-    "version": "3.0.3",
+    "version": "3.0.4",
     "type": "library",
     "keywords": ["search", "service", "api", "ecommerce"],
     "homepage": "https://github.com/LoopFiftyFour/PHP-Connector",
@@ -14,7 +14,7 @@
         "homepage": "https://openapi-generator.tech"
     }],
     "require": {
-        "php": "7.3 - 8",
+        "php": "7.3 - 8.4",
         "ext-curl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
