@@ -8,7 +8,7 @@ class Client
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:3.0.7';
+    const LIBVERSION = 'php:V3:3.1.0';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
@@ -117,7 +117,7 @@ class Client
     {
         return new GetEntitiesByAttributeRequest($name, $value);
     }
-    
+
     /**
      * Configure a request to get entities.
      *
@@ -127,7 +127,7 @@ class Client
     {
         return new GetEntitiesRequest();
     }
-    
+
     /**
      * Configure a request to get entities related to the provided entity.
      *
@@ -186,7 +186,7 @@ class Client
      *    User ID (normally the same as the one in the User-Id header) to retrieve the most common entities for that user or null to retrieve the globally most common entities.
      * @param array<string> $entityType
      *    Entity types to include (such as Product or Query) or null for all types.
-     * 
+     *
      * @return GetPopularEntitiesRequest
      */
     public function getPopularEntities($behaviorType, $forUserId = null, $entityType = null)
@@ -203,7 +203,7 @@ class Client
      *    User ID (normally the same as the one in the User-Id header) to retrieve the most recent entities for that user or null to retrieve the globally most recent entities.
      * @param array<string> $entityType
      *    Entity types to include (such as Product or Query) or null for all types.
-     * 
+     *
      * @return GetRecentEntitiesRequest
      */
     public function getRecentEntities($behaviorType, $forUserId = null, $entityType = null)
