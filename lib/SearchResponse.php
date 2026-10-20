@@ -65,4 +65,59 @@ class SearchResponse implements Response
             $this->getRaw()->getRelatedResults()->getItems()
         );
     }
+
+    /**
+     * Get the raw Content Search results for one content entity type.
+     *
+     * @param string $entityType
+     *
+     * @return OpenAPI\Model\EntityCollection|null
+     *    Null if Content Search did not return results for that type.
+     */
+    public function getContentSearchResults($entityType)
+    {
+        foreach ($this->getRaw()->getContentSearchResults() ?? [] as $item) {
+            if ($item->getEntityType() === $entityType) {
+                return $item->getResults();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Get the Content Search results for one content entity type.
+     *
+     * @param string $entityType
+     *
+     * @return Entity[] Empty if there are no results for that type.
+     */
+    public function getContentResults($entityType)
+    {
+        $results = $this->getContentSearchResults($entityType);
+        if ($results === null || $results->getItems() === null) {
+            return [];
+        }
+        return array_map(
+            function ($entity) {
+                return new Entity($entity);
+            },
+            $results->getItems()
+        );
+    }
+
+    /**
+     * Get the facets of the Content Search results for one content entity type.
+     *
+     * @param string $entityType
+     *
+     * @return array Empty if there are no results for that type.
+     */
+    public function getContentFacets($entityType)
+    {
+        $results = $this->getContentSearchResults($entityType);
+        if ($results === null || $results->getFacets() === null) {
+            return [];
+        }
+        return $results->getFacets();
+    }
 }
