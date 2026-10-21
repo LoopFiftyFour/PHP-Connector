@@ -320,6 +320,21 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($response->getContentFacets('Brand'));
     }
 
+    public function testAddContentResultsOptionsTwiceReturnsSameEntry()
+    {
+        $request = new SearchRequest('summit');
+        $request->addContentResultsOptions('Brand')->take(2);
+        $request->addContentResultsOptions('Brand')->skip(1);
+        $request->addContentResultsOptions('Article');
+
+        $all = $request->getRaw()->getContentResultsOptions();
+        $this->assertCount(2, $all, 'Brand should not be added twice');
+        $this->assertEquals('Brand', $all[0]->getEntityType());
+        $this->assertEquals(2, $all[0]->getTake());
+        $this->assertEquals(1, $all[0]->getSkip());
+        $this->assertEquals('Article', $all[1]->getEntityType());
+    }
+
     public function testAddContentResultsOptionsRequiresEntityType()
     {
         $request = new SearchRequest('summit');

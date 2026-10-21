@@ -84,7 +84,9 @@ class SearchRequest implements Request
 
     /**
      * Add Content Search options for one content entity type (e.g. "Brand").
-     * Call once per content type to search.
+     * Call once per content type to search. If options for that type were
+     * already added, the existing options are returned instead of adding
+     * a duplicate.
      *
      * @param string $entityType
      *    The content entity type to search.
@@ -99,10 +101,15 @@ class SearchRequest implements Request
         if (!is_string($entityType) || trim($entityType) === '') {
             throw new \InvalidArgumentException('entityType must be a non-empty string');
         }
+        $all = $this->getRaw()->getContentResultsOptions() ?? [];
+        foreach ($all as $existing) {
+            if ($existing !== null && $existing->getEntityType() === $entityType) {
+                return new ResultsOptions($existing);
+            }
+        }
         $options = new OpenAPI\Model\TypedEntityCollectionParameters([
             'entity_type' => $entityType
         ]);
-        $all = $this->getRaw()->getContentResultsOptions() ?? [];
         $all[] = $options;
         $this->getRaw()->setContentResultsOptions($all);
         return new ResultsOptions($options);
