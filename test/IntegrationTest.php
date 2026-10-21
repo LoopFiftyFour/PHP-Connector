@@ -94,6 +94,20 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
                     $this->assertBodyContains($request, '"and":[{');
                     $this->assertBodyContains($request, '"not":{');
                     $this->assertBodyContains($request, '"Food"');
+                } elseif ($testName == 'content') {
+                    $this->assertBodyContains($request, '"contentResultsOptions":[{');
+                    $this->assertBodyContains($request, '"entityType":"Brand"');
+                    $this->assertBodyContains($request, '"take":2');
+                    $this->assertBodyContains($request, '"attributeName":"Country"');
+                } elseif ($testName == 'plain') {
+                    $this->assertThat(
+                        $request->getBody()->__toString(),
+                        $this->logicalNot(
+                            $this->stringContains('contentResultsOptions')
+                        ),
+                        'Request body without content options must not '
+                        . 'contain "contentResultsOptions"!'
+                    );
                 } elseif ($testName == 'rangefacet-notselected') {
                     $this->assertThat(
                         $request->getBody()->__toString(),
@@ -266,6 +280,66 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
             $response->getResults(),
             'There should be no results'
         );
+    }
+
+    public function testSearchContent()
+    {
+        $connector = $this->clientFor('search', 'content');
+        $request = $connector->search('summit');
+        $request->addContentResultsOptions('Brand')
+            ->take(2)
+            ->addDistinctFacet('Country', 'Country');
+        $response = $connector->query($request);
+
+        $brands = $response->getContentResults('Brand');
+        $this->assertCount(2, $brands, 'There should be two brands');
+        $this->assertEquals('211', $brands[0]->getId());
+        $this->assertEquals('Brand', $brands[0]->getType());
+        $this->assertEquals(
+            3,
+            $response->getContentSearchResults('Brand')->getCount(),
+            'Incorrect brand result count'
+        );
+        $this->assertCount(
+            1,
+            $response->getContentFacets('Brand'),
+            'There should be one brand facet'
+        );
+        $this->assertNull($response->getContentSearchResults('Article'));
+        $this->assertEmpty($response->getContentResults('Article'));
+        $this->assertEmpty($response->getContentFacets('Article'));
+    }
+
+    public function testSearchWithoutContentSearchResults()
+    {
+        $connector = $this->clientFor('search', 'plain');
+        $request = $connector->search('search phrase');
+        $response = $connector->query($request);
+        $this->assertNull($response->getContentSearchResults('Brand'));
+        $this->assertEmpty($response->getContentResults('Brand'));
+        $this->assertEmpty($response->getContentFacets('Brand'));
+    }
+
+    public function testAddContentResultsOptionsTwiceReturnsSameEntry()
+    {
+        $request = new SearchRequest('summit');
+        $request->addContentResultsOptions('Brand')->take(2);
+        $request->addContentResultsOptions('Brand')->skip(1);
+        $request->addContentResultsOptions('Article');
+
+        $all = $request->getRaw()->getContentResultsOptions();
+        $this->assertCount(2, $all, 'Brand should not be added twice');
+        $this->assertEquals('Brand', $all[0]->getEntityType());
+        $this->assertEquals(2, $all[0]->getTake());
+        $this->assertEquals(1, $all[0]->getSkip());
+        $this->assertEquals('Article', $all[1]->getEntityType());
+    }
+
+    public function testAddContentResultsOptionsRequiresEntityType()
+    {
+        $request = new SearchRequest('summit');
+        $this->expectException(\InvalidArgumentException::class);
+        $request->addContentResultsOptions('');
     }
 
     public function testSearchRangeFacetNotSelected()
