@@ -11,9 +11,7 @@ test () {
     echo -e "\e[42;30mTests finished for PHP version $1\e[0m"
 }
 
-test 7.4
-test 8.0
-test 8.1
 test 8.2
 test 8.3
 test 8.4
+test 8.5
