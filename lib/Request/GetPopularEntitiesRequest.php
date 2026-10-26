@@ -1,67 +1,77 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request;
 
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 use Loop54\API\Request\Parameters\ResultsOptions;
 use Loop54\API\Response\GetPopularEntitiesResponse;
 
-class GetPopularEntitiesRequest implements Request
+final class GetPopularEntitiesRequest implements Request
 {
-    use OpenAPIWrapper;
-    const CURRENT_USER_PLACEHOLDER = "(CurrentUser)";
+    public const CURRENT_USER_PLACEHOLDER = "(CurrentUser)";
 
-    public function __construct($behaviorType, $entityType, $forUserId)
+    private readonly Model\GetRecentEntitiesRequest $raw;
+
+    /**
+     * @param string $behaviorType
+     *    Interaction or navigation type to include (such as click, purchase
+     *    or search).
+     *
+     * @param string[]|null $entityType
+     *    Entity types to include (such as Product or Query) or null for all
+     *    types.
+     *
+     * @param string|null $forUserId
+     *    User ID to retrieve the most common entities for that user, or null
+     *    to retrieve the globally most common entities.
+     */
+    public function __construct(string $behaviorType, ?array $entityType, ?string $forUserId)
     {
-        $this->wraps(new OpenAPI\Model\GetRecentEntitiesRequest([
+        $this->raw = new Model\GetRecentEntitiesRequest([
             'behavior_type' => $behaviorType,
             'entity_type' => $entityType,
             'for_user_id' => $forUserId,
-        ]));
+        ]);
     }
 
-    public static function GetPopularEntitiesRequestForCurrentUser($behaviorType, $entityType)
+    /**
+     * @param string[]|null $entityType
+     */
+    public static function GetPopularEntitiesRequestForCurrentUser(string $behaviorType, ?array $entityType): self
     {
-        return new GetPopularEntitiesRequest($behaviorType, $entityType, self::CURRENT_USER_PLACEHOLDER);
+        return new self($behaviorType, $entityType, self::CURRENT_USER_PLACEHOLDER);
+    }
+
+    public function getRaw(): Model\GetRecentEntitiesRequest
+    {
+        return $this->raw;
     }
 
     /**
      * Manipulate the options (skip, take, facets, filters, etc) for the
      * results.
-     *
-     * @return ResultsOptions
      */
-    public function resultsOptions()
+    public function resultsOptions(): ResultsOptions
     {
-        if ($this->getRaw()->getResultsOptions() == null) {
-            $this->getRaw()->setResultsOptions(
-                new OpenAPI\Model\EntityCollectionParameters()
-            );
+        if ($this->raw->getResultsOptions() === null) {
+            $this->raw->setResultsOptions(new Model\EntityCollectionParameters());
         }
-        return new ResultsOptions($this->getRaw()->getResultsOptions());
+        return new ResultsOptions($this->raw->getResultsOptions());
     }
 
-    public function perform(
-        $instance,
-        $apiversion,
-        $libversion,
-        $apikey,
-        $userid,
-        $userip,
-        $useragent,
-        $referer
-    ) {
-        return new GetPopularEntitiesResponse(
-            $instance->getPopularEntitiesPost(
-                $apiversion,
-                $userid,
-                $this->getRaw(),
-                $userip,
-                $useragent,
-                $referer,
-                $libversion,
-                $apikey
-            )
-        );
+    public function perform(RequestContext $context): GetPopularEntitiesResponse
+    {
+        return new GetPopularEntitiesResponse($context->userInitiatedApi->getPopularEntitiesPost(
+            api_version: $context->apiVersion,
+            user_id: $context->userId,
+            get_popular_entities_request: $this->raw,
+            user_ip: $context->userIp,
+            user_useragent: $context->userAgent,
+            user_referer: $context->referer,
+            lib_version: $context->libVersion,
+            loop54_key: $context->apiKey,
+        ));
     }
 }

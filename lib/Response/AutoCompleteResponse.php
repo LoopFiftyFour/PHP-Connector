@@ -1,27 +1,40 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Response;
 
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 use Loop54\API\Request\SearchRequest;
 
-class AutoCompleteResponse implements Response
+final class AutoCompleteResponse implements Response
 {
-    use OpenAPIWrapper;
+    private readonly Model\AutoCompleteResponse $raw;
 
-    public function __construct($response)
+    public function __construct(Model\AutoCompleteResponse $response)
     {
-        $this->wraps($response);
+        $this->raw = $response;
     }
 
-    public function getScopedResult()
+    public function getRaw(): Model\AutoCompleteResponse
     {
-        return $this->getRaw()->getScopedQuery();
+        return $this->raw;
+    }
+
+    /**
+     * @return array<string, mixed>|null
+     */
+    public function getScopedResult(): ?array
+    {
+        return $this->raw->getScopedQuery();
     }
 
     /**
      * @deprecated
+     *
+     * @return array<string, mixed>|null
      */
-    public function getScopedResults()
+    public function getScopedResults(): ?array
     {
         trigger_error(
             'getScopedResults() has been renamed to getScopedResult()',
@@ -30,9 +43,12 @@ class AutoCompleteResponse implements Response
         return $this->getScopedResult();
     }
 
-    public function getUnscopedResults()
+    /**
+     * @return array<array<string, mixed>>|null
+     */
+    public function getUnscopedResults(): ?array
     {
-        return $this->getRaw()->getQueries()->getItems();
+        return $this->raw->getQueries()->getItems();
     }
 
     /**
@@ -44,17 +60,18 @@ class AutoCompleteResponse implements Response
      *
      * @return SearchRequest[]
      */
-    public function getResultsAsSearchRequests()
+    public function getResultsAsSearchRequests(): array
     {
         $unScopedRequests = array_map(
-                '\Loop54\API\Request\SearchRequest::fromQueryResult',
-                $this->getUnscopedResults()
-            );
-        
+            SearchRequest::fromQueryResult(...),
+            $this->getUnscopedResults()
+        );
+
         $scopedResult = $this->getScopedResult();
-        if(!isset($scopedResult['query']))
+        if (!isset($scopedResult['query'])) {
             return $unScopedRequests;
-        
+        }
+
         $scopedRequest = SearchRequest::fromQueryResult($scopedResult);
         return array_merge(
             $scopedRequest,

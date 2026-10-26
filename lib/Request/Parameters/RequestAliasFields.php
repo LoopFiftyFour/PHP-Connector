@@ -1,56 +1,49 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request\Parameters;
 
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 
-class RequestAliasFields
+final class RequestAliasFields
 {
-    use OpenAPIWrapper;
+    private readonly Model\RequestAliasFields $raw;
 
-    public function __construct($requestFields)
+    public function __construct(Model\RequestAliasFields $requestFields)
     {
-        $this->wraps($requestFields);
+        $this->raw = $requestFields;
+    }
+
+    public function getRaw(): Model\RequestAliasFields
+    {
+        return $this->raw;
     }
 
     /**
      * Specify an alias for this attribute name.
-     *
-     * @param string $alias
-     *    The alias
-     *
-     * @return $this
      */
-    public function name($alias)
+    public function name(string $alias): static
     {
-        $this->getRaw()->setName($alias);
+        $this->raw->setName($alias);
         return $this;
     }
 
     /**
      * Specify an alias for this attribute value.
-     *
-     * @param string $alias
-     *    The alias
-     *
-     * @return $this
      */
-    public function value($alias)
+    public function value(string $alias): static
     {
-        $this->getRaw()->setValue($alias);
+        $this->raw->setValue($alias);
         return $this;
     }
 
     /**
      * Specify an alias for this attribute details.
-     *
-     * @param string $alias
-     *    The alias
-     *
-     * @return $this
      */
-    public function details($alias)
+    public function details(string $alias): static
     {
-        $this->getRaw()->setDetails($alias);
+        $this->raw->setDetails($alias);
         return $this;
     }
 }

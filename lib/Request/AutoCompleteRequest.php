@@ -1,80 +1,65 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request;
 
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 use Loop54\API\Response\AutoCompleteResponse;
 
-class AutoCompleteRequest implements Request
+final class AutoCompleteRequest implements Request
 {
-    use OpenAPIWrapper;
+    private readonly Model\AutoCompleteRequest $raw;
 
     /**
      * Construct an autocomplete request for a partial query.
-     *
-     * @param string $query
-     *    The partial query we want autocompletions for.
      */
-    public function __construct($query)
+    public function __construct(string $query)
     {
-        $this->wraps(new OpenAPI\Model\AutoCompleteRequest([
-            'query' => $query
-        ]));
+        $this->raw = new Model\AutoCompleteRequest(['query' => $query]);
+    }
+
+    public function getRaw(): Model\AutoCompleteRequest
+    {
+        return $this->raw;
     }
 
     /**
-     * Get the query this autocomplete request will be for.
-     *
-     * @return string
+     * Get the partial query this request will find autocompletions for.
      */
-    public function getQuery()
+    public function getQuery(): string
     {
-        return $this->getRaw()->getQuery();
+        return $this->raw->getQuery();
     }
 
     /**
-     * Ask for at most a specific amount of autocomplete suggestions.
-     *
-     * @param int $take
-     *    The amount of autocomplete suggestions requested.
-     *
-     * @return AutoComplete
+     * Ask for at most this many autocomplete suggestions.
      */
-    public function take($take)
+    public function take(int $take): static
     {
         $this->queriesOptions()->setTake($take);
         return $this;
     }
 
-    private function queriesOptions()
+    private function queriesOptions(): Model\QueryCollectionParameters
     {
-        $queriesOptions = $this->getRaw()->getQueriesOptions();
-        if (empty($queriesOptions)) {
-            $queriesOptions = new OpenAPI\Model\QueryCollectionParameters();
-            $this->getRaw()->setQueriesOptions($queriesOptions);
+        if ($this->raw->getQueriesOptions() === null) {
+            $this->raw->setQueriesOptions(new Model\QueryCollectionParameters());
         }
-        return $queriesOptions;
+        return $this->raw->getQueriesOptions();
     }
 
-    public function perform(
-        $instance,
-        $apiversion,
-        $libversion,
-        $apikey,
-        $userid,
-        $userip,
-        $useragent,
-        $referer
-    ) {
-        return new AutoCompleteResponse($instance->autoCompletePost(
-            $apiversion,
-            $userid,
-            $this->getRaw(),
-            $userip,
-            $useragent,
-            $referer,
-            $libversion,
-            $apikey
+    public function perform(RequestContext $context): AutoCompleteResponse
+    {
+        return new AutoCompleteResponse($context->userInitiatedApi->autoCompletePost(
+            api_version: $context->apiVersion,
+            user_id: $context->userId,
+            auto_complete_request: $this->raw,
+            user_ip: $context->userIp,
+            user_useragent: $context->userAgent,
+            user_referer: $context->referer,
+            lib_version: $context->libVersion,
+            loop54_key: $context->apiKey,
         ));
     }
 }

@@ -1,58 +1,69 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request\Parameters;
 
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 
-class FilterParameter
+final class FilterParameter
 {
-    use OpenAPIWrapper;
+    public const TYPE_ATTRIBUTE =
+        Model\AttributeFilterParameter::TYPE_ATTRIBUTE;
+    public const TYPE_TYPE =
+        Model\AttributeFilterParameter::TYPE_TYPE;
+    public const TYPE_ID =
+        Model\AttributeFilterParameter::TYPE_ID;
 
-    const TYPE_ATTRIBUTE =
-        OpenAPI\Model\AttributeFilterParameter::TYPE_ATTRIBUTE;
-    const TYPE_TYPE =
-        OpenAPI\Model\AttributeFilterParameter::TYPE_TYPE;
-    const TYPE_ID =
-        OpenAPI\Model\AttributeFilterParameter::TYPE_ID;
-
-    const COMPARISON_MODE_EQUALS =
-        OpenAPI\Model\AttributeFilterParameter::
+    public const COMPARISON_MODE_EQUALS =
+        Model\AttributeFilterParameter::
         COMPARISON_MODE_EQUALS;
-    const COMPARISON_MODE_GREATER_THAN =
-        OpenAPI\Model\AttributeFilterParameter::
+    public const COMPARISON_MODE_GREATER_THAN =
+        Model\AttributeFilterParameter::
         COMPARISON_MODE_GREATER_THAN;
-    const COMPARISON_MODE_GREATER_THAN_OR_EQUALS =
-        OpenAPI\Model\AttributeFilterParameter::
+    public const COMPARISON_MODE_GREATER_THAN_OR_EQUALS =
+        Model\AttributeFilterParameter::
         COMPARISON_MODE_GREATER_THAN_OR_EQUALS;
-    const COMPARISON_MODE_LESS_THAN =
-        OpenAPI\Model\AttributeFilterParameter::
+    public const COMPARISON_MODE_LESS_THAN =
+        Model\AttributeFilterParameter::
         COMPARISON_MODE_LESS_THAN;
-    const COMPARISON_MODE_LESS_THAN_OR_EQUALS =
-        OpenAPI\Model\AttributeFilterParameter::
+    public const COMPARISON_MODE_LESS_THAN_OR_EQUALS =
+        Model\AttributeFilterParameter::
         COMPARISON_MODE_LESS_THAN_OR_EQUALS;
-    const COMPARISON_MODE_CONTAINS =
-        OpenAPI\Model\AttributeFilterParameter::
+    public const COMPARISON_MODE_CONTAINS =
+        Model\AttributeFilterParameter::
         COMPARISON_MODE_CONTAINS;
 
+    private readonly ?Model\FilterParameter $raw;
 
-    public function __construct($filter = null)
+    /**
+     * @param Model\FilterParameter|null $filter
+     *    The filter to wrap. Leave it out to get an empty instance, which is
+     *    only useful for building filters with the methods below.
+     */
+    public function __construct(?Model\FilterParameter $filter = null)
     {
-        $this->wraps($filter);
+        $this->raw = $filter;
     }
 
-    public function attributeExists($name)
+    public function getRaw(): ?Model\FilterParameter
     {
-        return new FilterParameter(
-            new OpenAPI\Model\AttributeExistsFilterParameter([
+        return $this->raw;
+    }
+
+    public function attributeExists(string $name): self
+    {
+        return new self(
+            new Model\AttributeExistsFilterParameter([
                 'attribute_name' => $name
             ])
         );
     }
 
-    public function id($value, $comparisonMode = null)
+    public function id(mixed $value, ?string $comparisonMode = null): self
     {
-        return new FilterParameter(
-            new OpenAPI\Model\AttributeFilterParameter([
+        return new self(
+            new Model\AttributeFilterParameter([
                 'type' => self::TYPE_ID,
                 'value' => $value,
                 'comparison_mode' => $comparisonMode
@@ -60,10 +71,10 @@ class FilterParameter
         );
     }
 
-    public function type($value, $comparisonMode = null)
+    public function type(mixed $value, ?string $comparisonMode = null): self
     {
-        return new FilterParameter(
-            new OpenAPI\Model\AttributeFilterParameter([
+        return new self(
+            new Model\AttributeFilterParameter([
                 'type' => self::TYPE_TYPE,
                 'value' => $value,
                 'comparison_mode' => $comparisonMode
@@ -71,10 +82,10 @@ class FilterParameter
         );
     }
 
-    public function attribute($name, $value, $comparisonMode = null)
+    public function attribute(string $name, mixed $value, ?string $comparisonMode = null): self
     {
-        return new FilterParameter(
-            new OpenAPI\Model\AttributeFilterParameter([
+        return new self(
+            new Model\AttributeFilterParameter([
                 'type' => self::TYPE_ATTRIBUTE,
                 'attribute_name' => $name,
                 'value' => $value,
@@ -83,29 +94,29 @@ class FilterParameter
         );
     }
 
-    public function invert()
+    public function invert(): self
     {
-        return new FilterParameter(
-            new OpenAPI\Model\InverseFilterParameter([
-                'not' => $this->getRaw()
+        return new self(
+            new Model\InverseFilterParameter([
+                'not' => $this->raw
             ])
         );
     }
 
-    public function and($other)
+    public function and(FilterParameter $other): self
     {
-        return new FilterParameter(
-            new OpenAPI\Model\AndFilterParameter([
-                'and' => [$this->getRaw(), $other->getRaw()]
+        return new self(
+            new Model\AndFilterParameter([
+                'and' => [$this->raw, $other->getRaw()]
             ])
         );
     }
 
-    public function or($other)
+    public function or(FilterParameter $other): self
     {
-        return new FilterParameter(
-            new OpenAPI\Model\OrFilterParameter([
-                'or' => [$this->getRaw(), $other->getRaw()]
+        return new self(
+            new Model\OrFilterParameter([
+                'or' => [$this->raw, $other->getRaw()]
             ])
         );
     }

@@ -1,39 +1,37 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request;
 
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
+use Loop54\API\Response\CustomResponse;
 
-class CustomRequest implements Request
+final class CustomRequest implements Request
 {
-    use OpenAPIWrapper;
+    private readonly Model\CustomRequest $raw;
 
-    private $requestName;
-
-    public function __construct($requestName, $customData)
+    /**
+     * @param array<string, mixed>|object $customData
+     */
+    public function __construct(private readonly string $requestName, array|object $customData)
     {
-        $this->requestName = $requestName;
-        $this->wraps(new OpenAPI\Model\CustomRequest([
-            'custom_data' => $customData
-        ]));
+        $this->raw = new Model\CustomRequest(['custom_data' => $customData]);
     }
 
-    public function perform(
-        $instance,
-        $apiversion,
-        $libversion,
-        $apikey,
-        $userid,
-        $userip,
-        $useragent,
-        $referer
-    ) {
-        return $instance->requestNamePost(
-            $this->requestName,
-            $apiversion,
-            $apikey,
-            $this->getRaw(),
-            $libversion
-        );
+    public function getRaw(): Model\CustomRequest
+    {
+        return $this->raw;
+    }
+
+    public function perform(RequestContext $context): CustomResponse
+    {
+        return new CustomResponse($context->otherApi->requestNamePost(
+            request_name: $this->requestName,
+            api_version: $context->apiVersion,
+            loop54_key: $context->apiKey,
+            custom_request: $this->raw,
+            lib_version: $context->libVersion,
+        ));
     }
 }

@@ -1,86 +1,109 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Response;
 
 use Loop54\API\Entity;
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
+use Loop54\API\Request\SearchRequest;
 
-class SearchResponse implements Response
+final class SearchResponse implements Response
 {
-    use OpenAPIWrapper;
+    private readonly Model\SearchResponse $raw;
 
-    public function __construct($response)
+    public function __construct(Model\SearchResponse $response)
     {
-        $this->wraps($response);
+        $this->raw = $response;
     }
 
-    public function getMakesSense()
+    public function getRaw(): Model\SearchResponse
     {
-        return $this->getRaw()->getMakesSense();
+        return $this->raw;
     }
 
-    public function getSpellingSuggestions()
+    public function getMakesSense(): ?bool
     {
-        return $this->getRaw()->getSpellingSuggestions()->getItems();
+        return $this->raw->getMakesSense();
     }
 
-    public function getSpellingSuggestionsAsSearchRequests()
+    /**
+     * @return array<array<string, mixed>>|null
+     */
+    public function getSpellingSuggestions(): ?array
+    {
+        return $this->raw->getSpellingSuggestions()->getItems();
+    }
+
+    /**
+     * @return array<SearchRequest|SearchRequest[]>
+     */
+    public function getSpellingSuggestionsAsSearchRequests(): array
     {
         return array_map(
-            '\Loop54\API\Request\SearchRequest::fromQueryResult',
+            SearchRequest::fromQueryResult(...),
             $this->getSpellingSuggestions()
         );
     }
 
-    public function getRelatedQueries()
+    /**
+     * @return array<array<string, mixed>>|null
+     */
+    public function getRelatedQueries(): ?array
     {
-        return $this->getRaw()->getRelatedQueries()->getItems();
+        return $this->raw->getRelatedQueries()->getItems();
     }
 
-    public function getRelatedQueriesAsSearchRequests()
+    /**
+     * @return array<SearchRequest|SearchRequest[]>
+     */
+    public function getRelatedQueriesAsSearchRequests(): array
     {
         return array_map(
-            '\Loop54\API\Request\SearchRequest::fromQueryResult',
+            SearchRequest::fromQueryResult(...),
             $this->getRelatedQueries()
         );
     }
 
-    public function getFacets()
+    /**
+     * @return array<array<string, mixed>>|null
+     */
+    public function getFacets(): ?array
     {
-        return $this->getRaw()->getResults()->getFacets();
+        return $this->raw->getResults()->getFacets();
     }
 
-    public function getResults()
+    /**
+     * @return Entity[]
+     */
+    public function getResults(): array
     {
         return array_map(
-            function ($entity) {
-                return new Entity($entity);
-            },
-            $this->getRaw()->getResults()->getItems()
+            fn ($entity) => new Entity($entity),
+            $this->raw->getResults()->getItems()
         );
     }
 
-    public function getRelatedResults()
+    /**
+     * @return Entity[]
+     */
+    public function getRelatedResults(): array
     {
         return array_map(
-            function ($entity) {
-                return new Entity($entity);
-            },
-            $this->getRaw()->getRelatedResults()->getItems()
+            fn ($entity) => new Entity($entity),
+            $this->raw->getRelatedResults()->getItems()
         );
     }
 
     /**
      * Get the raw Content Search results for one content entity type.
      *
-     * @param string $entityType
-     *
-     * @return OpenAPI\Model\EntityCollection|null
+     * @return Model\EntityCollection|null
      *    Null if Content Search did not return results for that type.
      */
-    public function getContentSearchResults($entityType)
+    public function getContentSearchResults(string $entityType): ?Model\EntityCollection
     {
-        foreach ($this->getRaw()->getContentSearchResults() ?? [] as $item) {
+        foreach ($this->raw->getContentSearchResults() ?? [] as $item) {
             if ($item->getEntityType() === $entityType) {
                 return $item->getResults();
             }
@@ -91,20 +114,16 @@ class SearchResponse implements Response
     /**
      * Get the Content Search results for one content entity type.
      *
-     * @param string $entityType
-     *
      * @return Entity[] Empty if there are no results for that type.
      */
-    public function getContentResults($entityType)
+    public function getContentResults(string $entityType): array
     {
         $results = $this->getContentSearchResults($entityType);
         if ($results === null || $results->getItems() === null) {
             return [];
         }
         return array_map(
-            function ($entity) {
-                return new Entity($entity);
-            },
+            fn ($entity) => new Entity($entity),
             $results->getItems()
         );
     }
@@ -112,11 +131,9 @@ class SearchResponse implements Response
     /**
      * Get the facets of the Content Search results for one content entity type.
      *
-     * @param string $entityType
-     *
-     * @return array Empty if there are no results for that type.
+     * @return array<array<string, mixed>> Empty if there are no results for that type.
      */
-    public function getContentFacets($entityType)
+    public function getContentFacets(string $entityType): array
     {
         $results = $this->getContentSearchResults($entityType);
         if ($results === null || $results->getFacets() === null) {

@@ -1,81 +1,81 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request\Parameters;
 
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 
-class ResultsOptions
+final class ResultsOptions
 {
-    use OpenAPIWrapper;
-
-    public function __construct($entityCollectionParameters)
-    {
-        $this->wraps($entityCollectionParameters);
-    }
-
     /* Ordering constants */
-    const ORDER_ASC =
-        OpenAPI\Model\EntitySortingParameter::ORDER_ASC;
-    const ORDER_DESC =
-        OpenAPI\Model\EntitySortingParameter::ORDER_DESC;
+    public const ORDER_ASC =
+        Model\EntitySortingParameter::ORDER_ASC;
+    public const ORDER_DESC =
+        Model\EntitySortingParameter::ORDER_DESC;
 
     /* Entity sorting constants */
-    const TYPE_ATTRIBUTE =
-        OpenAPI\Model\EntitySortingParameter::TYPE_ATTRIBUTE;
-    const TYPE_ID =
-        OpenAPI\Model\EntitySortingParameter::TYPE_ID;
-    const TYPE_TYPE =
-        OpenAPI\Model\EntitySortingParameter::TYPE_TYPE;
-    const TYPE_RELEVANCE =
-        OpenAPI\Model\EntitySortingParameter::TYPE_RELEVANCE;
-    const TYPE_POPULARITY =
-        OpenAPI\Model\EntitySortingParameter::TYPE_POPULARITY;
+    public const TYPE_ATTRIBUTE =
+        Model\EntitySortingParameter::TYPE_ATTRIBUTE;
+    public const TYPE_ID =
+        Model\EntitySortingParameter::TYPE_ID;
+    public const TYPE_TYPE =
+        Model\EntitySortingParameter::TYPE_TYPE;
+    public const TYPE_RELEVANCE =
+        Model\EntitySortingParameter::TYPE_RELEVANCE;
+    public const TYPE_POPULARITY =
+        Model\EntitySortingParameter::TYPE_POPULARITY;
 
     /* Facet type constants */
-    const TYPE_DISTINCT =
-        OpenAPI\Model\FacetParameter::TYPE_DISTINCT;
-    const TYPE_RANGE =
-        OpenAPI\Model\FacetParameter::TYPE_RANGE;
+    public const TYPE_DISTINCT =
+        Model\FacetParameter::TYPE_DISTINCT;
+    public const TYPE_RANGE =
+        Model\FacetParameter::TYPE_RANGE;
 
     /* Facet sorting constants */
-    const TYPE_ITEM =
-        OpenAPI\Model\DistinctFacetItemSortingParameter::TYPE_ITEM;
-    const TYPE_COUNT =
-        OpenAPI\Model\DistinctFacetItemSortingParameter::TYPE_COUNT;
-    const TYPE_SELECTED =
-        OpenAPI\Model\DistinctFacetItemSortingParameter::TYPE_SELECTED;
+    public const TYPE_ITEM =
+        Model\DistinctFacetItemSortingParameter::TYPE_ITEM;
+    public const TYPE_COUNT =
+        Model\DistinctFacetItemSortingParameter::TYPE_COUNT;
+    public const TYPE_SELECTED =
+        Model\DistinctFacetItemSortingParameter::TYPE_SELECTED;
+
+    private readonly Model\EntityCollectionParameters $raw;
+
+    public function __construct(Model\EntityCollectionParameters $entityCollectionParameters)
+    {
+        $this->raw = $entityCollectionParameters;
+    }
+
+    public function getRaw(): Model\EntityCollectionParameters
+    {
+        return $this->raw;
+    }
 
     /**
      * Skip some of the first results (useful when paginating).
-     *
-     * @param int $skip
-     *    The count of results to skip.
-     *
-     * @return ResultsOptions
      */
-    public function skip($skip)
+    public function skip(int $skip): static
     {
-        $this->getRaw()->setSkip($skip);
+        $this->raw->setSkip($skip);
         return $this;
     }
 
     /**
      * Limit how many search results are requested (useful when paginating).
-     *
-     * @param int $take
-     *    The count of results requested.
-     *
-     * @return ResultsOptions
      */
-    public function take($take)
+    public function take(int $take): static
     {
-        $this->getRaw()->setTake($take);
+        $this->raw->setTake($take);
         return $this;
     }
 
-    public function facets()
+    /**
+     * @return Model\FacetParameter[]|null
+     */
+    public function facets(): ?array
     {
-        return $this->getRaw()->getFacets();
+        return $this->raw->getFacets();
     }
 
     /**
@@ -87,24 +87,29 @@ class ResultsOptions
      * @param string $attributeName
      *    The internal name of the attribute being faceted on.
      *
-     * @param mixed[] $selected
+     * @param mixed[]|null $selected
      *    Which values of the facet that are selected by the user.
      *
-     * @return ResultsOptions
+     * @param string|null $sortBy
+     *    One of ResultsOptions::TYPE_ITEM, ResultsOptions::TYPE_COUNT,
+     *    ResultsOptions::TYPE_SELECTED.
+     *
+     * @param string|null $order
+     *    One of ResultsOptions::ORDER_ASC, ResultsOptions::ORDER_DESC.
      */
     public function addDistinctFacet(
-        $name,
-        $attributeName,
-        $selected = [],
-        $sortBy = null,
-        $order = null
-    ) {
-        $sort_by = new OpenAPI\Model\DistinctFacetItemSortingParameter([
+        string $name,
+        string $attributeName,
+        ?array $selected = [],
+        ?string $sortBy = null,
+        ?string $order = null
+    ): static {
+        $sort_by = new Model\DistinctFacetItemSortingParameter([
             'type' => $sortBy,
             'order' => $order
         ]);
         $this->addFacet(
-            new OpenAPI\Model\DistinctFacetParameter([
+            new Model\DistinctFacetParameter([
                 'name' => $name,
                 'attribute_name' => $attributeName,
                 'type' => self::TYPE_DISTINCT,
@@ -124,21 +129,19 @@ class ResultsOptions
      * @param string $attributeName
      *    The internal name of the attribute being faceted on.
      *
-     * @param int|null $selectedMin
+     * @param int|float|string|null $selectedMin
      *    What is the lowest value the user has selected for this facet?
      *
-     * @param int|null $selectedMax
+     * @param int|float|string|null $selectedMax
      *    What is the highest value the user has selected for this facet?
-     *
-     * @return ResultsOptions
      */
     public function addRangeFacet(
-        $name,
-        $attributeName,
-        $selectedMin = null,
-        $selectedMax = null
-    ) {
-        $facet = new OpenAPI\Model\RangeFacetParameter([
+        string $name,
+        string $attributeName,
+        int|float|string|null $selectedMin = null,
+        int|float|string|null $selectedMax = null
+    ): static {
+        $facet = new Model\RangeFacetParameter([
             'name' => $name,
             'attribute_name' => $attributeName,
             'type' => self::TYPE_RANGE,
@@ -147,7 +150,7 @@ class ResultsOptions
 
         if (isset($selectedMin) && isset($selectedMax)) {
             $facet->setSelected(
-                new OpenAPI\Model\RangeFacetSelectedParameter([
+                new Model\RangeFacetSelectedParameter([
                     'min' => $selectedMin,
                     'max' => $selectedMax
                 ])
@@ -178,42 +181,36 @@ class ResultsOptions
      *
      * @param string|null $attributeName
      *    If sorting by attribute, the name of the attribute to sort by.
-     *
-     * @return ResultsOptions
      */
-    public function sortBy($type, $order, $attributeName = null)
+    public function sortBy(string $type, string $order, ?string $attributeName = null): static
     {
-        $sortBy = new OpenAPI\Model\EntitySortingParameter([
+        $sortBy = new Model\EntitySortingParameter([
             'type' => $type,
             'order' => $order,
             'attribute_name' => $attributeName
         ]);
-        $this->getRaw()->setSortBy([$sortBy]);
+        $this->raw->setSortBy([$sortBy]);
         return $this;
     }
 
     /**
      * Add a filter to the query. Filters are a very flexible way of removing
      * results using arbitrarily complex logic on entity attributes.
-     *
-     * @param FilterParameter $filter
-     *
-     * @return ResultsOptions
      */
-    public function filter($filter)
+    public function filter(FilterParameter $filter): static
     {
-        $this->getRaw()->setFilter($filter->getRaw());
+        $this->raw->setFilter($filter->getRaw());
         return $this;
     }
 
-    private function addFacet($facetParameter)
+    private function addFacet(Model\FacetParameter $facetParameter): static
     {
-        $facets = $this->getRaw()->getFacets();
+        $facets = $this->raw->getFacets();
         if (empty($facets)) {
             $facets = [];
         }
         $facets[] = $facetParameter;
-        $this->getRaw()->setFacets($facets);
+        $this->raw->setFacets($facets);
         return $this;
     }
 }

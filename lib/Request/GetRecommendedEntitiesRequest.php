@@ -1,57 +1,50 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API\Request;
 
-use Loop54\API\OpenAPI;
-use Loop54\API\OpenAPIWrapper;
+use Loop54\API\OpenAPI\Model;
 use Loop54\API\Request\Parameters\ResultsOptions;
 use Loop54\API\Response\GetRecommendedEntitiesResponse;
 
-class GetRecommendedEntitiesRequest implements Request
+final class GetRecommendedEntitiesRequest implements Request
 {
-    use OpenAPIWrapper;
+    private readonly Model\GetRecommendedEntitiesRequest $raw;
 
     public function __construct()
     {
-        $this->wraps(new OpenAPI\Model\GetRecommendedEntitiesRequest());
+        $this->raw = new Model\GetRecommendedEntitiesRequest();
+    }
+
+    public function getRaw(): Model\GetRecommendedEntitiesRequest
+    {
+        return $this->raw;
     }
 
     /**
      * Manipulate the options (skip, take, facets, filters, etc) for the
      * results.
-     *
-     * @return ResultsOptions
      */
-    public function resultsOptions()
+    public function resultsOptions(): ResultsOptions
     {
-        if ($this->getRaw()->getResultsOptions() == null) {
-            $this->getRaw()->setResultsOptions(
-                new OpenAPI\Model\EntityCollectionParameters()
-            );
+        if ($this->raw->getResultsOptions() === null) {
+            $this->raw->setResultsOptions(new Model\EntityCollectionParameters());
         }
-        return new ResultsOptions($this->getRaw()->getResultsOptions());
+        return new ResultsOptions($this->raw->getResultsOptions());
     }
 
-    public function perform(
-        $instance,
-        $apiversion,
-        $libversion,
-        $apikey,
-        $userid,
-        $userip,
-        $useragent,
-        $referer
-    ) {
-        return new GetRecommendedEntitiesResponse(
-            $instance->getRecommendedEntitiesPost(
-                $apiversion,
-                $userid,
-                $this->getRaw(),
-                $userip,
-                $useragent,
-                $referer,
-                $libversion,
-                $apikey
-            )
-        );
+    public function perform(RequestContext $context): GetRecommendedEntitiesResponse
+    {
+        return new GetRecommendedEntitiesResponse($context->userInitiatedApi->getRecommendedEntitiesPost(
+            api_version: $context->apiVersion,
+            user_id: $context->userId,
+            get_recommended_entities_request: $this->raw,
+            user_ip: $context->userIp,
+            user_useragent: $context->userAgent,
+            user_referer: $context->referer,
+            lib_version: $context->libVersion,
+            loop54_key: $context->apiKey,
+        ));
     }
 }
