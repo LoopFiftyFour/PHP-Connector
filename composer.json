@@ -32,7 +32,10 @@
             "Loop54\\API\\RemoteClientInfo\\" : "lib/RemoteClientInfo/",
             "Loop54\\API\\OpenAPI\\": "lib/OpenAPI/",
             "Loop54\\API\\OpenAPI\\Model\\": "lib/OpenAPI/Model/"
-        }
+        },
+        "files": [
+            "lib/aliases.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
