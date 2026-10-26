@@ -1,5 +1,9 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Response;
+
+use Loop54\API\Entity;
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
 
 class SearchResponse implements Response
 {
@@ -23,7 +27,7 @@ class SearchResponse implements Response
     public function getSpellingSuggestionsAsSearchRequests()
     {
         return array_map(
-            '\Loop54\API\SearchRequest::fromQueryResult',
+            '\Loop54\API\Request\SearchRequest::fromQueryResult',
             $this->getSpellingSuggestions()
         );
     }
@@ -36,7 +40,7 @@ class SearchResponse implements Response
     public function getRelatedQueriesAsSearchRequests()
     {
         return array_map(
-            '\Loop54\API\SearchRequest::fromQueryResult',
+            '\Loop54\API\Request\SearchRequest::fromQueryResult',
             $this->getRelatedQueries()
         );
     }

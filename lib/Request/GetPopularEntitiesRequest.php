@@ -1,15 +1,28 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
 
-class GetComplementaryEntitiesRequest implements Request
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Response\GetPopularEntitiesResponse;
+
+class GetPopularEntitiesRequest implements Request
 {
     use OpenAPIWrapper;
+    const CURRENT_USER_PLACEHOLDER = "(CurrentUser)";
 
-    public function __construct($entity)
+    public function __construct($behaviorType, $entityType, $forUserId)
     {
-        $this->wraps(new OpenAPI\Model\GetComplementaryEntitiesRequest([
-            'entity' => $entity->getRaw()
-		]));
+        $this->wraps(new OpenAPI\Model\GetRecentEntitiesRequest([
+            'behavior_type' => $behaviorType,
+            'entity_type' => $entityType,
+            'for_user_id' => $forUserId,
+        ]));
+    }
+
+    public static function GetPopularEntitiesRequestForCurrentUser($behaviorType, $entityType)
+    {
+        return new GetPopularEntitiesRequest($behaviorType, $entityType, self::CURRENT_USER_PLACEHOLDER);
     }
 
     /**
@@ -38,8 +51,8 @@ class GetComplementaryEntitiesRequest implements Request
         $useragent,
         $referer
     ) {
-        return new GetComplementaryEntitiesResponse(
-            $instance->getComplementaryEntitiesPost(
+        return new GetPopularEntitiesResponse(
+            $instance->getPopularEntitiesPost(
                 $apiversion,
                 $userid,
                 $this->getRaw(),

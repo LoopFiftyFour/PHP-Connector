@@ -1,15 +1,20 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
 
-class GetBasketRecommendationsRequest implements Request
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Response\GetComplementaryEntitiesResponse;
+
+class GetComplementaryEntitiesRequest implements Request
 {
     use OpenAPIWrapper;
 
-    public function __construct($entities)
+    public function __construct($entity)
     {
-        $this->wraps(new OpenAPI\Model\GetBasketRecommendationsRequest([
-            'entities' => array_map(function ($entity) { return $entity->getRaw(); }, $entities)
-        ]));
+        $this->wraps(new OpenAPI\Model\GetComplementaryEntitiesRequest([
+            'entity' => $entity->getRaw()
+		]));
     }
 
     /**
@@ -38,8 +43,8 @@ class GetBasketRecommendationsRequest implements Request
         $useragent,
         $referer
     ) {
-        return new GetBasketRecommendationsResponse(
-            $instance->getBasketRecommendationsPost(
+        return new GetComplementaryEntitiesResponse(
+            $instance->getComplementaryEntitiesPost(
                 $apiversion,
                 $userid,
                 $this->getRaw(),

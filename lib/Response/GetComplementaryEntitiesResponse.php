@@ -1,7 +1,10 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Response;
 
-class GetEntitiesByAttributeResponse implements Response
+use Loop54\API\Entity;
+use Loop54\API\OpenAPIWrapper;
+
+class GetComplementaryEntitiesResponse implements Response
 {
     use OpenAPIWrapper;
 

@@ -1,5 +1,9 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
+
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Response\AutoCompleteResponse;
 
 class AutoCompleteRequest implements Request
 {

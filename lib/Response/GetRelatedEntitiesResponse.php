@@ -1,5 +1,8 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Response;
+
+use Loop54\API\Entity;
+use Loop54\API\OpenAPIWrapper;
 
 class GetRelatedEntitiesResponse implements Response
 {

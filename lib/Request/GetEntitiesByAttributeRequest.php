@@ -1,5 +1,11 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
+
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Request\Parameters\RequestAliasFields;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Response\GetEntitiesByAttributeResponse;
 
 class GetEntitiesByAttributeRequest implements Request
 {

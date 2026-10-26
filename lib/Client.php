@@ -1,6 +1,20 @@
 <?php
 namespace Loop54\API;
 
+use Loop54\API\Request\AutoCompleteRequest;
+use Loop54\API\Request\CreateEventsRequest;
+use Loop54\API\Request\CustomRequest;
+use Loop54\API\Request\GetBasketRecommendationsRequest;
+use Loop54\API\Request\GetComplementaryEntitiesRequest;
+use Loop54\API\Request\GetEntitiesByAttributeRequest;
+use Loop54\API\Request\GetEntitiesRequest;
+use Loop54\API\Request\GetPopularEntitiesRequest;
+use Loop54\API\Request\GetRecentEntitiesRequest;
+use Loop54\API\Request\GetRecommendedEntitiesRequest;
+use Loop54\API\Request\GetRelatedEntitiesRequest;
+use Loop54\API\Request\Request;
+use Loop54\API\Request\SearchRequest;
+use Loop54\API\Response\Response;
 use Random\RandomException;
 
 class Client

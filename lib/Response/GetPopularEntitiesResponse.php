@@ -1,7 +1,10 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Response;
 
-class GetEntitiesResponse implements Response
+use Loop54\API\Entity;
+use Loop54\API\OpenAPIWrapper;
+
+class GetPopularEntitiesResponse implements Response
 {
     use OpenAPIWrapper;
 

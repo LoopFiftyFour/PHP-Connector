@@ -8,11 +8,14 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 // phpcs:enable
 
 use GuzzleHttp\ClientInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use Loop54\API\Request\Parameters\FilterParameter;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Request\SearchRequest;
+use PHPUnit\Framework\Attributes\TestDox;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use PHPUnit\Framework\Attributes\TestDox;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class IntegrationTest extends \PHPUnit\Framework\TestCase
 {
@@ -376,7 +379,7 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(
             4,
             array_map(
-                '\Loop54\API\SearchRequest::fromQueryResult',
+                '\Loop54\API\Request\SearchRequest::fromQueryResult',
                 $response->getUnScopedResults()
             ),
             'There should be 4 queries created from the unscoped results'

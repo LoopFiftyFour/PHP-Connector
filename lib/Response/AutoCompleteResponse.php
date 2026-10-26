@@ -1,5 +1,8 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Response;
+
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Request\SearchRequest;
 
 class AutoCompleteResponse implements Response
 {
@@ -44,7 +47,7 @@ class AutoCompleteResponse implements Response
     public function getResultsAsSearchRequests()
     {
         $unScopedRequests = array_map(
-                '\Loop54\API\SearchRequest::fromQueryResult',
+                '\Loop54\API\Request\SearchRequest::fromQueryResult',
                 $this->getUnscopedResults()
             );
         

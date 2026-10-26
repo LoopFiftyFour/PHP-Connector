@@ -1,23 +1,20 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
 
-class GetPopularEntitiesRequest implements Request
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Response\GetBasketRecommendationsResponse;
+
+class GetBasketRecommendationsRequest implements Request
 {
     use OpenAPIWrapper;
-    const CURRENT_USER_PLACEHOLDER = "(CurrentUser)";
 
-    public function __construct($behaviorType, $entityType, $forUserId)
+    public function __construct($entities)
     {
-        $this->wraps(new OpenAPI\Model\GetRecentEntitiesRequest([
-            'behavior_type' => $behaviorType,
-            'entity_type' => $entityType,
-            'for_user_id' => $forUserId,
+        $this->wraps(new OpenAPI\Model\GetBasketRecommendationsRequest([
+            'entities' => array_map(function ($entity) { return $entity->getRaw(); }, $entities)
         ]));
-    }
-
-    public static function GetPopularEntitiesRequestForCurrentUser($behaviorType, $entityType)
-    {
-        return new GetPopularEntitiesRequest($behaviorType, $entityType, self::CURRENT_USER_PLACEHOLDER);
     }
 
     /**
@@ -46,8 +43,8 @@ class GetPopularEntitiesRequest implements Request
         $useragent,
         $referer
     ) {
-        return new GetPopularEntitiesResponse(
-            $instance->getPopularEntitiesPost(
+        return new GetBasketRecommendationsResponse(
+            $instance->getBasketRecommendationsPost(
                 $apiversion,
                 $userid,
                 $this->getRaw(),

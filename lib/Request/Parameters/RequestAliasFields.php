@@ -1,5 +1,7 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request\Parameters;
+
+use Loop54\API\OpenAPIWrapper;
 
 class RequestAliasFields
 {

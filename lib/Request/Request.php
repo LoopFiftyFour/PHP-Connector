@@ -1,5 +1,7 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
+
+use Loop54\API\OpenAPI;
 
 interface Request
 {

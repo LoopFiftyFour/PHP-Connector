@@ -1,15 +1,18 @@
 <?php
-namespace Loop54\API;
+namespace Loop54\API\Request;
 
-class GetRelatedEntitiesRequest implements Request
+use Loop54\API\OpenAPI;
+use Loop54\API\OpenAPIWrapper;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Response\GetRecommendedEntitiesResponse;
+
+class GetRecommendedEntitiesRequest implements Request
 {
     use OpenAPIWrapper;
 
-    public function __construct($entity)
+    public function __construct()
     {
-        $this->wraps(new OpenAPI\Model\GetRelatedEntitiesRequest([
-            'entity' => $entity->getRaw()
-		]));
+        $this->wraps(new OpenAPI\Model\GetRecommendedEntitiesRequest());
     }
 
     /**
@@ -27,11 +30,6 @@ class GetRelatedEntitiesRequest implements Request
         }
         return new ResultsOptions($this->getRaw()->getResultsOptions());
     }
-    
-    public function relationKind($relKind)
-    {
-        $this->getRaw()->setRelationKind($relKind);
-    }
 
     public function perform(
         $instance,
@@ -43,8 +41,8 @@ class GetRelatedEntitiesRequest implements Request
         $useragent,
         $referer
     ) {
-        return new GetRelatedEntitiesResponse(
-            $instance->getRelatedEntitiesPost(
+        return new GetRecommendedEntitiesResponse(
+            $instance->getRecommendedEntitiesPost(
                 $apiversion,
                 $userid,
                 $this->getRaw(),
