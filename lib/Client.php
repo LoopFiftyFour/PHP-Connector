@@ -1,14 +1,14 @@
 <?php
 namespace Loop54\API;
 
-use \Ramsey\Uuid\Uuid;
+use Random\RandomException;
 
 class Client
 {
     use OpenAPIWrapper;
 
     const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:3.1.1';
+    const LIBVERSION = 'php:V3:4.0.0';
     private $apikey;
     private $remoteClientInfo;
     private $httpClient;
@@ -349,14 +349,20 @@ class Client
     }
 
     /**
-     * Generate a random, compact, unique, yet recogniseable user id.
+     * Generate a random, compact, unique, yet recognizable user id.
      *
      * Just a plain UUID is easily confused with a million other things, so
      * append also "UID" in order to disambiguate and help troubleshooting.
+     *
+     * @throws RandomException If no secure source of randomness is available
      */
-    public function createUserId()
+    public static function createUserId(): string
     {
-        return 'UID' . rtrim(base64_encode(Uuid::uuid4()->getBytes()), '=');
+        $bytes = random_bytes(16);
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40); // version 4
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80); // variant 10xx
+
+        return 'UID' . rtrim(base64_encode($bytes), '=');
     }
 
     private function userId()

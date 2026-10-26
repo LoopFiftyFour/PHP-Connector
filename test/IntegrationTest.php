@@ -12,6 +12,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
+use PHPUnit\Framework\Attributes\TestDox;
 
 class IntegrationTest extends \PHPUnit\Framework\TestCase
 {
@@ -601,5 +602,24 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         $connector = $this->clientFor('createEvents', 'userid')
             ->withUserId($getUserId);
         $connector->purchaseEvent($connector->entity('Product', 12));
+    }
+
+    #[TestDox('createUserId() returns "UID" followed by 22 base64 characters, unique per call')]
+    public function testCreateUserId()
+    {
+        $connector = $this->mockClient($this->prophesize(ClientInterface::class));
+
+        $userId = $connector->createUserId();
+
+        $this->assertMatchesRegularExpression(
+            pattern: '#\AUID[A-Za-z0-9+/]{22}\z#',
+            string: $userId,
+            message: 'User ID must be "UID" followed by 22 unpadded base64 characters',
+        );
+        $this->assertNotSame(
+            expected: $userId,
+            actual: $connector->createUserId(),
+            message: 'Two consecutive calls must not return the same user ID',
+        );
     }
 }
