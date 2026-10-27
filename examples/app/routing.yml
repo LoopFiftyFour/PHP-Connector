@@ -1,3 +1,9 @@
+_Home:
+  path: /
+  controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController
+  defaults:
+    route: Search
+
 Search:
   path: /search
   controller: Loop54\API\Examples\App\AppController::search

@@ -3,14 +3,19 @@
 namespace Loop54\API\Examples\App;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\RouterInterface;
+use Loop54\API\Client;
 use Loop54\API\Examples\Config;
+use Loop54\API\Request\Parameters\ResultsOptions;
 
 class AppController extends AbstractController
 {
-    public function __construct()
+    private Client $connector;
+
+    public function __construct(private RouterInterface $router)
     {
         $remoteClientInfo = new \Loop54\API\RemoteClientInfo\WebClient();
-        $this->connector = new \Loop54\API\Client(
+        $this->connector = new Client(
             Config\ENDPOINT,
             Config\API_KEY,
             $remoteClientInfo
@@ -19,9 +24,12 @@ class AppController extends AbstractController
 
     private function allRoutes()
     {
-        $router = $this->get('kernel')->getContainer()->get('router');
-        $router->setOption('debug', true);
-        return $router->getRouteCollection()->all();
+        // Routes starting with an underscore are internal and not shown in the navigation
+        return array_filter(
+            $this->router->getRouteCollection()->all(),
+            fn ($name) => !str_starts_with($name, '_'),
+            ARRAY_FILTER_USE_KEY
+        );
     }
 
     private static function populateParameters($source, $parameters)
@@ -123,9 +131,9 @@ class AppController extends AbstractController
             }
         }
         if (isset($parameters['Sorting']['sortby']['value'])) {
-            $request->sortBy(
+            $request->resultsOptions()->sortBy(
                 $parameters['Sorting']['sortby']['value'],
-                \Loop54\API\Search::ORDER_DESC
+                ResultsOptions::ORDER_DESC
             );
         }
 
@@ -211,7 +219,7 @@ class AppController extends AbstractController
         $entity = $this->connector
             ->entity($_GET['entity_type'], $_GET['entity_id']);
 
-        $request = $this->connector->clickEvent($entity);
+        $this->connector->clickEvent($entity);
 
         $returnRoute = $_GET['return'];
         unset($_GET['type']);
