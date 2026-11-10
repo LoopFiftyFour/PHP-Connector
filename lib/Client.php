@@ -19,6 +19,7 @@ use Loop54\API\Request\GetRelatedEntitiesRequest;
 use Loop54\API\Request\Request;
 use Loop54\API\Request\RequestContext;
 use Loop54\API\Request\SearchRequest;
+use Loop54\API\Request\SuggestRequest;
 use Loop54\API\Response\CustomResponse;
 use Loop54\API\Response\Response;
 use Random\RandomException;
@@ -108,6 +109,15 @@ class Client
     public function autoComplete(string $query): AutoCompleteRequest
     {
         return new AutoCompleteRequest($query);
+    }
+
+    /**
+     * Configure a suggest request for a partial query. Combines query
+     * suggestions and search results in one request.
+     */
+    public function suggest(string $query): SuggestRequest
+    {
+        return new SuggestRequest($query);
     }
 
     /**
