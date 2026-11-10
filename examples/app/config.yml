@@ -2,14 +2,14 @@ framework:
   secret: very secret super secret
 
   router:
-    resource: "%kernel.root_dir%/routing.yml"
-
-  templating:
-    engines:
-      - twig
+    resource: "%kernel.project_dir%/routing.yml"
 
 twig:
   debug: true
   strict_variables: true
-  paths:
-    - "%kernel.root_dir%/templates"
+  default_path: "%kernel.project_dir%/templates"
+
+services:
+  Loop54\API\Examples\App\AppController:
+    autowire: true
+    autoconfigure: true

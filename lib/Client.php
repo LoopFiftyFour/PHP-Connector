@@ -1,19 +1,40 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Loop54\API;
 
+use GuzzleHttp\ClientInterface;
+use Loop54\API\Request\AutoCompleteRequest;
+use Loop54\API\Request\CreateEventsRequest;
+use Loop54\API\Request\CustomRequest;
+use Loop54\API\Request\GetBasketRecommendationsRequest;
+use Loop54\API\Request\GetComplementaryEntitiesRequest;
+use Loop54\API\Request\GetEntitiesByAttributeRequest;
+use Loop54\API\Request\GetEntitiesRequest;
+use Loop54\API\Request\GetPopularEntitiesRequest;
+use Loop54\API\Request\GetRecentEntitiesRequest;
+use Loop54\API\Request\GetRecommendedEntitiesRequest;
+use Loop54\API\Request\GetRelatedEntitiesRequest;
+use Loop54\API\Request\Request;
+use Loop54\API\Request\RequestContext;
+use Loop54\API\Request\SearchRequest;
+use Loop54\API\Request\SuggestRequest;
+use Loop54\API\Response\CustomResponse;
+use Loop54\API\Response\Response;
 use Random\RandomException;
 
 class Client
 {
     use OpenAPIWrapper;
 
-    const APIVERSION = 'V3';
-    const LIBVERSION = 'php:V3:4.0.1';
-    private $apikey;
-    private $remoteClientInfo;
-    private $httpClient;
-    private $admin;  // AdministrativeApi
-    private $other;  // OtherApi
+    public const APIVERSION = 'V3';
+    public const LIBVERSION = 'php:V3:4.0.1';
+    private string $apikey;
+    private RemoteClientInfo\Client $remoteClientInfo;
+    private ?ClientInterface $httpClient;
+    private OpenAPI\Api\AdministrativeApi $admin;
+    private OpenAPI\Api\OtherApi $other;
 
     /**
      * Initialises a connector instance which targets a Loop54 engine.
@@ -32,15 +53,15 @@ class Client
      *    variable populated with the usual keys, like HTTP_CLIENT_IP,
      *    HTTP_X_FORWARDED_FOR, HTTP_USER_AGENT and so on.
      *
-     * @param null|\GuzzleHttp\ClientInterface $client
+     * @param ClientInterface|null $client
      *    An optional HTTP client implementation. If none is given, Guzzle
      *    will automatically be used.
      */
     public function __construct(
-        $host,
-        $apikey,
-        $remoteClientInfo,
-        $client = null
+        string $host,
+        string $apikey,
+        RemoteClientInfo\Client $remoteClientInfo,
+        ?ClientInterface $client = null
     ) {
         $config = new OpenAPI\Configuration();
         $config->setHost(rtrim($host, '/'));
@@ -59,10 +80,8 @@ class Client
      *
      * @param callable $getUserId
      *    A function that, when called, will return the desired user id.
-     *
-     * @return Client
      */
-    public function withUserId($getUserId)
+    public function withUserId(callable $getUserId): Client
     {
         $customClientInfo = new RemoteClientInfo\CustomClient(
             $this->remoteClientInfo
@@ -78,28 +97,27 @@ class Client
 
     /**
      * Configure a search request for a particular query.
-     *
-     * @param string $query
-     *    The search query.
-     *
-     * @return SearchRequest
      */
-    public function search($query)
+    public function search(string $query): SearchRequest
     {
         return new SearchRequest($query);
     }
 
     /**
      * Configure an autocomplete request for a partial query.
-     *
-     * @param string $query
-     *    The partial query to find completions for.
-     *
-     * @return AutoCompleteRequest
      */
-    public function autoComplete($query)
+    public function autoComplete(string $query): AutoCompleteRequest
     {
         return new AutoCompleteRequest($query);
+    }
+
+    /**
+     * Configure a suggest request for a partial query. Combines query
+     * suggestions and search results in one request.
+     */
+    public function suggest(string $query): SuggestRequest
+    {
+        return new SuggestRequest($query);
     }
 
     /**
@@ -108,58 +126,45 @@ class Client
      * @param string $name
      *    The attribute to inspect.
      *
-     * @param string $value
-     *    Include only entities with this value for the attribute.
-     *
-     * @return GetEntitiesByAttributeRequest
+     * @param string|int|float|bool|array<string|int|float|bool> $value
+     *    Include only entities with this value (or one of these values) for
+     *    the attribute.
      */
-    public function getEntitiesByAttribute($name, $value)
-    {
+    public function getEntitiesByAttribute(
+        string $name,
+        string|int|float|bool|array $value
+    ): GetEntitiesByAttributeRequest {
         return new GetEntitiesByAttributeRequest($name, $value);
     }
 
     /**
      * Configure a request to get entities.
-     *
-     * @return GetEntitiesRequest
      */
-    public function getEntities()
+    public function getEntities(): GetEntitiesRequest
     {
         return new GetEntitiesRequest();
     }
 
     /**
      * Configure a request to get entities related to the provided entity.
-     *
-     * @param Entity $entity
-     *    The entity for which to fetch related entities.
-     *
-     * @return GetRelatedEntitiesRequest
      */
-    public function getRelatedEntities($entity)
+    public function getRelatedEntities(Entity $entity): GetRelatedEntitiesRequest
     {
         return new GetRelatedEntitiesRequest($entity);
     }
 
     /**
      * Configure a request to get personalized recommendations.
-     *
-     * @return GetRecommendedEntitiesRequest
      */
-    public function getRecommendedEntities()
+    public function getRecommendedEntities(): GetRecommendedEntitiesRequest
     {
         return new GetRecommendedEntitiesRequest();
     }
 
     /**
      * Configure a request to get entities complementary to the provided entity.
-     *
-     * @param Entity $entity
-     *    The entity for which to fetch complementary entities.
-     *
-     * @return GetComplementaryEntitiesRequest
      */
-    public function getComplementaryEntities($entity)
+    public function getComplementaryEntities(Entity $entity): GetComplementaryEntitiesRequest
     {
         return new GetComplementaryEntitiesRequest($entity);
     }
@@ -169,10 +174,8 @@ class Client
      *
      * @param Entity[] $entities
      *    The set of entities in a basket for which to fetch recommendations for.
-     *
-     * @return GetBasketRecommendationsRequest
      */
-    public function getBasketRecommendations($entities)
+    public function getBasketRecommendations(array $entities): GetBasketRecommendationsRequest
     {
         return new GetBasketRecommendationsRequest($entities);
     }
@@ -182,15 +185,16 @@ class Client
      *
      * @param string $behaviorType
      *    Interaction or navigation type to include (such as click, purchase or search).
-     * @param string $forUserId
+     * @param string|null $forUserId
      *    User ID (normally the same as the one in the User-Id header) to retrieve the most common entities for that user or null to retrieve the globally most common entities.
-     * @param array<string> $entityType
+     * @param string[]|null $entityType
      *    Entity types to include (such as Product or Query) or null for all types.
-     *
-     * @return GetPopularEntitiesRequest
      */
-    public function getPopularEntities($behaviorType, $forUserId = null, $entityType = null)
-    {
+    public function getPopularEntities(
+        string $behaviorType,
+        ?string $forUserId = null,
+        ?array $entityType = null
+    ): GetPopularEntitiesRequest {
         return new GetPopularEntitiesRequest($behaviorType, $entityType, $forUserId);
     }
 
@@ -199,15 +203,16 @@ class Client
      *
      * @param string $behaviorType
      *    Interaction or navigation type to include (such as click, purchase or search).
-     * @param string $forUserId
+     * @param string|null $forUserId
      *    User ID (normally the same as the one in the User-Id header) to retrieve the most recent entities for that user or null to retrieve the globally most recent entities.
-     * @param array<string> $entityType
+     * @param string[]|null $entityType
      *    Entity types to include (such as Product or Query) or null for all types.
-     *
-     * @return GetRecentEntitiesRequest
      */
-    public function getRecentEntities($behaviorType, $forUserId = null, $entityType = null)
-    {
+    public function getRecentEntities(
+        string $behaviorType,
+        ?string $forUserId = null,
+        ?array $entityType = null
+    ): GetRecentEntitiesRequest {
         return new GetRecentEntitiesRequest($behaviorType, $entityType, $forUserId);
     }
 
@@ -216,16 +221,8 @@ class Client
      * with a particular id and type. This is useful e.g. for creating click
      * events, where you may not possess the full entity being clicked on, but
      * you can trivially find its ID and type.
-     *
-     * @param string $id
-     *    ID for the entity.
-     *
-     * @param string $type
-     *    The type of the entity.
-     *
-     * @return Entity
      */
-    public function entity($type, $id)
+    public function entity(string $type, string|int $id): Entity
     {
         return Entity::fromId($type, $id);
     }
@@ -236,7 +233,7 @@ class Client
      * @param Entity $entity
      *    The entity being clicked.
      */
-    public function clickEvent($entity)
+    public function clickEvent(Entity $entity): void
     {
         $event = new CreateEventsRequest('click');
         $this->query($event->entity($entity));
@@ -249,7 +246,7 @@ class Client
      * @param Entity $entity
      *    The entity that is now part of the users cart.
      */
-    public function addToCartEvent($entity)
+    public function addToCartEvent(Entity $entity): void
     {
         $event = new CreateEventsRequest('addtocart');
         $this->query($event->entity($entity));
@@ -262,7 +259,7 @@ class Client
      * @param Entity $entity
      *    The entity that is now in possession of the user.
      */
-    public function purchaseEvent($entity)
+    public function purchaseEvent(Entity $entity): void
     {
         $event = new CreateEventsRequest('purchase');
         $this->query($event->entity($entity));
@@ -274,10 +271,8 @@ class Client
      *
      * @param string $type
      *    Commonly one of 'click', 'addtocart', or 'purchase'.
-     *
-     * @return CreateEventsRequest
      */
-    public function createEvent($type)
+    public function createEvent(string $type): CreateEventsRequest
     {
         return new CreateEventsRequest($type);
     }
@@ -285,15 +280,11 @@ class Client
     /**
      * From one or more create event requests, build a single
      * {@see CreateEventsRequest} containing all events.
-     *
-     * @return CreateEventRequest
      */
-    public function concatEvents(...$events)
+    public function concatEvents(CreateEventsRequest ...$events): CreateEventsRequest
     {
         $rawEvents = array_map(
-            function ($event) {
-                return $event->getRaw()->getEvents();
-            },
+            fn (CreateEventsRequest $event) => $event->getRaw()->getEvents(),
             $events
         );
         $events = new CreateEventsRequest('');
@@ -304,48 +295,63 @@ class Client
     /**
      * Tell the engine to re-sync the contents (the product catalogue).
      */
-    public function sync()
+    public function sync(): mixed
     {
         /* We don't have/need the user context here, so we perform manually. */
         return $this->admin->syncPost(
-            Client::APIVERSION,               // apiversion
-            $this->apikey,                    // apikey
-            new OpenAPI\Model\SyncRequest(),  // request
-            Client::LIBVERSION                // libversion
-        );
-    }
-
-    public function doCustomRequest($requestName, $customData)
-    {
-        return $this->queryOther(
-            new CustomRequest($requestName, $customData)
+            api_version: self::APIVERSION,
+            loop54_key: $this->apikey,
+            sync_request: new OpenAPI\Model\SyncRequest(),
+            lib_version: self::LIBVERSION,
         );
     }
 
     /**
-     * Perform a request from the 'Other' API category.
-     *
-     * @param Request $request
-     *
-     * @return object
+     * @param array<string, mixed>|object $customData
      */
-    public function queryOther($request)
+    public function doCustomRequest(string $requestName, array|object $customData): CustomResponse
     {
-        return $this->queryInstance($request, $this->other);
+        return $this->query(new CustomRequest($requestName, $customData));
+    }
+
+    /**
+     * @deprecated {@see query()} now handles requests from all API categories.
+     */
+    public function queryOther(Request $request): Response
+    {
+        trigger_error(
+            'queryOther() is deprecated, use query() instead',
+            E_USER_DEPRECATED
+        );
+        return $this->query($request);
     }
 
     /**
      * Actually perform a request once configured to your liking. The type of
      * response returned is determined by the request performed.
-     *
-     * @param Request $request
-     *    Perform this request please.
-     *
-     * @return Response
      */
-    public function query($request)
+    public function query(Request $request): Response
     {
-        return $this->queryInstance($request, $this->getRaw());
+        try {
+            return $request->perform(new RequestContext(
+                userInitiatedApi: $this->getRaw(),
+                otherApi: $this->other,
+                apiVersion: self::APIVERSION,
+                libVersion: self::LIBVERSION,
+                apiKey: $this->apikey,
+                userId: $this->userId(),
+                userIp: $this->userIp(),
+                userAgent: $this->userAgent(),
+                referer: $this->referer(),
+            ));
+        } catch (OpenAPI\ApiException $e) {
+            $errorResponseBody = $e->getResponseBody();
+            if (!empty(json_decode($errorResponseBody)->error)) {
+                throw ClientException::http(json_decode($errorResponseBody)->error);
+            } else {
+                throw ClientException::unknown($errorResponseBody);
+            }
+        }
     }
 
     /**
@@ -365,56 +371,35 @@ class Client
         return 'UID' . rtrim(base64_encode($bytes), '=');
     }
 
-    private function userId()
+    private function userId(): string
     {
         $clientId = $this->remoteClientInfo->userId();
         if ($clientId == null) {
-            return $this->remoteClientInfo->userId($this->createUserId());
+            $clientId = $this->remoteClientInfo->userId($this->createUserId());
         }
-        return $clientId;
+        return (string) $clientId;
     }
 
-    private function userIp()
+    private function userIp(): ?string
     {
-        return $this->remoteClientInfo->userIp();
+        return self::nullableString($this->remoteClientInfo->userIp());
     }
 
-    private function userAgent()
+    private function userAgent(): ?string
     {
-        return $this->remoteClientInfo->userAgent();
+        return self::nullableString($this->remoteClientInfo->userAgent());
     }
 
-    private function referer()
+    private function referer(): ?string
     {
-        return $this->remoteClientInfo->referer();
+        return self::nullableString($this->remoteClientInfo->referer());
     }
 
-    private function queryInstance($request, $instance)
+    /**
+     * RemoteClientInfo implementations are untyped and may return e.g. ints.
+     */
+    private static function nullableString(mixed $value): ?string
     {
-        if ($request == null) {
-            throw new \InvalidArgumentException('Request cannot be null');
-        }
-        if ($instance == null) {
-            throw new \InvalidArgumentException('Instance cannot be null');
-        }
-        try {
-            return $request->perform(
-                $instance,
-                Client::APIVERSION,
-                Client::LIBVERSION,
-                $this->apikey,
-                $this->userId(),
-                $this->userIp(),
-                $this->userAgent(),
-                $this->referer()
-            );
-        } catch (OpenAPI\ApiException $e) {
-            $errorResponseBody = $e->getResponseBody();
-            if (!empty(json_decode($errorResponseBody)->error)) {
-                throw ClientException::http(json_decode($errorResponseBody)->error);
-            } else {
-                throw ClientException::unknown($errorResponseBody);
-            }
-        }
+        return $value === null ? null : (string) $value;
     }
 }

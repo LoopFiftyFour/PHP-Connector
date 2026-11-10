@@ -59,7 +59,7 @@ class GetRelatedEntitiesRequest implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'entity' => 'Entity',
-        'results_options' => 'EntityCollectionParameters',
+        'results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
         'custom_data' => 'map[string,object]'
     ];
 

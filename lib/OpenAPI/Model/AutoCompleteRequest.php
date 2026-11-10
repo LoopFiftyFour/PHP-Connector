@@ -58,8 +58,8 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
+        'queries_options' => '\Loop54\API\OpenAPI\Model\QueryCollectionParameters',
         'query' => 'string',
-        'queries_options' => 'QueryCollectionParameters',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -69,8 +69,8 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'query' => null,
         'queries_options' => null,
+        'query' => null,
         'custom_data' => null
     ];
 
@@ -101,8 +101,8 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'query' => 'query',
         'queries_options' => 'queriesOptions',
+        'query' => 'query',
         'custom_data' => 'customData'
     ];
 
@@ -112,8 +112,8 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'query' => 'setQuery',
         'queries_options' => 'setQueriesOptions',
+        'query' => 'setQuery',
         'custom_data' => 'setCustomData'
     ];
 
@@ -123,8 +123,8 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'query' => 'getQuery',
         'queries_options' => 'getQueriesOptions',
+        'query' => 'getQuery',
         'custom_data' => 'getCustomData'
     ];
 
@@ -186,10 +186,10 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
      * @param mixed[] $data Associated array of property values
      *                      initializing the model
      */
-    public function __construct(?array $data = null)
+    public function __construct(array $data = null)
     {
-        $this->container['query'] = isset($data['query']) ? $data['query'] : null;
         $this->container['queries_options'] = isset($data['queries_options']) ? $data['queries_options'] : null;
+        $this->container['query'] = isset($data['query']) ? $data['query'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -205,8 +205,8 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
         if ($this->container['query'] === null) {
             $invalidProperties[] = "'query' can't be null";
         }
-        if ((mb_strlen($this->container['query']) > 100)) {
-            $invalidProperties[] = "invalid value for 'query', the character length must be smaller than or equal to 100.";
+        if ((mb_strlen($this->container['query']) > 300)) {
+            $invalidProperties[] = "invalid value for 'query', the character length must be smaller than or equal to 300.";
         }
 
         return $invalidProperties;
@@ -223,34 +223,6 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
         return count($this->listInvalidProperties()) === 0;
     }
 
-
-    /**
-     * Gets query
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->container['query'];
-    }
-
-    /**
-     * Sets query
-     *
-     * @param string $query The query to find suggestions.
-     *
-     * @return $this
-     */
-    public function setQuery($query)
-    {
-        if ((mb_strlen($query) > 100)) {
-            throw new \InvalidArgumentException('invalid length for $query when calling AutoCompleteRequest., must be smaller than or equal to 100.');
-        }
-
-        $this->container['query'] = $query;
-
-        return $this;
-    }
 
     /**
      * Gets queries_options
@@ -272,6 +244,34 @@ class AutoCompleteRequest implements ModelInterface, ArrayAccess
     public function setQueriesOptions($queries_options)
     {
         $this->container['queries_options'] = $queries_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets query
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->container['query'];
+    }
+
+    /**
+     * Sets query
+     *
+     * @param string $query The query used for searching in the request.
+     *
+     * @return $this
+     */
+    public function setQuery($query)
+    {
+        if ((mb_strlen($query) > 300)) {
+            throw new \InvalidArgumentException('invalid length for $query when calling AutoCompleteRequest., must be smaller than or equal to 300.');
+        }
+
+        $this->container['query'] = $query;
 
         return $this;
     }

@@ -1,0 +1,42 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Loop54\API\Response;
+
+use Loop54\API\Entity;
+use Loop54\API\OpenAPI\Model;
+
+final class GetRecommendedEntitiesResponse implements Response
+{
+    private readonly Model\GetRecommendedEntitiesResponse $raw;
+
+    public function __construct(Model\GetRecommendedEntitiesResponse $response)
+    {
+        $this->raw = $response;
+    }
+
+    public function getRaw(): Model\GetRecommendedEntitiesResponse
+    {
+        return $this->raw;
+    }
+
+    /**
+     * @return array<array<string, mixed>>|null
+     */
+    public function getFacets(): ?array
+    {
+        return $this->raw->getResults()->getFacets();
+    }
+
+    /**
+     * @return Entity[]
+     */
+    public function getResults(): array
+    {
+        return array_map(
+            fn ($entity) => new Entity($entity),
+            $this->raw->getResults()->getItems()
+        );
+    }
+}
