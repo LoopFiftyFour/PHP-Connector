@@ -61,7 +61,7 @@ class GetRecentEntitiesRequest implements ModelInterface, ArrayAccess
         'behavior_type' => 'string',
         'entity_type' => 'string[]',
         'for_user_id' => 'string',
-        'results_options' => 'EntityCollectionParameters',
+        'results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -293,7 +293,7 @@ class GetRecentEntitiesRequest implements ModelInterface, ArrayAccess
     /**
      * Sets for_user_id
      *
-     * @param string|null $for_user_id A user ID (normally the same as the one in the User-Id header) to retrieve the most common/recent entities for that user or null to retrieve the globally most common/recent entities.
+     * @param string|null $for_user_id A user ID to retrieve the most common/recent entities for that user or null to retrieve the globally most common/recent entities. The literal \"(CurrentUser)\" can be specified to use the user ID from the User-Id request header.
      *
      * @return $this
      */

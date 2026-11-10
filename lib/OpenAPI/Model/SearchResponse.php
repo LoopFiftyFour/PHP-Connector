@@ -62,7 +62,7 @@ class SearchResponse extends Response
         'results' => 'EntityCollection',
         'related_results' => 'EntityCollection',
         'redirect' => 'string',
-        'content_search_results' => 'ContentSearchResultItem[]',
+        'content_search_results' => '\Loop54\API\OpenAPI\Model\ContentSearchResultItem[]',
         'custom_data' => 'map[string,object]'
     ];
 
