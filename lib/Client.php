@@ -29,7 +29,7 @@ class Client
     use OpenAPIWrapper;
 
     public const APIVERSION = 'V3';
-    public const LIBVERSION = 'php:V3:4.0.1';
+    public const LIBVERSION = 'php:V3:5.0.0';
     private string $apikey;
     private RemoteClientInfo\Client $remoteClientInfo;
     private ?ClientInterface $httpClient;
