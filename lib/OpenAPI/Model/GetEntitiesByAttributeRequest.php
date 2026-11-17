@@ -58,8 +58,8 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'attribute' => 'AttributeNameValuePair',
-        'results_options' => 'EntityCollectionParameters',
+        'attribute' => 'GebaAttributeNameValuePair',
+        'results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
         'request_alias' => 'RequestAliasFields',
         'custom_data' => 'map[string,object]'
     ];
@@ -229,7 +229,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     /**
      * Gets attribute
      *
-     * @return AttributeNameValuePair
+     * @return GebaAttributeNameValuePair
      */
     public function getAttribute()
     {
@@ -239,7 +239,7 @@ class GetEntitiesByAttributeRequest implements ModelInterface, ArrayAccess
     /**
      * Sets attribute
      *
-     * @param AttributeNameValuePair $attribute The attribute name-value-pair to find entities connected to. Note: this attribute needs to be indexed in the engine. See the endpoint GetIndexedAttributes.
+     * @param GebaAttributeNameValuePair $attribute The attribute name-value-pair to find entities connected to. Note: this attribute needs to be indexed in the engine. See the endpoint GetIndexedAttributes.
      *
      * @return $this
      */

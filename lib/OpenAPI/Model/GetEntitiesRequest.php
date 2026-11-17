@@ -58,7 +58,7 @@ class GetEntitiesRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'results_options' => 'EntityCollectionParameters',
+        'results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
         'custom_data' => 'map[string,object]'
     ];
 

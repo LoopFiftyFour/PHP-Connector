@@ -8,11 +8,14 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 // phpcs:enable
 
 use GuzzleHttp\ClientInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
+use Loop54\API\Request\Parameters\FilterParameter;
+use Loop54\API\Request\Parameters\ResultsOptions;
+use Loop54\API\Request\SearchRequest;
+use PHPUnit\Framework\Attributes\TestDox;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
-use PHPUnit\Framework\Attributes\TestDox;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamInterface;
 
 class IntegrationTest extends \PHPUnit\Framework\TestCase
 {
@@ -121,6 +124,9 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
                 }
             } elseif ($endpoint == 'autoComplete') {
                 $this->assertBodyContains($request, '"query"');
+                $this->assertBodyContains($request, '"take":5');
+            } elseif ($endpoint == 'suggest') {
+                $this->assertBodyContains($request, '"query":"meat"');
                 $this->assertBodyContains($request, '"take":5');
             } elseif ($endpoint == 'getEntitiesByAttribute') {
                 $this->assertBodyContains($request, '"attribute"');
@@ -376,7 +382,7 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
         $this->assertCount(
             4,
             array_map(
-                '\Loop54\API\SearchRequest::fromQueryResult',
+                '\Loop54\API\Request\SearchRequest::fromQueryResult',
                 $response->getUnScopedResults()
             ),
             'There should be 4 queries created from the unscoped results'
@@ -385,6 +391,56 @@ class IntegrationTest extends \PHPUnit\Framework\TestCase
             8,
             $response->getResultsAsSearchRequests(),
             'There should be a total of 8 suggested queries to complete this'
+        );
+    }
+
+    public function testSuggest()
+    {
+        $connector = $this->clientFor('suggest', 'plain');
+        $request = $connector->suggest('meat')->take(5);
+        $response = $connector->query($request);
+
+        $this->assertInstanceOf(Response\SuggestResponse::class, $response);
+        $this->assertTrue(
+            $response->getMakesSense(),
+            'MakesSense should be true'
+        );
+        $this->assertEquals('meat', $response->getOriginalQuery());
+        $this->assertEquals('meat', $response->getQueryUsedForSearch());
+        $this->assertEquals(
+            ['Meat'],
+            $response->getScopedQuery()['scopes'],
+            'Incorrect scopes in scoped query'
+        );
+        $this->assertEquals(
+            2,
+            $response->getRaw()->getQueries()->getCount(),
+            'Incorrect query suggestion count'
+        );
+        $this->assertEquals(
+            'meat pie',
+            $response->getQueries()[0]['query'],
+            'Incorrect first query suggestion'
+        );
+        $this->assertEquals(
+            7,
+            $response->getRaw()->getResults()->getCount(),
+            'Incorrect result count'
+        );
+        $this->assertCount(
+            5,
+            $response->getResults(),
+            'There should be 5 entities'
+        );
+        $this->assertEmpty(
+            $response->getFacets(),
+            'There should be no facets defined'
+        );
+        $this->assertEmpty($response->getContentResults('Brand'));
+        $this->assertEquals(
+            'Product',
+            $response->getResults()[0]->getType(),
+            'The type of this entity should be Product'
         );
     }
 

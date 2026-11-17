@@ -20,7 +20,7 @@ require_once('Config.php');
  * Check whether or not the search query made sense to the engine, and
  * suggest alternative spellings if they exist.
  *
- * @param \Loop54\API\SearchResponse $response
+ * @param \Loop54\API\Response\SearchResponse $response
  */
 function checkSearchResponse($response)
 {
@@ -50,7 +50,7 @@ function checkSearchResponse($response)
  *
  * @param \Loop54\API\Client $connector
  *
- * @return \Loop54\API\SearchRequest
+ * @return \Loop54\API\Request\SearchRequest
  */
 function searchRequest($connector)
 {
@@ -58,8 +58,8 @@ function searchRequest($connector)
     $request = $connector->search('meat');
     $request->resultsOptions()
         ->sortBy(
-            \Loop54\API\ResultsOptions::TYPE_ATTRIBUTE,
-            \Loop54\API\ResultsOptions::ORDER_ASC,
+            \Loop54\API\Request\Parameters\ResultsOptions::TYPE_ATTRIBUTE,
+            \Loop54\API\Request\Parameters\ResultsOptions::ORDER_ASC,
             'Name'
         )
         ->skip(3)
@@ -160,27 +160,27 @@ function categoryListing($connector)
     // CODE SAMPLE categorylisting-sorting BEGIN
     /* Sort by ascending values in the "Price" attribute */
     $request->resultsOptions()->sortBy(
-        \Loop54\API\ResultsOptions::TYPE_ATTRIBUTE,
-        \Loop54\API\ResultsOptions::ORDER_ASC,
+        \Loop54\API\Request\Parameters\ResultsOptions::TYPE_ATTRIBUTE,
+        \Loop54\API\Request\Parameters\ResultsOptions::ORDER_ASC,
         'Price'
     );
 
     /* Sorting on multiple criteria is possible, but uses a clunky interface */
     $request->resultsOptions()->getRaw()->setSortBy([
         new \Loop54\API\OpenAPI\Model\EntitySortingParameter([
-            'type' => \Loop54\API\ResultsOptions::TYPE_ATTRIBUTE,
-            'order' => \Loop54\API\ResultsOptions::ORDER_DESC,
+            'type' => \Loop54\API\Request\Parameters\ResultsOptions::TYPE_ATTRIBUTE,
+            'order' => \Loop54\API\Request\Parameters\ResultsOptions::ORDER_DESC,
             'attribute_name' => 'Price'
         ]),
         new \Loop54\API\OpenAPI\Model\EntitySortingParameter([
-            'type' => \Loop54\API\ResultsOptions::TYPE_POPULARITY,
-            'order' => \Loop54\API\ResultsOptions::ORDER_DESC
+            'type' => \Loop54\API\Request\Parameters\ResultsOptions::TYPE_POPULARITY,
+            'order' => \Loop54\API\Request\Parameters\ResultsOptions::ORDER_DESC
         ])
     ]);
     // CODE SAMPLE END
 
     // CODE SAMPLE categorylisting-filter BEGIN
-    $filters = new \Loop54\API\FilterParameter();
+    $filters = new \Loop54\API\Request\Parameters\FilterParameter();
 
     $request = $connector->getEntitiesByAttribute(
         'Manufacturer',
@@ -251,7 +251,7 @@ function categoryListing($connector)
 function getEntities($connector)
 {
     // CODE SAMPLE getentities-filter BEGIN
-    $filters = new \Loop54\API\FilterParameter();
+    $filters = new \Loop54\API\Request\Parameters\FilterParameter();
 
     $request = $connector->getEntities();
     /* Filter results to only see new items with a price */

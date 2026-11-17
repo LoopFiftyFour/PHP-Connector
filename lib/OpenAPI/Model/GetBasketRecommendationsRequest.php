@@ -59,7 +59,7 @@ class GetBasketRecommendationsRequest implements ModelInterface, ArrayAccess
       */
     protected static $openAPITypes = [
         'entities' => '\Loop54\API\OpenAPI\Model\Entity[]',
-        'results_options' => 'EntityCollectionParameters',
+        'results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
         'custom_data' => 'map[string,object]'
     ];
 

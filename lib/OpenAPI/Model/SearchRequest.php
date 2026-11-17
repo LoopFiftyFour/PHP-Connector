@@ -58,12 +58,12 @@ class SearchRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPITypes = [
-        'query' => 'string',
-        'results_options' => 'EntityCollectionParameters',
-        'related_results_options' => 'EntityCollectionParameters',
-        'content_results_options' => 'TypedEntityCollectionParameters[]',
+        'results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
+        'related_results_options' => '\Loop54\API\OpenAPI\Model\EntityCollectionParameters',
         'spelling_suggestions_options' => 'QueryCollectionParameters',
         'related_queries_options' => 'QueryCollectionParameters',
+        'content_results_options' => '\Loop54\API\OpenAPI\Model\TypedEntityCollectionParameters[]',
+        'query' => 'string',
         'custom_data' => 'map[string,object]'
     ];
 
@@ -73,12 +73,12 @@ class SearchRequest implements ModelInterface, ArrayAccess
       * @var string[]
       */
     protected static $openAPIFormats = [
-        'query' => null,
         'results_options' => null,
         'related_results_options' => null,
-        'content_results_options' => null,
         'spelling_suggestions_options' => null,
         'related_queries_options' => null,
+        'content_results_options' => null,
+        'query' => null,
         'custom_data' => null
     ];
 
@@ -109,12 +109,12 @@ class SearchRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $attributeMap = [
-        'query' => 'query',
         'results_options' => 'resultsOptions',
         'related_results_options' => 'relatedResultsOptions',
-        'content_results_options' => 'contentResultsOptions',
         'spelling_suggestions_options' => 'spellingSuggestionsOptions',
         'related_queries_options' => 'relatedQueriesOptions',
+        'content_results_options' => 'contentResultsOptions',
+        'query' => 'query',
         'custom_data' => 'customData'
     ];
 
@@ -124,12 +124,12 @@ class SearchRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $setters = [
-        'query' => 'setQuery',
         'results_options' => 'setResultsOptions',
         'related_results_options' => 'setRelatedResultsOptions',
-        'content_results_options' => 'setContentResultsOptions',
         'spelling_suggestions_options' => 'setSpellingSuggestionsOptions',
         'related_queries_options' => 'setRelatedQueriesOptions',
+        'content_results_options' => 'setContentResultsOptions',
+        'query' => 'setQuery',
         'custom_data' => 'setCustomData'
     ];
 
@@ -139,12 +139,12 @@ class SearchRequest implements ModelInterface, ArrayAccess
      * @var string[]
      */
     protected static $getters = [
-        'query' => 'getQuery',
         'results_options' => 'getResultsOptions',
         'related_results_options' => 'getRelatedResultsOptions',
-        'content_results_options' => 'getContentResultsOptions',
         'spelling_suggestions_options' => 'getSpellingSuggestionsOptions',
         'related_queries_options' => 'getRelatedQueriesOptions',
+        'content_results_options' => 'getContentResultsOptions',
+        'query' => 'getQuery',
         'custom_data' => 'getCustomData'
     ];
 
@@ -208,12 +208,12 @@ class SearchRequest implements ModelInterface, ArrayAccess
      */
     public function __construct(?array $data = null)
     {
-        $this->container['query'] = isset($data['query']) ? $data['query'] : null;
         $this->container['results_options'] = isset($data['results_options']) ? $data['results_options'] : null;
         $this->container['related_results_options'] = isset($data['related_results_options']) ? $data['related_results_options'] : null;
-        $this->container['content_results_options'] = isset($data['content_results_options']) ? $data['content_results_options'] : null;
         $this->container['spelling_suggestions_options'] = isset($data['spelling_suggestions_options']) ? $data['spelling_suggestions_options'] : null;
         $this->container['related_queries_options'] = isset($data['related_queries_options']) ? $data['related_queries_options'] : null;
+        $this->container['content_results_options'] = isset($data['content_results_options']) ? $data['content_results_options'] : null;
+        $this->container['query'] = isset($data['query']) ? $data['query'] : null;
         $this->container['custom_data'] = isset($data['custom_data']) ? $data['custom_data'] : null;
     }
 
@@ -247,34 +247,6 @@ class SearchRequest implements ModelInterface, ArrayAccess
         return count($this->listInvalidProperties()) === 0;
     }
 
-
-    /**
-     * Gets query
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->container['query'];
-    }
-
-    /**
-     * Sets query
-     *
-     * @param string $query The query to search for.
-     *
-     * @return $this
-     */
-    public function setQuery($query)
-    {
-        if ((mb_strlen($query) > 100)) {
-            throw new \InvalidArgumentException('invalid length for $query when calling SearchRequest., must be smaller than or equal to 100.');
-        }
-
-        $this->container['query'] = $query;
-
-        return $this;
-    }
 
     /**
      * Gets results_options
@@ -325,30 +297,6 @@ class SearchRequest implements ModelInterface, ArrayAccess
     }
 
     /**
-     * Gets content_results_options
-     *
-     * @return TypedEntityCollectionParameters[]|null
-     */
-    public function getContentResultsOptions()
-    {
-        return $this->container['content_results_options'];
-    }
-
-    /**
-     * Sets content_results_options
-     *
-     * @param TypedEntityCollectionParameters[]|null $content_results_options Parameters for specifying which content results to retrieve. This is a separate option from ResultsOptions and only applies to Content Search. One entry per content type to search, e.g. \"brand\" or \"article\", each with its own Take, Skip, and other parameters. There is no default: if empty, no content results are retrieved for any type.
-     *
-     * @return $this
-     */
-    public function setContentResultsOptions($content_results_options)
-    {
-        $this->container['content_results_options'] = $content_results_options;
-
-        return $this;
-    }
-
-    /**
      * Gets spelling_suggestions_options
      *
      * @return QueryCollectionParameters|null
@@ -392,6 +340,58 @@ class SearchRequest implements ModelInterface, ArrayAccess
     public function setRelatedQueriesOptions($related_queries_options)
     {
         $this->container['related_queries_options'] = $related_queries_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets content_results_options
+     *
+     * @return TypedEntityCollectionParameters[]|null
+     */
+    public function getContentResultsOptions()
+    {
+        return $this->container['content_results_options'];
+    }
+
+    /**
+     * Sets content_results_options
+     *
+     * @param TypedEntityCollectionParameters[]|null $content_results_options Parameters for specifying which content results to retrieve. This is a separate option from ResultsOptions and only applies to Content Search. One entry per content type to search, e.g. \"brand\" or \"article\", each with its own Take, Skip, and other parameters. There is no default: if empty, no content results are retrieved for any type.
+     *
+     * @return $this
+     */
+    public function setContentResultsOptions($content_results_options)
+    {
+        $this->container['content_results_options'] = $content_results_options;
+
+        return $this;
+    }
+
+    /**
+     * Gets query
+     *
+     * @return string
+     */
+    public function getQuery()
+    {
+        return $this->container['query'];
+    }
+
+    /**
+     * Sets query
+     *
+     * @param string $query The query used for searching in the request.
+     *
+     * @return $this
+     */
+    public function setQuery($query)
+    {
+        if ((mb_strlen($query) > 300)) {
+            throw new \InvalidArgumentException('invalid length for $query when calling SearchRequest., must be smaller than or equal to 300.');
+        }
+
+        $this->container['query'] = $query;
 
         return $this;
     }

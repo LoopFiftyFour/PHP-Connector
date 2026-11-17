@@ -860,6 +860,778 @@ class AdministrativeApi
     }
 
     /**
+     * Operation getSyncStatePost
+     *
+     * Get sync state
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetSyncStateRequest $get_sync_state_request get_sync_state_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return \Loop54\API\OpenAPI\Model\GetSyncStateResponse|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails
+     */
+    public function getSyncStatePost($api_version, $loop54_key, $get_sync_state_request, $lib_version = null)
+    {
+        list($response) = $this->getSyncStatePostWithHttpInfo($api_version, $loop54_key, $get_sync_state_request, $lib_version);
+        return $response;
+    }
+
+    /**
+     * Operation getSyncStatePostWithHttpInfo
+     *
+     * Get sync state
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetSyncStateRequest $get_sync_state_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of \Loop54\API\OpenAPI\Model\GetSyncStateResponse|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function getSyncStatePostWithHttpInfo($api_version, $loop54_key, $get_sync_state_request, $lib_version = null)
+    {
+        $request = $this->getSyncStatePostRequest($api_version, $loop54_key, $get_sync_state_request, $lib_version);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('\Loop54\API\OpenAPI\Model\GetSyncStateResponse' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\GetSyncStateResponse', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = '\Loop54\API\OpenAPI\Model\GetSyncStateResponse';
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\GetSyncStateResponse',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation getSyncStatePostAsync
+     *
+     * Get sync state
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetSyncStateRequest $get_sync_state_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSyncStatePostAsync($api_version, $loop54_key, $get_sync_state_request, $lib_version = null)
+    {
+        return $this->getSyncStatePostAsyncWithHttpInfo($api_version, $loop54_key, $get_sync_state_request, $lib_version)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation getSyncStatePostAsyncWithHttpInfo
+     *
+     * Get sync state
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetSyncStateRequest $get_sync_state_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function getSyncStatePostAsyncWithHttpInfo($api_version, $loop54_key, $get_sync_state_request, $lib_version = null)
+    {
+        $returnType = '\Loop54\API\OpenAPI\Model\GetSyncStateResponse';
+        $request = $this->getSyncStatePostRequest($api_version, $loop54_key, $get_sync_state_request, $lib_version);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'getSyncStatePost'
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\GetSyncStateRequest $get_sync_state_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function getSyncStatePostRequest($api_version, $loop54_key, $get_sync_state_request, $lib_version = null)
+    {
+        // verify the required parameter 'api_version' is set
+        if ($api_version === null || (is_array($api_version) && count($api_version) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $api_version when calling getSyncStatePost'
+            );
+        }
+        // verify the required parameter 'loop54_key' is set
+        if ($loop54_key === null || (is_array($loop54_key) && count($loop54_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $loop54_key when calling getSyncStatePost'
+            );
+        }
+        // verify the required parameter 'get_sync_state_request' is set
+        if ($get_sync_state_request === null || (is_array($get_sync_state_request) && count($get_sync_state_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $get_sync_state_request when calling getSyncStatePost'
+            );
+        }
+
+        $resourcePath = '/getSyncState';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // header params
+        if ($api_version !== null) {
+            $headerParams['Api-Version'] = ObjectSerializer::toHeaderValue($api_version);
+        }
+        // header params
+        if ($loop54_key !== null) {
+            $headerParams['Loop54-key'] = ObjectSerializer::toHeaderValue($loop54_key);
+        }
+        // header params
+        if ($lib_version !== null) {
+            $headerParams['Lib-Version'] = ObjectSerializer::toHeaderValue($lib_version);
+        }
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($get_sync_state_request)) {
+            $_tempBody = $get_sync_state_request;
+        }
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody), \JSON_THROW_ON_ERROR);
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \json_encode($formParams, \JSON_THROW_ON_ERROR);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        return new Request(
+            'POST',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
+     * Operation syncDeltaPushPost
+     *
+     * Perform partial catalog sync
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\SyncDeltaPushRequest $sync_delta_push_request sync_delta_push_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return object|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails
+     */
+    public function syncDeltaPushPost($api_version, $loop54_key, $sync_delta_push_request, $lib_version = null)
+    {
+        list($response) = $this->syncDeltaPushPostWithHttpInfo($api_version, $loop54_key, $sync_delta_push_request, $lib_version);
+        return $response;
+    }
+
+    /**
+     * Operation syncDeltaPushPostWithHttpInfo
+     *
+     * Perform partial catalog sync
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\SyncDeltaPushRequest $sync_delta_push_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \Loop54\API\OpenAPI\ApiException on non-2xx response
+     * @throws \InvalidArgumentException
+     * @return array of object|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails|\Loop54\API\OpenAPI\Model\ErrorDetails, HTTP status code, HTTP response headers (array of strings)
+     */
+    public function syncDeltaPushPostWithHttpInfo($api_version, $loop54_key, $sync_delta_push_request, $lib_version = null)
+    {
+        $request = $this->syncDeltaPushPostRequest($api_version, $loop54_key, $sync_delta_push_request, $lib_version);
+
+        try {
+            $options = $this->createHttpClientOption();
+            try {
+                $response = $this->client->send($request, $options);
+            } catch (RequestException $e) {
+                throw new ApiException(
+                    "[{$e->getCode()}] {$e->getMessage()}",
+                    $e->getCode(),
+                    $e->getResponse() ? $e->getResponse()->getHeaders() : null,
+                    $e->getResponse() ? $e->getResponse()->getBody()->getContents() : null
+                );
+            }
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode < 200 || $statusCode > 299) {
+                throw new ApiException(
+                    sprintf(
+                        '[%d] Error connecting to the API (%s)',
+                        $statusCode,
+                        $request->getUri()
+                    ),
+                    $statusCode,
+                    $response->getHeaders(),
+                    $response->getBody()
+                );
+            }
+
+            $responseBody = $response->getBody();
+            switch($statusCode) {
+                case 200:
+                    if ('object' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, 'object', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 400:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 401:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 404:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                case 500:
+                    if ('\Loop54\API\OpenAPI\Model\ErrorDetails' === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, '\Loop54\API\OpenAPI\Model\ErrorDetails', []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+            }
+
+            $returnType = 'object';
+            $responseBody = $response->getBody();
+            if ($returnType === '\SplFileObject') {
+                $content = $responseBody; //stream goes to serializer
+            } else {
+                $content = $responseBody->getContents();
+            }
+
+            return [
+                ObjectSerializer::deserialize($content, $returnType, []),
+                $response->getStatusCode(),
+                $response->getHeaders()
+            ];
+
+        } catch (ApiException $e) {
+            switch ($e->getCode()) {
+                case 200:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        'object',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 400:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 401:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 404:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+                case 500:
+                    $data = ObjectSerializer::deserialize(
+                        $e->getResponseBody(),
+                        '\Loop54\API\OpenAPI\Model\ErrorDetails',
+                        $e->getResponseHeaders()
+                    );
+                    $e->setResponseObject($data);
+                    break;
+            }
+            throw $e;
+        }
+    }
+
+    /**
+     * Operation syncDeltaPushPostAsync
+     *
+     * Perform partial catalog sync
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\SyncDeltaPushRequest $sync_delta_push_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function syncDeltaPushPostAsync($api_version, $loop54_key, $sync_delta_push_request, $lib_version = null)
+    {
+        return $this->syncDeltaPushPostAsyncWithHttpInfo($api_version, $loop54_key, $sync_delta_push_request, $lib_version)
+            ->then(
+                function ($response) {
+                    return $response[0];
+                }
+            );
+    }
+
+    /**
+     * Operation syncDeltaPushPostAsyncWithHttpInfo
+     *
+     * Perform partial catalog sync
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\SyncDeltaPushRequest $sync_delta_push_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Promise\PromiseInterface
+     */
+    public function syncDeltaPushPostAsyncWithHttpInfo($api_version, $loop54_key, $sync_delta_push_request, $lib_version = null)
+    {
+        $returnType = 'object';
+        $request = $this->syncDeltaPushPostRequest($api_version, $loop54_key, $sync_delta_push_request, $lib_version);
+
+        return $this->client
+            ->sendAsync($request, $this->createHttpClientOption())
+            ->then(
+                function ($response) use ($returnType) {
+                    $responseBody = $response->getBody();
+                    if ($returnType === '\SplFileObject') {
+                        $content = $responseBody; //stream goes to serializer
+                    } else {
+                        $content = $responseBody->getContents();
+                    }
+
+                    return [
+                        ObjectSerializer::deserialize($content, $returnType, []),
+                        $response->getStatusCode(),
+                        $response->getHeaders()
+                    ];
+                },
+                function ($exception) {
+                    $response = $exception->getResponse();
+                    $statusCode = $response->getStatusCode();
+                    throw new ApiException(
+                        sprintf(
+                            '[%d] Error connecting to the API (%s)',
+                            $statusCode,
+                            $exception->getRequest()->getUri()
+                        ),
+                        $statusCode,
+                        $response->getHeaders(),
+                        $response->getBody()
+                    );
+                }
+            );
+    }
+
+    /**
+     * Create request for operation 'syncDeltaPushPost'
+     *
+     * @param  string $api_version What version of the API to use. (required)
+     * @param  string $loop54_key Your API key. (required)
+     * @param  \Loop54\API\OpenAPI\Model\SyncDeltaPushRequest $sync_delta_push_request (required)
+     * @param  string $lib_version What library is used to generate this request. (optional)
+     *
+     * @throws \InvalidArgumentException
+     * @return \GuzzleHttp\Psr7\Request
+     */
+    protected function syncDeltaPushPostRequest($api_version, $loop54_key, $sync_delta_push_request, $lib_version = null)
+    {
+        // verify the required parameter 'api_version' is set
+        if ($api_version === null || (is_array($api_version) && count($api_version) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $api_version when calling syncDeltaPushPost'
+            );
+        }
+        // verify the required parameter 'loop54_key' is set
+        if ($loop54_key === null || (is_array($loop54_key) && count($loop54_key) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $loop54_key when calling syncDeltaPushPost'
+            );
+        }
+        // verify the required parameter 'sync_delta_push_request' is set
+        if ($sync_delta_push_request === null || (is_array($sync_delta_push_request) && count($sync_delta_push_request) === 0)) {
+            throw new \InvalidArgumentException(
+                'Missing the required parameter $sync_delta_push_request when calling syncDeltaPushPost'
+            );
+        }
+
+        $resourcePath = '/syncDeltaPush';
+        $formParams = [];
+        $queryParams = [];
+        $headerParams = [];
+        $httpBody = '';
+        $multipart = false;
+
+        // header params
+        if ($api_version !== null) {
+            $headerParams['Api-Version'] = ObjectSerializer::toHeaderValue($api_version);
+        }
+        // header params
+        if ($loop54_key !== null) {
+            $headerParams['Loop54-key'] = ObjectSerializer::toHeaderValue($loop54_key);
+        }
+        // header params
+        if ($lib_version !== null) {
+            $headerParams['Lib-Version'] = ObjectSerializer::toHeaderValue($lib_version);
+        }
+
+
+        // body params
+        $_tempBody = null;
+        if (isset($sync_delta_push_request)) {
+            $_tempBody = $sync_delta_push_request;
+        }
+
+        if ($multipart) {
+            $headers = $this->headerSelector->selectHeadersForMultipart(
+                ['application/json']
+            );
+        } else {
+            $headers = $this->headerSelector->selectHeaders(
+                ['application/json'],
+                ['application/json']
+            );
+        }
+
+        // for model (json/xml)
+        if (isset($_tempBody)) {
+            // $_tempBody is the method argument, if present
+            if ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \json_encode(ObjectSerializer::sanitizeForSerialization($_tempBody), \JSON_THROW_ON_ERROR);
+            } else {
+                $httpBody = $_tempBody;
+            }
+        } elseif (count($formParams) > 0) {
+            if ($multipart) {
+                $multipartContents = [];
+                foreach ($formParams as $formParamName => $formParamValue) {
+                    $multipartContents[] = [
+                        'name' => $formParamName,
+                        'contents' => $formParamValue
+                    ];
+                }
+                // for HTTP post (form)
+                $httpBody = new MultipartStream($multipartContents);
+
+            } elseif ($headers['Content-Type'] === 'application/json') {
+                $httpBody = \json_encode($formParams, \JSON_THROW_ON_ERROR);
+
+            } else {
+                // for HTTP post (form)
+                $httpBody = \GuzzleHttp\Psr7\Query::build($formParams);
+            }
+        }
+
+
+        $defaultHeaders = [];
+        if ($this->config->getUserAgent()) {
+            $defaultHeaders['User-Agent'] = $this->config->getUserAgent();
+        }
+
+        $headers = array_merge(
+            $defaultHeaders,
+            $headerParams,
+            $headers
+        );
+
+        $query = \GuzzleHttp\Psr7\Query::build($queryParams);
+        return new Request(
+            'POST',
+            $this->config->getHost() . $resourcePath . ($query ? "?{$query}" : ''),
+            $headers,
+            $httpBody
+        );
+    }
+
+    /**
      * Operation syncPost
      *
      * Perform full sync
